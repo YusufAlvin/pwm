@@ -72,7 +72,7 @@ $query2 = mysqli_query($conn, "SELECT * FROM material")
                   </div>
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary" type="submit" name="add">Tambah Data</button>                    
+                      <button class="btn btn-primary" type="submit" name="add">Add Material</button>                    
                     </div>
                   </div>
                 </form>
@@ -106,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   mysqli_query($conn, "INSERT INTO bom VALUES ('', $so_id, '$material', $quantity, '$uom', $totalkebutuhan)");
 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited!');location.href='bom.php'</script>";
+    echo "<script>alert('Material has been added!');location.href='bom.php'</script>";
   } else {
     echo mysqli_error($conn);
   }

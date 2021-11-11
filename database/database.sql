@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2021 at 04:23 PM
+-- Generation Time: Nov 12, 2021 at 12:30 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -54,6 +54,15 @@ CREATE TABLE `bom` (
   `bom_uom` varchar(20) NOT NULL,
   `bom_total_kebutuhan` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bom`
+--
+
+INSERT INTO `bom` (`bom_id`, `bom_so_id`, `bom_material_id`, `bom_quantity`, `bom_uom`, `bom_total_kebutuhan`) VALUES
+(1, 1, '3LVL014M5SE002', 0.5, 'M3', 2400),
+(2, 1, '3LVL014M5SE002', 2.5, 'M3', 12000),
+(3, 2, '3LVL014M5SE002', 0.34, 'PCS', 1020);
 
 -- --------------------------------------------------------
 
@@ -133,6 +142,14 @@ CREATE TABLE `so` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `so`
+--
+
+INSERT INTO `so` (`so_id`, `so_item_code`, `so_projects`, `so_divisi_id`, `so_lot_number`, `so_material`, `so_quantity`, `so_tinggi`, `so_lebar`, `so_panjang`, `so_kubikasi`, `so_tgl_produksi`) VALUES
+(1, '1LOCCTIBS05620', 'CTI/43275', 1, 'SFT2011128', 'LVL ALBASA', 4800, 13, 12, 4567, 0.712452, '2021-11-12'),
+(2, '1LOCCTIBS05620', 'CTI/42756', 3, 'SFT202226', 'PJ PINE', 3000, 13.5, 123.3, 3567, 5.93745, '2021-11-30');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -186,7 +203,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -198,7 +215,7 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

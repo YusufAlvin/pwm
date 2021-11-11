@@ -5,6 +5,7 @@ if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
+$querybom = mysqli_query($conn, "SELECT DISTINCT so_projects FROM bom INNER JOIN so ON bom.bom_so_id = so.so_id;");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -32,12 +33,14 @@ if($_SESSION['login'] != true){
           <div class="col-md-5">
             <div class="card table-responsive">
               <div class="card-body">
-                <form action="" method="">
+                <form action="export.php" method="GET">
                   <select name="projects" class="form-select form-control mb-3" aria-label="Default select example">
                     <option selected>Projects</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <?php while ($bom = mysqli_fetch_assoc($querybom)) : ?>
+                      <a href="export.php?projects=" <?= $bom['so_projects']; ?>>
+                          <option value="<?= $bom['so_projects']; ?>"><?= $bom['so_projects']; ?></option>
+                      </a>
+                    <?php endwhile; ?>
                   </select>
                   <button name='export' type="submit" class="btn btn-primary">Export</button>
                 </form>
@@ -54,3 +57,4 @@ if($_SESSION['login'] != true){
 
 
 <?php require_once "template/footer.php"; ?>
+
