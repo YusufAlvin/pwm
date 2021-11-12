@@ -33,7 +33,7 @@ $pdf = new PDF('L','mm','A4');
 // $pdf->AddPage();
 // First table: output all columns
 // $pdf->Table($link,'SELECT * FROM ((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id)');
-$bom = mysqli_fetch_assoc(mysqli_query($link, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN item ON so.so_item_code = item.item_id) WHERE so.so_projects = '$soprojects'"));
+$bom = mysqli_fetch_assoc(mysqli_query($link, "SELECT * FROM ((((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN item ON so.so_item_code = item.item_id) INNER JOIN divisi ON so.so_divisi_id = divisi.divisi_id) WHERE so.so_projects = '$soprojects'"));
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(37,10,'Item Code');
@@ -51,6 +51,10 @@ $pdf->Ln();
 $pdf->Cell(37,10,'Qty Order');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$bom['so_quantity'] . ' PCS');
+$pdf->Ln();
+$pdf->Cell(37,10,'Divisi');
+$pdf->Cell(10,10,':');
+$pdf->Cell(40,10,$bom['divisi_nama']);
 $pdf->Ln(15);
 // Second table: specify 3 columns
 $pdf->AddCol('material_id',65,'Item Code','C');
@@ -62,6 +66,6 @@ $pdf->AddCol('bom_total_kebutuhan',50,'Total Kebutuhan','C');
 // 			'color1'=>array(210,245,255),
 // 			'color2'=>array(255,255,210),
 // 			'padding'=>10);
-$pdf->Table($link,"SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN item ON so.so_item_code = item.item_id) WHERE so.so_projects = '$soprojects'");
+$pdf->Table($link,"SELECT * FROM ((((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN item ON so.so_item_code = item.item_id) INNER JOIN divisi ON so.so_divisi_id = divisi.divisi_id) WHERE so.so_projects = '$soprojects'");
 $pdf->Output();
 ?>
