@@ -63,7 +63,18 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
                       <div class="mb-3">
                         <label for="qty" class="form-label">Quantity</label>
                         <input name="qty" type="text" class="form-control" id="qty" placeholder="4800" required>
-                      </div>                   
+                      </div> 
+                      <div class="mb-3">
+                        <label for="uom" class="form-label">UoM</label>
+                        <select name="uom" class="form-select form-control">
+                          <option value="SHEET">SHEET</option>
+                          <option value="KG">KG</option>
+                          <option value="BTL">BTL</option>
+                          <option value="GR">GR</option>
+                          <option value="PCS">PCS</option>
+                          <option value="M3">M3</option>
+                        </select>
+                      </div>                  
                     </div>
                     <div class="col-md">
                       <div class="mb-3">
@@ -125,11 +136,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $qty = htmlspecialchars($_POST['qty']);
   $tanggal = $_POST['tanggal'];
   $divisi = $_POST['divisi'];
+  $uom = $_POST['uom'];
 
   
   $kubikasi = (floatval($tinggi) * floatval($panjang) * floatval($lebar)) / 1000000;
 
-  mysqli_query($conn, "INSERT INTO so (so_item_code, so_projects, so_divisi_id, so_lot_number, so_material, so_quantity, so_tinggi, so_lebar, so_panjang, so_kubikasi, so_tgl_produksi) VALUES ('$item', '$projects', $divisi, '$lotnumber', '$material', $qty, $tinggi, $lebar, $panjang, $kubikasi, '$tanggal')");
+  mysqli_query($conn, "INSERT INTO so (so_item_code, so_projects, so_divisi_id, so_lot_number, so_material, so_quantity, so_uom, so_tinggi, so_lebar, so_panjang, so_kubikasi, so_tgl_produksi) VALUES ('$item', '$projects', $divisi, '$lotnumber', '$material', $qty, '$uom', $tinggi, $lebar, $panjang, $kubikasi, '$tanggal')");
  
   if(mysqli_affected_rows($conn) > 0){
     echo "<script>alert('Data has been saved!');location.href='so.php'</script>";

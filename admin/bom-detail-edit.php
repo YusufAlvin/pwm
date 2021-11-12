@@ -38,7 +38,7 @@ $bom = mysqli_fetch_assoc($querybom);
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col">
+          <div class="col-md-5">
             <div class="card">
               <div class="card-body">
                 <form action="" method="post">
@@ -61,24 +61,11 @@ $bom = mysqli_fetch_assoc($querybom);
                         <label for="quantity" class="form-label">Quantity</label>
                         <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $bom['bom_quantity']; ?>">
                       </div>                     
-                    </div>
-                    <div class="col-md">
-                      <div class="mb-3">
-                        <label for="uom" class="form-label">UoM</label>
-                        <select name="uom" class="form-select form-control">
-                          <option value="SHEET" <?php if($bom['bom_uom'] == 'SHEET') echo 'selected'; ?>>SHEET</option>
-                          <option value="KG" <?php if($bom['bom_uom'] == 'KG')  echo 'selected'; ?>>KG</option>
-                          <option value="BTL" <?php if($bom['bom_uom'] == 'BTL')  echo 'selected'; ?>>BTL</option>
-                          <option value="GR" <?php if($bom['bom_uom'] == 'GR')  echo 'selected'; ?>>GR</option>
-                          <option value="PCS" <?php if($bom['bom_uom'] == 'PCS')  echo 'selected'; ?>>PCS</option>
-                          <option value="M3" <?php if($bom['bom_uom'] == 'M3')  echo 'selected'; ?>>M3</option>
-                        </select>
-                      </div>
                     </div>                  
                   </div>
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary" type="submit" name="add">Edit</button>                    
+                      <button class="btn btn-primary" type="submit" name="add">Edit Material</button>                    
                     </div>
                   </div>
                 </form>
@@ -103,14 +90,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $bom_id = $id;
   $material = htmlspecialchars($_POST['material']);
   $quantity = htmlspecialchars($_POST['quantity']);
-  $uom = htmlspecialchars($_POST['uom']);
 
   $queryso = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
   $quantity_order = mysqli_fetch_assoc($queryso);
 
   $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($quantity);
 
-  mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_quantity = $quantity, bom_uom = '$uom', bom_total_kebutuhan = $totalkebutuhan WHERE bom_id = $bom_id");
+  mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_quantity = $quantity, bom_total_kebutuhan = $totalkebutuhan WHERE bom_id = $bom_id");
     
   
 

@@ -54,7 +54,7 @@ $query = mysqli_query($conn, "SELECT * FROM ((so INNER JOIN item ON so.so_item_c
                           <th>L</th>
                           <th>P</th>
                           <th>QTY</th>
-                          <th>Divisi</th>
+                          <th>UoM</th>
                           <th>Kubikasi Finish (M3)</th>
                           <th>Tanggal Produksi</th>
                           <th>Action</th>
@@ -73,7 +73,7 @@ $query = mysqli_query($conn, "SELECT * FROM ((so INNER JOIN item ON so.so_item_c
                           <td><?= $so['so_lebar']; ?></td>
                           <td><?= $so['so_panjang']; ?></td>
                           <td><?= $so['so_quantity']; ?></td>
-                          <td><?= $so['divisi_nama']; ?></td>
+                          <td><?= $so['so_uom']; ?></td>
                           <td><?= $so['so_kubikasi']; ?></td>
                           <td><?= $so['so_tgl_produksi']; ?></td>
                           <td>

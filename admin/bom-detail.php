@@ -64,7 +64,7 @@ $query = mysqli_query($conn, "SELECT * FROM (bom INNER JOIN so ON bom.bom_so_id 
                           <td><?= $bom['bom_material_id']; ?></td>
                           <td><?= $bom['material_nama']; ?></td>
                           <td><?= $bom['bom_quantity']; ?></td>
-                          <td><?= $bom['bom_uom']; ?></td>
+                          <td><?= $bom['material_uom']; ?></td>
                           <td><?= $bom['bom_total_kebutuhan']; ?></td>
                           <td>
                             <a href="bom-detail-edit.php?id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
