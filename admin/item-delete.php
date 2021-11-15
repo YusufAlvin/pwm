@@ -9,6 +9,7 @@ if($_SESSION['login'] != true){
 
 $id = $_GET['id'];
 
+mysqli_query($conn, "DELETE FROM bahan WHERE bahan_item_id = '$id'");
 mysqli_query($conn, "DELETE FROM item WHERE item_id = '$id'");
 
 if(mysqli_affected_rows($conn) > 0){

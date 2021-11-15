@@ -46,8 +46,6 @@ $item = mysqli_fetch_assoc($query);
                         <label for="nama" class="form-label">Nama item</label>
                         <input name="nama" type="text" class="form-control" id="nama" value="<?= $item['item_nama']; ?>">
                       </div>
-                    </div>
-                    <div class="col-md">
                       <div class="mb-3">
                         <label for="uom" class="form-label">UoM</label>
                         <select name="uom" class="form-select form-control">
@@ -58,6 +56,20 @@ $item = mysqli_fetch_assoc($query);
                           <option value="PCS" <?php if($item['item_uom'] == 'PCS')  echo 'selected'; ?>>PCS</option>
                           <option value="M3" <?php if($item['item_uom'] == 'M3')  echo 'selected'; ?>>M3</option>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <div class="mb-3">
+                        <label for="panjang" class="form-label">Panjang</label>
+                        <input name="panjang" type="text" class="form-control" id="panjang" value="<?= $item['item_panjang'] ?>">
+                      </div>
+                      <div class="mb-3">
+                        <label for="lebar" class="form-label">Lebar</label>
+                        <input name="lebar" type="text" class="form-control" id="lebar" value="<?= $item['item_lebar'] ?>">
+                      </div>
+                      <div class="mb-3">
+                        <label for="tebal" class="form-label">Tebal</label>
+                        <input name="tebal" type="text" class="form-control" id="tebal" value="<?= $item['item_tebal'] ?>">
                       </div>
                     </div>
                   </div>
@@ -83,9 +95,14 @@ $item = mysqli_fetch_assoc($query);
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $itemcode = $item_id;
   $nama = htmlspecialchars($_POST['nama']);
+  $panjang = htmlspecialchars($_POST['panjang']);
+  $lebar = htmlspecialchars($_POST['lebar']);
+  $tebal = htmlspecialchars($_POST['tebal']);
   $uom = $_POST['uom'];
 
-  mysqli_query($conn, "UPDATE item SET item_nama = '$nama', item_uom = '$uom' WHERE item_id = '$itemcode'");
+  $kubikasi = (floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000);
+
+  mysqli_query($conn, "UPDATE item SET item_nama = '$nama', item_panjang = $panjang, item_lebar = $lebar, item_tebal = $tebal, item_kubikasi = $kubikasi, item_uom = '$uom' WHERE item_id = '$itemcode'");
 
   if(mysqli_affected_rows($conn) > 0){
     echo "<script>alert('Data has been edited');location.href = 'item.php'</script>";

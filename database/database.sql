@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2021 at 08:54 AM
+-- Generation Time: Nov 15, 2021 at 09:15 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -43,26 +43,43 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bahan`
+--
+
+CREATE TABLE `bahan` (
+  `bahan_id` int(11) NOT NULL,
+  `bahan_item_id` varchar(255) NOT NULL,
+  `bahan_material_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bahan`
+--
+
+INSERT INTO `bahan` (`bahan_id`, `bahan_item_id`, `bahan_material_id`) VALUES
+(2, '1', '3LVL014M5SE002'),
+(3, '2', '01'),
+(4, '2', '03'),
+(5, '2', '3LVL014M5SE002');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bom`
 --
 
 CREATE TABLE `bom` (
   `bom_id` int(11) NOT NULL,
-  `bom_so_id` int(11) NOT NULL,
-  `bom_material_id` varchar(255) NOT NULL,
-  `bom_quantity` float NOT NULL,
-  `bom_total_kebutuhan` float NOT NULL
+  `bom_item_code` varchar(255) NOT NULL,
+  `bom_divisi_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bom`
 --
 
-INSERT INTO `bom` (`bom_id`, `bom_so_id`, `bom_material_id`, `bom_quantity`, `bom_total_kebutuhan`) VALUES
-(1, 1, '3LVL014M5SE002', 0.5, 2400),
-(2, 1, '3LVL014M5SE002', 2.5, 12000),
-(3, 2, '3LVL014M5SE002', 0.34, 1020),
-(4, 2, 'tes', 2.5, 7500);
+INSERT INTO `bom` (`bom_id`, `bom_item_code`, `bom_divisi_id`) VALUES
+(5, '2', 2);
 
 -- --------------------------------------------------------
 
@@ -93,6 +110,10 @@ INSERT INTO `divisi` (`divisi_id`, `divisi_nama`) VALUES
 CREATE TABLE `item` (
   `item_id` varchar(255) NOT NULL,
   `item_nama` varchar(255) NOT NULL,
+  `item_panjang` float NOT NULL,
+  `item_lebar` float NOT NULL,
+  `item_tebal` float NOT NULL,
+  `item_kubikasi` float NOT NULL,
   `item_uom` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -100,9 +121,9 @@ CREATE TABLE `item` (
 -- Dumping data for table `item`
 --
 
-INSERT INTO `item` (`item_id`, `item_nama`, `item_uom`) VALUES
-('1LOCCTIBS05620', 'CTI BASE WGN10005620', 'BTL'),
-('tes', 'tes', 'M3');
+INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_tebal`, `item_kubikasi`, `item_uom`) VALUES
+('1', 'CTI BASEBOARD 618', 12.5, 13.25, 12.5, 0.00207031, 'PCS'),
+('2', 'CTI BASEBOARD 530', 10.57, 20.25, 30.23, 0.0064705, 'PCS');
 
 -- --------------------------------------------------------
 
@@ -122,8 +143,9 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `material_harga`) VALUES
-('3LVL014M5SE002', 'LVL SENGON 14.5MM (UK. 1250MM X 1250MM)', 'PCS', 50000),
-('tes', 'tes', 'BTL', 15000);
+('01', 'LEM ALFABOND', 'KG', 14600),
+('03', 'CALCIUM', 'KG', 1610),
+('3LVL014M5SE002', 'LVL SENGON 14.5MM (UK. 1250MM X 1250MM)', 'PCS', 50000);
 
 -- --------------------------------------------------------
 
@@ -148,15 +170,6 @@ CREATE TABLE `so` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `so`
---
-
-INSERT INTO `so` (`so_id`, `so_item_code`, `so_projects`, `so_divisi_id`, `so_lot_number`, `so_material`, `so_quantity`, `so_uom`, `so_tinggi`, `so_lebar`, `so_panjang`, `so_kubikasi`, `so_tgl_produksi`) VALUES
-(1, '1LOCCTIBS05620', 'CTI/43275', 1, 'SFT2011128', 'LVL ALBASA', 4800, 'PCS', 13, 12, 4567, 0.712452, '2021-11-12'),
-(2, '1LOCCTIBS05620', 'CTI/42756', 3, 'SFT202226', 'PJ PINE', 3000, 'GR', 13.5, 123.3, 3567, 5.93745, '2021-11-30'),
-(3, '1LOCCTIBS05620', 'tes', 2, 'tes', 'tes', 3000, 'BTL', 12, 12, 1222, 0.175968, '2021-11-12');
-
---
 -- Indexes for dumped tables
 --
 
@@ -165,6 +178,12 @@ INSERT INTO `so` (`so_id`, `so_item_code`, `so_projects`, `so_divisi_id`, `so_lo
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bahan`
+--
+ALTER TABLE `bahan`
+  ADD PRIMARY KEY (`bahan_id`);
 
 --
 -- Indexes for table `bom`
@@ -207,10 +226,16 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `bahan`
+--
+ALTER TABLE `bahan`
+  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -222,7 +247,7 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

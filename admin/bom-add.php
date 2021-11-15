@@ -7,7 +7,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$query1 = mysqli_query($conn, "SELECT * FROM item");
+$queryitem = mysqli_query($conn, "SELECT * FROM item");
 ?>
 
 <?php require_once "template/header.php"; ?>
@@ -23,7 +23,7 @@ $query1 = mysqli_query($conn, "SELECT * FROM item");
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Add SPK</h1>
+            <h1 class="m-0">Add BoM</h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -44,31 +44,12 @@ $query1 = mysqli_query($conn, "SELECT * FROM item");
                         <input name="item-code" type="text" class="form-control" id="item-code" placeholder="2LVL013M8SE001" required>
                       </div>
                       <div class="mb-3">
-                        <label for="item" class="form-label">Item</label>
-                        <input name="item" type="text" class="form-control" id="item" placeholder="TECHBOND L558" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="projects" class="form-label">Projects</label>
-                        <input name="projects" type="text" class="form-control" id="projects" placeholder="43285" required>
-                      </div>
-                      <div class="mb-3">
                         <label for="divisi" class="form-label">Divisi</label>
                         <input name="divisi" type="text" class="form-control" id="divisi" placeholder="4800" required>
                       </div>                 
                     </div>
                     <div class="col-md">
-                      <div class="mb-3">
-                        <label for="quantity" class="form-label">quantity</label>
-                        <input name="quantity" type="text" class="form-control" id="quantity" placeholder="4800" required>
-                      </div> 
-                      <div class="mb-3">
-                        <label for="uom" class="form-label">UoM</label>
-                        <select name="uom" class="form-select form-control">
-                          <option selected value="SHEET">SHEET</option>
-                          <option value="KG">KG</option>
-                          <option value="BTL">BTL</option>
-                        </select>
-                      </div>
+                      
                     </div>                  
                   </div>
                   <div class="row">
