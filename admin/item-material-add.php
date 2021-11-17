@@ -33,7 +33,7 @@ $querymaterial = mysqli_query($conn, "SELECT * FROM material");
     <div class="content">
       <div class="container-fluid">
         <div class="row mb-3">
-          <div class="col-md-6">
+          <div class="col-md-8">
             <form action="" method="post">
               <div class="card">
                 <div class="card-body">
@@ -50,6 +50,23 @@ $querymaterial = mysqli_query($conn, "SELECT * FROM material");
                         </div>
                         <?php endwhile; ?>
                       </div>
+                    </div>
+                    <div class="col-md">
+                      <label class="form-label">UoM</label>
+                      <?php while($material = mysqli_fetch_assoc($querymaterial)) : ?>
+                        <div class="form-check">
+                          <input name="material[]" class="form-check-input" type="checkbox" value="<?= $material['material_id'] ?>" id="material">
+                          <label class="form-check-label" for="material">
+                            <?= $material['material_nama'] ?>
+                          </label>
+                        </div>
+                        <?php endwhile; ?>
+                    </div>
+                    <div class="col-md">
+                      <label class="form-label">Divisi</label>
+                    </div>
+                    <div class="col-md">
+                      <label class="form-label">Quantity</label>
                     </div>
                   </div>
                   

@@ -49,14 +49,6 @@ $query = mysqli_query($conn, "SELECT * FROM ((so INNER JOIN item ON so.so_item_c
                           <th>Projets</th>
                           <th>Item</th>
                           <th>Lot Number</th>
-                          <th>Material</th>
-                          <th>T</th>
-                          <th>L</th>
-                          <th>P</th>
-                          <th>QTY</th>
-                          <th>UoM</th>
-                          <th>Kubikasi Finish (M3)</th>
-                          <th>Tanggal Produksi</th>
                           <th>Action</th>
                       </tr>
                   </thead>
@@ -69,13 +61,6 @@ $query = mysqli_query($conn, "SELECT * FROM ((so INNER JOIN item ON so.so_item_c
                           <td><?= $so['item_nama']; ?></td>
                           <td><?= $so['so_lot_number']; ?></td>
                           <td><?= $so['so_material']; ?></td>
-                          <td><?= $so['so_tinggi']; ?></td>
-                          <td><?= $so['so_lebar']; ?></td>
-                          <td><?= $so['so_panjang']; ?></td>
-                          <td><?= $so['so_quantity']; ?></td>
-                          <td><?= $so['so_uom']; ?></td>
-                          <td><?= $so['so_kubikasi']; ?></td>
-                          <td><?= $so['so_tgl_produksi']; ?></td>
                           <td>
                             <a href="so-edit.php?id=<?= $so['so_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
                             <a href="so-delete.php?id=<?= $so['so_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>

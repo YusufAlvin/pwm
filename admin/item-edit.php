@@ -5,9 +5,32 @@ if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
+
 $item_id = $_GET['id'];
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $itemcode = $item_id;
+  $nama = htmlspecialchars($_POST['nama']);
+  $panjang = htmlspecialchars($_POST['panjang']);
+  $lebar = htmlspecialchars($_POST['lebar']);
+  $tebal = htmlspecialchars($_POST['tebal']);
+  $uom = $_POST['uom'];
+
+  $kubikasi = (floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000);
+  $kubikasi = round($kubikasi, 4);
+
+  mysqli_query($conn, "UPDATE item SET item_nama = '$nama', item_panjang = $panjang, item_lebar = $lebar, item_tebal = $tebal, item_kubikasi = $kubikasi, item_uom = '$uom' WHERE item_id = '$itemcode'");
+
+  if(mysqli_affected_rows($conn) > 0){
+    echo "<script>alert('Data has been edited');location.href = 'item.php'</script>";
+  } else {
+    echo mysqli_error($conn);
+  }
+}
+
 $query = mysqli_query($conn, "SELECT * FROM item WHERE item_id = '$item_id'");
 $item = mysqli_fetch_assoc($query);
+
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -90,26 +113,5 @@ $item = mysqli_fetch_assoc($query);
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $itemcode = $item_id;
-  $nama = htmlspecialchars($_POST['nama']);
-  $panjang = htmlspecialchars($_POST['panjang']);
-  $lebar = htmlspecialchars($_POST['lebar']);
-  $tebal = htmlspecialchars($_POST['tebal']);
-  $uom = $_POST['uom'];
-
-  $kubikasi = (floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000);
-
-  mysqli_query($conn, "UPDATE item SET item_nama = '$nama', item_panjang = $panjang, item_lebar = $lebar, item_tebal = $tebal, item_kubikasi = $kubikasi, item_uom = '$uom' WHERE item_id = '$itemcode'");
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited');location.href = 'item.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-?>
 
 

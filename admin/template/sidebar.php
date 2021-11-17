@@ -15,7 +15,7 @@
           <a href="material.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
-              Material
+              Master Material
             </p>
           </a>
         </li>
@@ -23,7 +23,7 @@
           <a href="item.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
-              Item
+              Master Barang / Item Code
             </p>
           </a>
         </li>

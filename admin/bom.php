@@ -5,7 +5,6 @@ if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
-
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $item_code = $_POST['item-code'];
   $divisi = $_POST['divisi'];
@@ -19,7 +18,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     echo mysqli_error($conn);
   }
 }
-
 $querybom = mysqli_query($conn, "SELECT * FROM ((bom INNER JOIN item ON bom.bom_item_code = item.item_id) INNER JOIN divisi ON bom.bom_divisi_id = divisi.divisi_id)");
 $queryitem = mysqli_query($conn, "SELECT * FROM item");
 $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");

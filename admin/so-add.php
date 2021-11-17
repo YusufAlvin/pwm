@@ -55,25 +55,6 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
                       <div class="mb-3">
                         <label for="lot-number" class="form-label">Lot Number</label>
                         <input name="lot-number" type="text" class="form-control" id="lot-number" placeholder="SFT21110028" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="material" class="form-label">Material</label>
-                        <input name="material" type="text" class="form-control" id="material" placeholder="LVL ALBASA" required>
-                      </div> 
-                      <div class="mb-3">
-                        <label for="qty" class="form-label">Quantity</label>
-                        <input name="qty" type="text" class="form-control" id="qty" placeholder="4800" required>
-                      </div> 
-                      <div class="mb-3">
-                        <label for="uom" class="form-label">UoM</label>
-                        <select name="uom" class="form-select form-control">
-                          <option value="SHEET">SHEET</option>
-                          <option value="KG">KG</option>
-                          <option value="BTL">BTL</option>
-                          <option value="GR">GR</option>
-                          <option value="PCS">PCS</option>
-                          <option value="M3">M3</option>
-                        </select>
                       </div>                  
                     </div>
                     <div class="col-md">
@@ -84,19 +65,7 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
                           <option value="<?= $divisi['divisi_id'] ?>"><?= $divisi['divisi_nama'] ?></option>
                         <?php endwhile; ?>
                         </select>
-                      </div>                 
-                      <div class="mb-3">
-                        <label for="tinggi" class="form-label">Tinggi</label>
-                        <input name="tinggi" type="text" class="form-control" id="tinggi" placeholder="13.5" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="lebar" class="form-label">Lebar</label>
-                        <input name="lebar" type="text" class="form-control" id="lebar" placeholder="132.56" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="panjang" class="form-label">Panjang</label>
-                        <input name="panjang" type="text" class="form-control" id="panjang" placeholder="4876.80" required>
-                      </div>
+                      </div> 
                       <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal Produksi</label>
                         <input name="tanggal" type="date" class="form-control" id="tanggal" required>

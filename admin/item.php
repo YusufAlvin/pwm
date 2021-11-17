@@ -6,6 +6,27 @@ if($_SESSION['login'] != true){
   exit();
 }
 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $itemcode = htmlspecialchars($_POST['item-code']);
+  $nama = htmlspecialchars($_POST['nama']);
+  $panjang = htmlspecialchars($_POST['panjang']);
+  $lebar = htmlspecialchars($_POST['lebar']);
+  $tebal = htmlspecialchars($_POST['tebal']);
+  $uom = $_POST['uom'];
+
+  $kubikasi = (floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000);
+  $kubikasi = round($kubikasi, 4);
+
+
+  mysqli_query($conn, "INSERT INTO item VALUES ('$itemcode', '$nama', $panjang, $lebar, $tebal, $kubikasi, '$uom')");
+
+  if(mysqli_affected_rows($conn) > 0){
+    echo "<script>location.href = 'item.php'</script>";
+  } else {
+    echo mysqli_error($conn);
+  }
+}
+
 $query = mysqli_query($conn, "SELECT * FROM item");
 ?>
 <?php require_once "template/header.php"; ?>
@@ -133,25 +154,3 @@ $query = mysqli_query($conn, "SELECT * FROM item");
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $itemcode = htmlspecialchars($_POST['item-code']);
-  $nama = htmlspecialchars($_POST['nama']);
-  $panjang = htmlspecialchars($_POST['panjang']);
-  $lebar = htmlspecialchars($_POST['lebar']);
-  $tebal = htmlspecialchars($_POST['tebal']);
-  $uom = $_POST['uom'];
-
-  $kubikasi = (floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000);
-
-
-  mysqli_query($conn, "INSERT INTO item VALUES ('$itemcode', '$nama', $panjang, $lebar, $tebal, $kubikasi, '$uom')");
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>location.href = 'item.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-?>
