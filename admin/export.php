@@ -60,7 +60,7 @@ $pdf->Ln(15);
 $pdf->AddCol('material_id',65,'Item Code','C');
 $pdf->AddCol('material_nama',100,'Item','C');
 $pdf->AddCol('bom_quantity',30,'Quantity','C');
-$pdf->AddCol('bom_uom',30,'UoM','C');
+$pdf->AddCol('material_uom',30,'UoM','C');
 $pdf->AddCol('bom_total_kebutuhan',50,'Total Kebutuhan','C');
 // $prop = array('HeaderColor'=>array(255,150,100),
 // 			'color1'=>array(210,245,255),

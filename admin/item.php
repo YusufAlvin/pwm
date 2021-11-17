@@ -6,6 +6,24 @@ if($_SESSION['login'] != true){
   exit();
 }
 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $itemcode = htmlspecialchars($_POST['item-code']);
+  $nama = htmlspecialchars($_POST['nama']);
+  $panjang = htmlspecialchars($_POST['panjang']);
+  $lebar = htmlspecialchars($_POST['lebar']);
+  $tebal = htmlspecialchars($_POST['tebal']);
+  $uom = $_POST['uom'];
+  $kubikasi = round(floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000, 4);
+
+  mysqli_query($conn, "INSERT INTO item VALUES ('$itemcode', '$nama', $panjang, $lebar, $tebal, $kubikasi, '$uom')");
+
+  if(mysqli_affected_rows($conn) > 0){
+    echo "<script>location.href = 'item.php'</script>";
+  } else {
+    echo mysqli_error($conn);
+  }
+}
+
 $query = mysqli_query($conn, "SELECT * FROM item");
 ?>
 <?php require_once "template/header.php"; ?>
@@ -45,8 +63,6 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                         <label for="nama" class="form-label">Nama Item</label>
                         <input name="nama" type="text" class="form-control" id="nama" placeholder="CTI BASE">
                       </div>
-                    </div>
-                    <div class="col-md">
                       <div class="mb-3">
                         <label for="uom" class="form-label">UoM</label>
                         <select name="uom" class="form-select form-control">
@@ -57,6 +73,20 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                           <option value="PCS">PCS</option>
                           <option value="M3">M3</option>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <div class="mb-3">
+                        <label for="panjang" class="form-label">Panjang</label>
+                        <input name="panjang" type="text" class="form-control" id="panjang" placeholder="10.12">
+                      </div>
+                      <div class="mb-3">
+                        <label for="lebar" class="form-label">Lebar</label>
+                        <input name="lebar" type="text" class="form-control" id="lebar" placeholder="12.5">
+                      </div>
+                      <div class="mb-3">
+                        <label for="tebal" class="form-label">Tebal</label>
+                        <input name="tebal" type="text" class="form-control" id="tebal" placeholder="10.5">
                       </div>
                     </div>
                   </div>
@@ -79,6 +109,10 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                           <th>No</th>
                           <th>Item Code</th>
                           <th>Nama</th>
+                          <th>P</th>
+                          <th>L</th>
+                          <th>T</th>
+                          <th>Kubikasi</th>
                           <th>UoM</th>
                           <th>Action</th>
                       </tr>
@@ -89,6 +123,10 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                           <td></td>
                           <td><?= $item['item_id']; ?></td>
                           <td><?= $item['item_nama']; ?></td>
+                          <td><?= $item['item_panjang']; ?></td>
+                          <td><?= $item['item_lebar']; ?></td>
+                          <td><?= $item['item_tebal']; ?></td>
+                          <td><?= $item['item_kubikasi']; ?></td>
                           <td><?= $item['item_uom']; ?></td>
                           <td>
                             <a href="item-edit.php?id=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
@@ -111,19 +149,3 @@ $query = mysqli_query($conn, "SELECT * FROM item");
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $itemcode = htmlspecialchars($_POST['item-code']);
-  $nama = htmlspecialchars($_POST['nama']);
-  $uom = $_POST['uom'];
-
-  mysqli_query($conn, "INSERT INTO item VALUES ('$itemcode', '$nama', '$uom')");
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>location.href = 'item.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-?>

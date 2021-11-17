@@ -15,7 +15,7 @@
           <a href="material.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
-              Material
+              Master Material
             </p>
           </a>
         </li>
@@ -23,15 +23,7 @@
           <a href="item.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
-              Item
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="so.php" class="nav-link">
-            <i class="nav-icon far fas fa-list-ul"></i>
-            <p>
-              Sales Order
+              Master Barang / Item Code
             </p>
           </a>
         </li>
@@ -40,6 +32,14 @@
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
               BoM
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="so.php" class="nav-link">
+            <i class="nav-icon far fas fa-list-ul"></i>
+            <p>
+              Sales Order
             </p>
           </a>
         </li>

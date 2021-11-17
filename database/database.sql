@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2021 at 08:54 AM
+-- Generation Time: Nov 17, 2021 at 05:42 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -62,7 +62,8 @@ INSERT INTO `bom` (`bom_id`, `bom_so_id`, `bom_material_id`, `bom_quantity`, `bo
 (1, 1, '3LVL014M5SE002', 0.5, 2400),
 (2, 1, '3LVL014M5SE002', 2.5, 12000),
 (3, 2, '3LVL014M5SE002', 0.34, 1020),
-(4, 2, 'tes', 2.5, 7500);
+(4, 2, 'tes', 2.5, 7500),
+(5, 4, '03', 0.5, 2400);
 
 -- --------------------------------------------------------
 
@@ -93,6 +94,10 @@ INSERT INTO `divisi` (`divisi_id`, `divisi_nama`) VALUES
 CREATE TABLE `item` (
   `item_id` varchar(255) NOT NULL,
   `item_nama` varchar(255) NOT NULL,
+  `item_panjang` float NOT NULL,
+  `item_lebar` float NOT NULL,
+  `item_tebal` float NOT NULL,
+  `item_kubikasi` float NOT NULL,
   `item_uom` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -100,9 +105,9 @@ CREATE TABLE `item` (
 -- Dumping data for table `item`
 --
 
-INSERT INTO `item` (`item_id`, `item_nama`, `item_uom`) VALUES
-('1LOCCTIBS05620', 'CTI BASE WGN10005620', 'BTL'),
-('tes', 'tes', 'M3');
+INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_tebal`, `item_kubikasi`, `item_uom`) VALUES
+('1LOCCTIBS05620', 'CTI BASE WGN10005620', 30, 40.5, 30, 0.0365, 'BTL'),
+('tes', 'tes', 10.12, 12.5, 20.5, 0.0026, 'GR');
 
 -- --------------------------------------------------------
 
@@ -122,8 +127,9 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `material_harga`) VALUES
-('3LVL014M5SE002', 'LVL SENGON 14.5MM (UK. 1250MM X 1250MM)', 'PCS', 50000),
-('tes', 'tes', 'BTL', 15000);
+('02', 'TECHBOND L55', 'KG', 5000),
+('03', 'LEM', 'KG', 7000),
+('3LVL014M5SE002', 'LVL SENGON 14.5MM (UK. 1250MM X 1250MM)', 'PCS', 50000);
 
 -- --------------------------------------------------------
 
@@ -137,13 +143,7 @@ CREATE TABLE `so` (
   `so_projects` varchar(255) NOT NULL,
   `so_divisi_id` int(11) NOT NULL,
   `so_lot_number` varchar(255) NOT NULL,
-  `so_material` varchar(255) NOT NULL,
   `so_quantity` int(11) NOT NULL,
-  `so_uom` varchar(255) NOT NULL,
-  `so_tinggi` float NOT NULL,
-  `so_lebar` float NOT NULL,
-  `so_panjang` float NOT NULL,
-  `so_kubikasi` float NOT NULL,
   `so_tgl_produksi` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -151,10 +151,11 @@ CREATE TABLE `so` (
 -- Dumping data for table `so`
 --
 
-INSERT INTO `so` (`so_id`, `so_item_code`, `so_projects`, `so_divisi_id`, `so_lot_number`, `so_material`, `so_quantity`, `so_uom`, `so_tinggi`, `so_lebar`, `so_panjang`, `so_kubikasi`, `so_tgl_produksi`) VALUES
-(1, '1LOCCTIBS05620', 'CTI/43275', 1, 'SFT2011128', 'LVL ALBASA', 4800, 'PCS', 13, 12, 4567, 0.712452, '2021-11-12'),
-(2, '1LOCCTIBS05620', 'CTI/42756', 3, 'SFT202226', 'PJ PINE', 3000, 'GR', 13.5, 123.3, 3567, 5.93745, '2021-11-30'),
-(3, '1LOCCTIBS05620', 'tes', 2, 'tes', 'tes', 3000, 'BTL', 12, 12, 1222, 0.175968, '2021-11-12');
+INSERT INTO `so` (`so_id`, `so_item_code`, `so_projects`, `so_divisi_id`, `so_lot_number`, `so_quantity`, `so_tgl_produksi`) VALUES
+(1, '1LOCCTIBS05620', 'CTI/43275', 1, 'SFT2011128', 4800, '2021-11-12'),
+(2, '1LOCCTIBS05620', 'CTI/42756', 3, 'SFT202226', 3000, '2021-11-30'),
+(3, '1LOCCTIBS05620', 'tes', 2, 'tes', 3000, '2021-11-12'),
+(4, 'tes', 'tes', 2, 'SFT2011120', 4800, '2021-11-17');
 
 --
 -- Indexes for dumped tables
@@ -210,7 +211,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -222,7 +223,7 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

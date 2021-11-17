@@ -8,7 +8,7 @@ if($_SESSION['login'] != true){
 
 $so_id = $_GET['id'];
 
-$query = mysqli_query($conn, "SELECT * FROM (bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id  WHERE bom.bom_so_id = $so_id");
+$query = mysqli_query($conn, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id) WHERE bom.bom_so_id = $so_id");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -52,6 +52,7 @@ $query = mysqli_query($conn, "SELECT * FROM (bom INNER JOIN so ON bom.bom_so_id 
                           <th>Material</th>
                           <th>Quantity</th>
                           <th>UoM</th>
+                          <th>Divisi</th>
                           <th>Total Kebutuhan</th>
                           <th>Action</th>
                       </tr>
@@ -65,6 +66,7 @@ $query = mysqli_query($conn, "SELECT * FROM (bom INNER JOIN so ON bom.bom_so_id 
                           <td><?= $bom['material_nama']; ?></td>
                           <td><?= $bom['bom_quantity']; ?></td>
                           <td><?= $bom['material_uom']; ?></td>
+                          <td><?= $bom['divisi_nama']; ?></td>
                           <td><?= $bom['bom_total_kebutuhan']; ?></td>
                           <td>
                             <a href="bom-detail-edit.php?id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
