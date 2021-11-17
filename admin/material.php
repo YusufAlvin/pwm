@@ -44,6 +44,10 @@ $query = mysqli_query($conn, "SELECT * FROM material");
                       <div class="mb-3">
                         <label for="nama" class="form-label">Nama Material</label>
                         <input name="nama" type="text" class="form-control" id="nama" placeholder="LVL SENGON 14.5MM (UK. 1250MM X 1250MM)">
+                      </div>
+                      <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input name="quantity" type="text" class="form-control" id="quantity" placeholder="0.5000">
                       </div> 
                     </div>
                     <div class="col-md">
