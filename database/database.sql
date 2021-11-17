@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2021 at 09:15 AM
+-- Generation Time: Nov 17, 2021 at 04:45 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -57,10 +57,16 @@ CREATE TABLE `bahan` (
 --
 
 INSERT INTO `bahan` (`bahan_id`, `bahan_item_id`, `bahan_material_id`) VALUES
-(2, '1', '3LVL014M5SE002'),
 (3, '2', '01'),
 (4, '2', '03'),
-(5, '2', '3LVL014M5SE002');
+(5, '2', '3LVL014M5SE002'),
+(17, '1', '01'),
+(18, '1', '02'),
+(19, '1', '03'),
+(20, '4', '01'),
+(21, '4', '02'),
+(22, '4', '03'),
+(23, '4', '3LVL014M5SE002');
 
 -- --------------------------------------------------------
 
@@ -79,7 +85,9 @@ CREATE TABLE `bom` (
 --
 
 INSERT INTO `bom` (`bom_id`, `bom_item_code`, `bom_divisi_id`) VALUES
-(5, '2', 2);
+(5, '2', 2),
+(6, '3', 2),
+(7, '1', 2);
 
 -- --------------------------------------------------------
 
@@ -122,8 +130,10 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_tebal`, `item_kubikasi`, `item_uom`) VALUES
-('1', 'CTI BASEBOARD 618', 12.5, 13.25, 12.5, 0.00207031, 'PCS'),
-('2', 'CTI BASEBOARD 530', 10.57, 20.25, 30.23, 0.0064705, 'PCS');
+('1', 'CTI BASEBOARD 618', 12.5, 13.25, 12.5, 0.0021, 'PCS'),
+('2', 'CTI BASEBOARD 530', 10.57, 20.25, 30.23, 0.0065, 'PCS'),
+('3', 'CTI S3S', 4876, 139, 13, 8.8109, 'SHEET'),
+('4', 'CTI SUMGUARD', 13, 139, 5181, 9.3621, 'M3');
 
 -- --------------------------------------------------------
 
@@ -144,6 +154,7 @@ CREATE TABLE `material` (
 
 INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `material_harga`) VALUES
 ('01', 'LEM ALFABOND', 'KG', 14600),
+('02', 'TECHBOND L55', 'KG', 15000),
 ('03', 'CALCIUM', 'KG', 1610),
 ('3LVL014M5SE002', 'LVL SENGON 14.5MM (UK. 1250MM X 1250MM)', 'PCS', 50000);
 
@@ -229,13 +240,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bahan`
 --
 ALTER TABLE `bahan`
-  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `divisi`
