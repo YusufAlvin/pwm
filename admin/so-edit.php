@@ -11,7 +11,6 @@ $id = $_GET['id'];
 
 $queryso = mysqli_query($conn, "SELECT * FROM so WHERE so_id = $id");
 $queryitem = mysqli_query($conn, "SELECT * FROM item");
-$querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
 $data = mysqli_fetch_assoc($queryso);
 ?>
 
@@ -64,51 +63,12 @@ $data = mysqli_fetch_assoc($queryso);
                       <div class="mb-3">
                         <label for="lot-number" class="form-label">Lot Number</label>
                         <input name="lot-number" type="text" class="form-control" id="lot-number" value="<?= $data['so_lot_number']; ?>">
-                      </div>
-                      <div class="mb-3">
-                        <label for="material" class="form-label">Material</label>
-                        <input name="material" type="text" class="form-control" id="material" value="<?= $data['so_material']; ?>">
-                      </div> 
+                      </div>               
+                    </div>
+                    <div class="col-md">
                       <div class="mb-3">
                         <label for="qty" class="form-label">Quantity</label>
                         <input name="qty" type="text" class="form-control" id="qty" value="<?= $data['so_quantity']; ?>">
-                      </div>
-                      <div class="mb-3">
-                        <label for="uom" class="form-label">UoM</label>
-                        <select name="uom" class="form-select form-control">
-                          <option value="SHEET" <?php if($data['so_uom'] == 'SHEET') echo 'selected'; ?>>SHEET</option>
-                          <option value="KG" <?php if($data['so_uom'] == 'KG')  echo 'selected'; ?>>KG</option>
-                          <option value="BTL" <?php if($data['so_uom'] == 'BTL')  echo 'selected'; ?>>BTL</option>
-                          <option value="GR" <?php if($data['so_uom'] == 'GR')  echo 'selected'; ?>>GR</option>
-                          <option value="PCS" <?php if($data['so_uom'] == 'PCS')  echo 'selected'; ?>>PCS</option>
-                          <option value="M3" <?php if($data['so_uom'] == 'M3')  echo 'selected'; ?>>M3</option>
-                        </select>
-                      </div>                
-                    </div>
-                    <div class="col-md"> 
-                      <div class="mb-3">
-                        <label for="divisi" class="form-label">Divisi</label>
-                        <select name="divisi" class="form-select form-control">
-                        <?php while($divisi = mysqli_fetch_assoc($querydivisi)) : ?>
-                          <?php if($data['so_divisi_id'] == $divisi['divisi_id']) : ?>
-                            <option value="<?= $divisi['divisi_id'] ?>" selected><?= $divisi['divisi_nama'] ?></option>
-                          <?php else : ?>
-                            <option value="<?= $divisi['divisi_id'] ?>"><?= $divisi['divisi_nama'] ?></option>
-                          <?php endif; ?>
-                        <?php endwhile; ?>
-                        </select>
-                      </div>                    
-                      <div class="mb-3">
-                        <label for="tinggi" class="form-label">Tinggi</label>
-                        <input name="tinggi" type="text" class="form-control" id="tinggi" value="<?= $data['so_tinggi']; ?>">
-                      </div>
-                      <div class="mb-3">
-                        <label for="lebar" class="form-label">Lebar</label>
-                        <input name="lebar" type="text" class="form-control" id="lebar" value="<?= $data['so_lebar']; ?>">
-                      </div>
-                      <div class="mb-3">
-                        <label for="panjang" class="form-label">Panjang</label>
-                        <input name="panjang" type="text" class="form-control" id="panjang" value="<?= $data['so_panjang']; ?>">
                       </div>
                       <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal Produksi</label>
@@ -143,18 +103,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $projects = htmlspecialchars($_POST['projects']);
   $item = htmlspecialchars($_POST['item']);
   $lotnumber = htmlspecialchars($_POST['lot-number']);
-  $material = htmlspecialchars($_POST['material']);
-  $tinggi = htmlspecialchars($_POST['tinggi']);
-  $panjang = htmlspecialchars($_POST['panjang']);
-  $lebar = htmlspecialchars($_POST['lebar']);
   $qty = htmlspecialchars($_POST['qty']);
   $tanggal = $_POST['tanggal'];
-  $divisi = $_POST['divisi'];
-  $uom = $_POST['uom'];
 
   $kubikasi = (floatval($tinggi) * floatval($panjang) * floatval($lebar)) / 1000000;
 
-  mysqli_query($conn, "UPDATE so SET so_item_code = '$item', so_projects = '$projects', so_divisi_id = $divisi, so_lot_number = '$lotnumber',so_material = '$material', so_quantity = $qty, so_uom = '$uom', so_tinggi = $tinggi, so_lebar = $lebar, so_panjang = $panjang, so_kubikasi = $kubikasi, so_tgl_produksi = '$tanggal' WHERE so_id = $id");
+  mysqli_query($conn, "UPDATE so SET so_item_code = '$item', so_projects = '$projects', so_lot_number = '$lotnumber', so_quantity = $qty, so_tgl_produksi = '$tanggal' WHERE so_id = $id");
 
   if(mysqli_affected_rows($conn) > 0){
     echo "<script>alert('Data has been edited!');location.href='so.php'</script>";

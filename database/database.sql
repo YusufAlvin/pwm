@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2021 at 05:42 AM
+-- Generation Time: Nov 17, 2021 at 03:23 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -50,20 +50,10 @@ CREATE TABLE `bom` (
   `bom_id` int(11) NOT NULL,
   `bom_so_id` int(11) NOT NULL,
   `bom_material_id` varchar(255) NOT NULL,
+  `bom_divisi_id` int(11) NOT NULL,
   `bom_quantity` float NOT NULL,
   `bom_total_kebutuhan` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `bom`
---
-
-INSERT INTO `bom` (`bom_id`, `bom_so_id`, `bom_material_id`, `bom_quantity`, `bom_total_kebutuhan`) VALUES
-(1, 1, '3LVL014M5SE002', 0.5, 2400),
-(2, 1, '3LVL014M5SE002', 2.5, 12000),
-(3, 2, '3LVL014M5SE002', 0.34, 1020),
-(4, 2, 'tes', 2.5, 7500),
-(5, 4, '03', 0.5, 2400);
 
 -- --------------------------------------------------------
 
@@ -106,8 +96,9 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_tebal`, `item_kubikasi`, `item_uom`) VALUES
-('1LOCCTIBS05620', 'CTI BASE WGN10005620', 30, 40.5, 30, 0.0365, 'BTL'),
-('tes', 'tes', 10.12, 12.5, 20.5, 0.0026, 'GR');
+('01', 'Barang 1', 30, 13.5, 10.1, 0.0041, 'KG'),
+('02', 'Barang 2', 20, 10, 10, 0.002, 'SHEET'),
+('03', 'Barang 3', 10, 20, 30, 0.006, 'PCS');
 
 -- --------------------------------------------------------
 
@@ -127,9 +118,11 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `material_harga`) VALUES
-('02', 'TECHBOND L55', 'KG', 5000),
-('03', 'LEM', 'KG', 7000),
-('3LVL014M5SE002', 'LVL SENGON 14.5MM (UK. 1250MM X 1250MM)', 'PCS', 50000);
+('01', 'Material 1', 'KG', 35000),
+('02', 'Material 2', 'KG', 5000),
+('03', 'Material 3', 'KG', 7000),
+('04', 'Material 4', 'SHEET', 50000),
+('05', 'Material 5', 'GR', 100000);
 
 -- --------------------------------------------------------
 
@@ -141,21 +134,10 @@ CREATE TABLE `so` (
   `so_id` int(11) NOT NULL,
   `so_item_code` varchar(255) NOT NULL,
   `so_projects` varchar(255) NOT NULL,
-  `so_divisi_id` int(11) NOT NULL,
   `so_lot_number` varchar(255) NOT NULL,
   `so_quantity` int(11) NOT NULL,
   `so_tgl_produksi` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `so`
---
-
-INSERT INTO `so` (`so_id`, `so_item_code`, `so_projects`, `so_divisi_id`, `so_lot_number`, `so_quantity`, `so_tgl_produksi`) VALUES
-(1, '1LOCCTIBS05620', 'CTI/43275', 1, 'SFT2011128', 4800, '2021-11-12'),
-(2, '1LOCCTIBS05620', 'CTI/42756', 3, 'SFT202226', 3000, '2021-11-30'),
-(3, '1LOCCTIBS05620', 'tes', 2, 'tes', 3000, '2021-11-12'),
-(4, 'tes', 'tes', 2, 'SFT2011120', 4800, '2021-11-17');
 
 --
 -- Indexes for dumped tables
@@ -211,7 +193,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -223,7 +205,7 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

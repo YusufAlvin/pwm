@@ -8,7 +8,9 @@ if($_SESSION['login'] != true){
 
 $so_id = $_GET['id'];
 
-$query = mysqli_query($conn, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id) WHERE bom.bom_so_id = $so_id");
+$query = mysqli_query($conn, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN divisi ON divisi.divisi_id = bom.bom_divisi_id) WHERE bom.bom_so_id = $so_id");
+$query_item_code = mysqli_query($conn, "SELECT item_id FROM so INNER JOIN item ON so.so_item_code = item.item_id WHERE so_id = $so_id");
+$item_code = mysqli_fetch_assoc($query_item_code);
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -23,7 +25,7 @@ $query = mysqli_query($conn, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_i
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Material Detail</h1>
+            <h1 class="m-0">Material Item Code <?= $item_code['item_id'] ?></h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -47,7 +49,6 @@ $query = mysqli_query($conn, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_i
                   <thead>
                       <tr>
                           <th>No</th>
-                          <th>SO</th>
                           <th>Material Code</th>
                           <th>Material</th>
                           <th>Quantity</th>
@@ -61,7 +62,6 @@ $query = mysqli_query($conn, "SELECT * FROM (((bom INNER JOIN so ON bom.bom_so_i
                     <?php while($bom = mysqli_fetch_assoc($query)) : ?>
                       <tr>
                           <td></td>
-                          <td><?= $bom['so_projects']; ?></td>
                           <td><?= $bom['bom_material_id']; ?></td>
                           <td><?= $bom['material_nama']; ?></td>
                           <td><?= $bom['bom_quantity']; ?></td>

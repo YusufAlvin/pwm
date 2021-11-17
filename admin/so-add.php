@@ -8,7 +8,6 @@ if($_SESSION['login'] != true){
 }
 
 $queryitem = mysqli_query($conn, "SELECT * FROM item");
-$querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
 ?>
 
 <?php require_once "template/header.php"; ?>
@@ -56,20 +55,12 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
                         <label for="lot-number" class="form-label">Lot Number</label>
                         <input name="lot-number" type="text" class="form-control" id="lot-number" placeholder="SFT21110028" required>
                       </div>
-                      <div class="mb-3">
-                        <label for="qty" class="form-label">Quantity</label>
-                        <input name="qty" type="text" class="form-control" id="qty" placeholder="4800" required>
-                      </div>                  
                     </div>
                     <div class="col-md">
                       <div class="mb-3">
-                        <label for="divisi" class="form-label">Divisi</label>
-                        <select name="divisi" class="form-select form-control">
-                        <?php while($divisi = mysqli_fetch_assoc($querydivisi)) : ?>
-                          <option value="<?= $divisi['divisi_id'] ?>"><?= $divisi['divisi_nama'] ?></option>
-                        <?php endwhile; ?>
-                        </select>
-                      </div> 
+                        <label for="qty" class="form-label">Quantity Order</label>
+                        <input name="qty" type="text" class="form-control" id="qty" placeholder="4800" required>
+                      </div>
                       <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal</label>
                         <input name="tanggal" type="date" class="form-control" id="tanggal" required>
@@ -104,9 +95,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $lotnumber = htmlspecialchars($_POST['lot-number']);
   $qty = htmlspecialchars($_POST['qty']);
   $tanggal = $_POST['tanggal'];
-  $divisi = $_POST['divisi'];
 
-  mysqli_query($conn, "INSERT INTO so VALUES ('', '$item', '$projects', $divisi, '$lotnumber', $qty, '$tanggal')");
+  mysqli_query($conn, "INSERT INTO so VALUES ('', '$item', '$projects', '$lotnumber', $qty, '$tanggal')");
  
   if(mysqli_affected_rows($conn) > 0){
     echo "<script>alert('Data has been saved!');location.href='so.php'</script>";

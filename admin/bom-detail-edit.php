@@ -11,8 +11,31 @@ $id = $_GET['id'];
 
 $querybom = mysqli_query($conn, "SELECT * FROM bom WHERE bom_id = $id");
 $querymaterial = mysqli_query($conn, "SELECT * FROM material");
+$querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
 
 $bom = mysqli_fetch_assoc($querybom);
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  $so_id = $_POST['so-id'];
+  $bom_id = $id;
+  $material = htmlspecialchars($_POST['material']);
+  $divisi = $_POST['divisi'];
+  $quantity = htmlspecialchars($_POST['quantity']);
+
+  $queryso = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
+  $quantity_order = mysqli_fetch_assoc($queryso);
+
+  $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($quantity);
+
+  mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity, bom_total_kebutuhan = $totalkebutuhan WHERE bom_id = $bom_id");  
+
+  if(mysqli_affected_rows($conn) > 0){
+    echo "<script>alert('Data has been edited!');location.href='bom.php'</script>";
+  } else {
+    echo mysqli_error($conn);
+  }
+}
+
 ?>
 
 <?php require_once "template/header.php"; ?>
@@ -60,7 +83,19 @@ $bom = mysqli_fetch_assoc($querybom);
                       <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
                         <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $bom['bom_quantity']; ?>">
-                      </div>                     
+                      </div>  
+                      <div class="mb-3">
+                        <label for="divisi" class="form-label">Divisi</label>
+                        <select name="divisi" class="form-select form-control">
+                          <?php while($divisi = mysqli_fetch_assoc($querydivisi)) : ?>
+                            <?php if($bom['bom_divisi_id'] == $divisi['divisi_id']) : ?>
+                              <option value="<?= $divisi['divisi_id'] ?>" selected><?= $divisi['divisi_nama'] ?></option>
+                            <?php else : ?>
+                              <option value="<?= $divisi['divisi_id'] ?>"><?= $divisi['divisi_nama'] ?></option>
+                            <?php endif; ?>
+                          <?php endwhile; ?>
+                        </select>
+                      </div>                   
                     </div>                  
                   </div>
                   <div class="row">
@@ -82,29 +117,3 @@ $bom = mysqli_fetch_assoc($querybom);
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $so_id = $_POST['so-id'];
-  $bom_id = $id;
-  $material = htmlspecialchars($_POST['material']);
-  $quantity = htmlspecialchars($_POST['quantity']);
-
-  $queryso = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
-  $quantity_order = mysqli_fetch_assoc($queryso);
-
-  $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($quantity);
-
-  mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_quantity = $quantity, bom_total_kebutuhan = $totalkebutuhan WHERE bom_id = $bom_id");
-    
-  
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited!');location.href='bom.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-
-?>

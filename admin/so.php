@@ -6,7 +6,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$query = mysqli_query($conn, "SELECT * FROM ((so INNER JOIN item ON so.so_item_code = item.item_id) INNER JOIN divisi ON so.so_divisi_id = divisi.divisi_id)");
+$query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON so.so_item_code = item.item_id");
 ?>
 <?php require_once "template/header.php"; ?>
 
