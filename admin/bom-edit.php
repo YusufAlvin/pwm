@@ -13,7 +13,7 @@ $query1 = mysqli_query($conn, "SELECT * FROM divisi");
 $query2 = mysqli_query($conn, "SELECT * FROM material");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $so_id = $id;
+  $bom_id = $id;
   $material = $_POST['material'];
   $divisi = $_POST['divisi'];
   $quantity = $_POST['quantity'];
@@ -24,33 +24,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if($quantity[$i] == ""){
       continue;
     }
-    array_push($new_quantity, $quantity[$i]);
+    array_push($new_quantity, htmlspecialchars($quantity[$i]));
   }
 
   for($j = 0; $j < count($divisi); $j++){
     if($divisi[$j] == ""){
       continue;
     }
-    array_push($new_divisi, $divisi[$j]);
+    array_push($new_divisi, htmlspecialchars($divisi[$j]));
   }
 
-  // var_dump($material);
-  // var_dump($new_divisi);
-  // var_dump($new_quantity);
-  // exit();
-
-  $query3 = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
-  $quantity_order = mysqli_fetch_assoc($query3);
+  // $query3 = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
+  // $quantity_order = mysqli_fetch_assoc($query3);
 
   for($k = 0; $k < count($material); $k++){
-    $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($new_quantity[$k]);
-    mysqli_query($conn, "INSERT INTO bom VALUES ('', $so_id, '$material[$k]', $new_divisi[$k], $new_quantity[$k], $totalkebutuhan)");
+    // $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($new_quantity[$k]);
+    mysqli_query($conn, "INSERT INTO bahan VALUES ('', $bom_id, '$material[$k]', $new_divisi[$k], $new_quantity[$k])");
   }
 
   if(mysqli_affected_rows($conn) > 0){
     echo "<script>alert('Material has been added!');location.href='bom.php'</script>";
   } else {
     echo mysqli_error($conn);
+    exit();
   }
 }
 
@@ -96,6 +92,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="col-md">
                       <div class="mb-3">
                         <input name="quantity[]" type="text" class="form-control" id="quantity" placeholder="Quantity">
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <div class="mb-3">
+                        <input name="uom[]" type="text" class="form-control" id="quantity" value="<?= $material['material_uom'] ?>" disabled>
                       </div>
                     </div>
                     <div class="col-md">

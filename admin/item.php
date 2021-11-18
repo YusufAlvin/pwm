@@ -57,11 +57,11 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                     <div class="col-md">
                       <div class="mb-3">
                         <label for="item-code" class="form-label">Item Code</label>
-                        <input name="item-code" type="text" class="form-control" id="item-code" placeholder="1LOCCTIBS05620">
+                        <input name="item-code" type="text" class="form-control" id="item-code" placeholder="1LOCCTIBS05620" required>
                       </div>
                       <div class="mb-3">
                         <label for="nama" class="form-label">Nama Item</label>
-                        <input name="nama" type="text" class="form-control" id="nama" placeholder="CTI BASE">
+                        <input name="nama" type="text" class="form-control" id="nama" placeholder="CTI BASE" required>
                       </div>
                       <div class="mb-3">
                         <label for="uom" class="form-label">UoM</label>
@@ -78,15 +78,15 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                     <div class="col-md">
                       <div class="mb-3">
                         <label for="panjang" class="form-label">Panjang</label>
-                        <input name="panjang" type="text" class="form-control" id="panjang" placeholder="10.12">
+                        <input name="panjang" type="text" class="form-control" id="panjang" placeholder="10.12" required>
                       </div>
                       <div class="mb-3">
                         <label for="lebar" class="form-label">Lebar</label>
-                        <input name="lebar" type="text" class="form-control" id="lebar" placeholder="12.5">
+                        <input name="lebar" type="text" class="form-control" id="lebar" placeholder="12.5" required>
                       </div>
                       <div class="mb-3">
                         <label for="tebal" class="form-label">Tebal</label>
-                        <input name="tebal" type="text" class="form-control" id="tebal" placeholder="10.5">
+                        <input name="tebal" type="text" class="form-control" id="tebal" placeholder="10.5" required>
                       </div>
                     </div>
                   </div>

@@ -9,8 +9,8 @@ if($_SESSION['login'] != true){
 
 $id = $_GET['id'];
 
-mysqli_query($conn, "DELETE FROM so WHERE so_id = $id");
 mysqli_query($conn, "DELETE FROM bom WHERE bom_so_id = $id");
+mysqli_query($conn, "DELETE FROM so WHERE so_id = $id");
 
 if(mysqli_affected_rows($conn) > 0){
   header('Location: so.php');

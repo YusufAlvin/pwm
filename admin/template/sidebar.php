@@ -35,14 +35,14 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="so.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
               Sales Order
             </p>
           </a>
-        </li>
+        </li> -->
         <!-- <li class="nav-item">
           <a href="production-order.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
