@@ -5,7 +5,7 @@ if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
-$querybom = mysqli_query($conn, "SELECT DISTINCT so_projects FROM bom INNER JOIN so ON bom.bom_so_id = so.so_id;");
+$queryso = mysqli_query($conn, "SELECT DISTINCT so_no_spk FROM so");
 $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
 ?>
 <?php require_once "template/header.php"; ?>
@@ -36,10 +36,10 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
               <div class="card-body">
                 <form action="export.php" method="GET">
                   <select name="projects" class="form-select form-control mb-3" aria-label="Default select example">
-                    <option value="" selected>Projects</option>
-                    <?php while ($bom = mysqli_fetch_assoc($querybom)) : ?>
-                      <a href="export.php?projects=" <?= $bom['so_projects']; ?>>
-                          <option value="<?= $bom['so_projects']; ?>"><?= $bom['so_projects']; ?></option>
+                    <option value="" selected>No SPK</option>
+                    <?php while ($so = mysqli_fetch_assoc($queryso)) : ?>
+                      <a href="export.php?projects=" <?= $so['so_no_spk']; ?>>
+                          <option value="<?= $so['so_no_spk']; ?>"><?= $so['so_no_spk']; ?></option>
                       </a>
                     <?php endwhile; ?>
                   </select>

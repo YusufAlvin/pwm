@@ -51,15 +51,15 @@ class PDF extends PDF_MySQL_Table
 }
 
 // Connect to database
-$link = mysqli_connect('localhost','root','','database');
+$link = mysqli_connect('localhost','root','','pwm');
 
 $pdf = new PDF('L','mm','A4');
 // $pdf->AddPage();
 // First table: output all columns
 // $pdf->Table($link,'SELECT * FROM ((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id)');
-$querybom = mysqli_query($link, "SELECT * FROM ((((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN item ON so.so_item_code = item.item_id) INNER JOIN divisi ON bom.bom_divisi_id = divisi.divisi_id) WHERE so.so_projects = '$soprojects' && bom.bom_divisi_id = $divisi");
-$bom = mysqli_fetch_assoc($querybom);
-if(mysqli_num_rows($querybom) < 1) {
+$queryso = mysqli_query($link, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
+$so = mysqli_fetch_assoc($queryso);
+if(mysqli_num_rows($queryso) < 1) {
 	echo "<script>alert('Tidak ada data!');location.href='export-filter.php'</script>";
 	exit();
 }
@@ -67,35 +67,35 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(37,10,'Item Code');
 $pdf->Cell(10,10,':');
-$pdf->Cell(40,10,$bom['item_id']);
+$pdf->Cell(40,10,$so['item_id']);
 $pdf->Ln();
 $pdf->Cell(37,10,'Item Name');
 $pdf->Cell(10,10,':');
-$pdf->Cell(40,10,$bom['item_nama']);
+$pdf->Cell(40,10,$so['item_nama']);
 $pdf->Ln();
 $pdf->Cell(37,10,'LotNbr / SO');
 $pdf->Cell(10,10,':');
-$pdf->Cell(40,10,$bom['so_lot_number'] . ' / ' .$bom['so_projects']);
+$pdf->Cell(40,10,$so['so_lot_number'] . ' / ' . $so['so_no_spk']);
 $pdf->Ln();
 $pdf->Cell(37,10,'Qty Order');
 $pdf->Cell(10,10,':');
-$pdf->Cell(40,10,$bom['so_quantity'] . ' PCS');
+$pdf->Cell(40,10,$so['so_qty_order'] . ' PCS');
 $pdf->Ln();
 $pdf->Cell(37,10,'Divisi');
 $pdf->Cell(10,10,':');
-$pdf->Cell(40,10,$bom['divisi_nama']);
+$pdf->Cell(40,10,$so['divisi_nama']);
 $pdf->Ln(15);
 // Second table: specify 3 columns
 $pdf->AddCol('material_id',65,'Item Code','C');
 $pdf->AddCol('material_nama',100,'Item','C');
-$pdf->AddCol('bom_quantity',30,'Quantity','C');
+$pdf->AddCol('so_material_qty',30,'Quantity','C');
 $pdf->AddCol('material_uom',30,'UoM','C');
-$pdf->AddCol('bom_total_kebutuhan',50,'Total Kebutuhan','C');
+$pdf->AddCol('so_total_kebutuhan',50,'Total Kebutuhan','C');
 // $prop = array('HeaderColor'=>array(255,150,100),
 // 			'color1'=>array(210,245,255),
 // 			'color2'=>array(255,255,210),
 // 			'padding'=>10);
-$pdf->Table($link,"SELECT * FROM ((((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id) INNER JOIN item ON so.so_item_code = item.item_id) INNER JOIN divisi ON bom.bom_divisi_id = divisi.divisi_id) WHERE so.so_projects = '$soprojects' && bom.bom_divisi_id = $divisi");
+$pdf->Table($link,"SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
 $pdf->Ln(20);
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(0,10,'APPROVAL SHEET',0,0,'C');

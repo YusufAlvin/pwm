@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2021 at 04:55 PM
+-- Generation Time: Nov 20, 2021 at 12:39 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -61,8 +61,8 @@ CREATE TABLE `bom` (
 INSERT INTO `bom` (`bom_id`, `bom_item_id`, `bom_material_id`, `bom_divisi_id`, `bom_quantity`) VALUES
 (3, 'barang code 2', 'material code 2', 2, 0.7),
 (4, 'barang code 2', 'material code 4', 3, 0.8),
-(5, 'barang code 4', 'material code 1', 2, 0.7),
-(6, 'barang code 4', 'material code 2', 1, 0.8);
+(11, 'barang code 3', 'material code 1', 1, 0.5),
+(12, 'barang code 3', 'material code 2', 2, 0.6);
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_
 ('barang code 1', 'barang 1', 10, 20, 30, 0.006, 'SHEET'),
 ('barang code 2', 'barang 2', 30, 20, 50, 0.03, 'BTL'),
 ('barang code 3', 'barang 3', 12, 13, 14, 0.0022, 'KG'),
-('barang code 4', 'barang 4', 12.5, 13.6, 70, 0.0119, 'GR');
+('barang code 4', 'barang 4', 12, 13, 50, 0.0078, 'GR');
 
 -- --------------------------------------------------------
 
@@ -143,10 +143,23 @@ CREATE TABLE `so` (
   `so_id` int(11) NOT NULL,
   `so_no_spk` varchar(255) NOT NULL,
   `so_item_id` varchar(255) NOT NULL,
+  `so_material_id` varchar(255) NOT NULL,
+  `so_material_qty` float NOT NULL,
+  `so_divisi_id` int(11) NOT NULL,
   `so_qty_order` float NOT NULL,
   `so_lot_number` varchar(255) NOT NULL,
   `so_total_kebutuhan` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `so`
+--
+
+INSERT INTO `so` (`so_id`, `so_no_spk`, `so_item_id`, `so_material_id`, `so_material_qty`, `so_divisi_id`, `so_qty_order`, `so_lot_number`, `so_total_kebutuhan`) VALUES
+(5, 'so2', 'barang code 2', 'material code 2', 0.7, 2, 3000, 'lot2', 2100),
+(6, 'so2', 'barang code 2', 'material code 4', 0.8, 3, 3000, 'lot2', 2400),
+(9, 'so1', 'barang code 3', 'material code 1', 0.5, 1, 2000, 'lot2', 1000),
+(10, 'so1', 'barang code 3', 'material code 2', 0.6, 2, 2000, 'lot2', 1200);
 
 --
 -- Indexes for dumped tables
@@ -202,7 +215,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -214,7 +227,7 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

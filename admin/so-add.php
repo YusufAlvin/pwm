@@ -7,18 +7,15 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$queryitem = mysqli_query($conn, "SELECT * FROM bom INNER JOIN item ON bom.bom_item_code = item.item_id");
-// $querybahan = mysqli_query($conn, "SELECT * FROM bahan INNER JOIN bom ON bom.bom_id = bahan.bahan_bom_id");
+$queryitem = mysqli_query($conn, "SELECT DISTINCT item.item_id, item.item_nama FROM bom INNER JOIN item ON item.item_id = bom.bom_item_id");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $no_spk = htmlspecialchars($_POST['no_spk']);
-  $bom_id = htmlspecialchars($_POST['item']);
+  $item = htmlspecialchars($_POST['item']);
   $lotnumber = htmlspecialchars($_POST['lot-number']);
   $qty = htmlspecialchars($_POST['qty']);
-  // $tanggal = $_POST['tanggal'];
 
-  $querybom = mysqli_query($conn, "SELECT bahan.bahan_quantity, bom.bom_item_code FROM (((bom INNER JOIN item ON bom.bom_item_code = item.item_id) INNER JOIN bahan ON bom.bom_id = bahan.bahan_bom_id) INNER JOIN material ON material.material_id = bahan.bahan_material_id) WHERE bom.bom_id = $bom_id");
-
+  $querybom = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");
 
   if(mysqli_num_rows($querybom) < 1){
     echo "<script>alert('Tambahkan data pada menu BoM');location.href='so.php'</script>";
@@ -26,8 +23,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }
   
   while($bom = mysqli_fetch_assoc($querybom)){
-    $total_kebutuhan = $bom['bahan_quantity'] * $qty;
-    mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', $bom_id, '$lotnumber', $qty, $total_kebutuhan)"); 
+    $total_kebutuhan = $bom['bom_quantity'] * $qty;
+    mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan)"); 
   }
  
   if(mysqli_affected_rows($conn) > 0){
@@ -97,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                   </div>
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary" type="submit" name="add">Add Data</button>                    
+                      <button class="btn btn-primary" type="submit" name="add">Add Data</button>
                     </div>
                   </div>
                 </form>

@@ -6,9 +6,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-exit();
-
-$query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_nama, so.so_lot_number, so.so_qty_order, item.item_id, item.item_id FROM ((so INNER JOIN bom ON so.so_bom_id = bom.bom_id) INNER JOIN item ON item.item_id = bom.bom_item_code)");
+$query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.item_nama, so.so_lot_number, so.so_qty_order FROM so INNER JOIN bom ON bom.bom_item_id = so.so_item_id INNER JOIN item ON item.item_id = bom.bom_item_id;");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -36,6 +34,9 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_nama, so.s
           <div class="col-md-5">
             <a href="so-add.php">
               <button class="btn btn-primary">Add Data</button>
+            </a>
+            <a href="export-filter.php">
+              <button class="btn btn-primary">Export</button>
             </a>
           </div>
         </div>

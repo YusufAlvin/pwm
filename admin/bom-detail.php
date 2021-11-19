@@ -45,26 +45,33 @@ $item_code = mysqli_fetch_assoc($query_item_code);
           <div class="col">
             <div class="card table-responsive">
               <div class="card-body">
-                <table id="spk" class="table table-striped display" style="width:100%">
+                <table id="bom-detail" class="table table-striped display" style="width:100%">
                   <thead>
                       <tr>
                           <th>No</th>
+                          <th>Item</th>
                           <th>Material Code</th>
                           <th>Material</th>
                           <th>Quantity</th>
                           <th>UoM</th>
                           <th>Divisi</th>
+                          <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
                     <?php while($bom = mysqli_fetch_assoc($query)) : ?>
                       <tr>
                           <td></td>
+                          <td><?= $bom['item_nama']; ?></td>
                           <td><?= $bom['material_id']; ?></td>
                           <td><?= $bom['material_nama']; ?></td>
                           <td><?= $bom['bom_quantity']; ?></td>
                           <td><?= $bom['material_uom']; ?></td>
                           <td><?= $bom['divisi_nama']; ?></td>
+                          <td>
+                            <a href="bom-detail-edit.php?id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="bom-detail-delete.php?id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                          </td>
                       </tr> 
                     <?php endwhile; ?>                     
                   </tbody>

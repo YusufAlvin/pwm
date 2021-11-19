@@ -109,7 +109,7 @@ $query = mysqli_query($conn, "SELECT * FROM item");
           <div class="col">
             <div class="card table-responsive">
               <div class="card-body">
-                <table id="production-order" class="table table-striped display" style="width:100%">
+                <table id="item" class="table table-striped display" style="width:100%">
                   <thead>
                       <tr>
                           <th>No</th>

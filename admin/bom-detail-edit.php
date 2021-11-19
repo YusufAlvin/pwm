@@ -14,14 +14,14 @@ if($id == ""){
   exit();
 }
 
-$querybahan = mysqli_query($conn, "SELECT * FROM bahan WHERE bahan_id = $id");
+$querybom = mysqli_query($conn, "SELECT * FROM bom WHERE bom_id = $id");
 $querymaterial = mysqli_query($conn, "SELECT * FROM material");
 $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
 
-$bahan = mysqli_fetch_assoc($querybahan);
+$bom = mysqli_fetch_assoc($querybom);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $bahan_id = $id;
+  $bom_id = $id;
   $material = htmlspecialchars($_POST['material']);
   $divisi = $_POST['divisi'];
   $quantity = htmlspecialchars($_POST['quantity']);
@@ -31,7 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   // $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($quantity);
 
-  mysqli_query($conn, "UPDATE bahan SET bahan_material_id = '$material', bahan_divisi_id = $divisi, bahan_quantity = $quantity WHERE bahan_id = $bahan_id");  
+  mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");  
 
   if(mysqli_affected_rows($conn) > 0){
     echo "<script>alert('Data has been edited!');location.href='bom.php'</script>";
@@ -76,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label for="material" class="form-label">Material</label>
                         <select name="material" class="form-select form-control">
                           <?php while($material = mysqli_fetch_assoc($querymaterial)) : ?>
-                            <?php if($bahan['bahan_material_id'] == $material['material_id']) : ?>
+                            <?php if($bom['bom_material_id'] == $material['material_id']) : ?>
                               <option value="<?= $material['material_id'] ?>" selected><?= $material['material_nama'] ?></option>
                             <?php else : ?>
                               <option value="<?= $material['material_id'] ?>"><?= $material['material_nama'] ?></option>
@@ -86,13 +86,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       </div>
                       <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $bahan['bahan_quantity']; ?>">
+                        <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $bom['bom_quantity'] ?>">
                       </div>  
                       <div class="mb-3">
                         <label for="divisi" class="form-label">Divisi</label>
                         <select name="divisi" class="form-select form-control">
                           <?php while($divisi = mysqli_fetch_assoc($querydivisi)) : ?>
-                            <?php if($bahan['bahan_divisi_id'] == $divisi['divisi_id']) : ?>
+                            <?php if($bom['bom_divisi_id'] == $divisi['divisi_id']) : ?>
                               <option value="<?= $divisi['divisi_id'] ?>" selected><?= $divisi['divisi_nama'] ?></option>
                             <?php else : ?>
                               <option value="<?= $divisi['divisi_id'] ?>"><?= $divisi['divisi_nama'] ?></option>

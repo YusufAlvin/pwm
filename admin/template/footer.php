@@ -24,20 +24,20 @@
 <!-- Page Spesific script -->
 <script>
   $(document).ready( function () {
-    let t = $('#production-order').DataTable({
+    let t = $('#item').DataTable({
       dom: 'Bfrtip',
       lengthMenu: [
         [ 10, 25, 50, -1 ],
         [ '10 rows', '25 rows', '50 rows', 'Show all' ]
       ],
       buttons: [
-        'pageLength'
-        // {
-        //   extend: 'excelHtml5',
-        //   exportOptions: {
-        //       columns: [0,1,2,3,4,5,6,7,8,9]
-        //   }
-        // }
+        'pageLength', 
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+              columns: [0,1,2,3,4,5,6,7]
+          }
+        }
       ],
       columnDefs: [ {
         "searchable": false,
@@ -53,7 +53,36 @@
       } );
     } ).draw();
 
-    let spk = $('#spk').DataTable({
+    let material = $('#material').DataTable({
+      dom: 'Bfrtip',
+      lengthMenu: [
+        [ 10, 25, 50, -1 ],
+        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+      ],
+      buttons: [
+        'pageLength',
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+              columns: [0,1,2,3,4]
+          }
+        }
+      ],
+      columnDefs: [ {
+        "searchable": false,
+        "orderable": false,
+        "targets": 0
+      } ],
+      order: [[ 1, 'asc' ]]
+    });
+    material.on( 'order.dt search.dt', function () {
+      material.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+          material.cell(cell).invalidate('dom');
+      } );
+    } ).draw();
+
+    let bom = $('#bom').DataTable({
       dom: 'Bfrtip',
       lengthMenu: [
         [ 10, 25, 50, -1 ],
@@ -64,7 +93,7 @@
         // {
         //   extend: 'excelHtml5',
         //   exportOptions: {
-        //       columns: [0,1,2,3,4,5,6,7,8]
+        //       columns: [0,1,2,3,4]
         //   }
         // }
       ],
@@ -75,10 +104,39 @@
       } ],
       order: [[ 1, 'asc' ]]
     });
-    spk.on( 'order.dt search.dt', function () {
-      spk.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    bom.on( 'order.dt search.dt', function () {
+      bom.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i+1;
-          spk.cell(cell).invalidate('dom');
+          bom.cell(cell).invalidate('dom');
+      } );
+    } ).draw();
+
+    let bomDetail = $('#bom-detail').DataTable({
+      dom: 'Bfrtip',
+      lengthMenu: [
+        [ 10, 25, 50, -1 ],
+        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+      ],
+      buttons: [
+        'pageLength',
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+              columns: [0,1,2,3,4,5,6]
+          }
+        }
+      ],
+      columnDefs: [ {
+        "searchable": false,
+        "orderable": false,
+        "targets": 0
+      } ],
+      order: [[ 1, 'asc' ]]
+    });
+    bomDetail.on( 'order.dt search.dt', function () {
+      bomDetail.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+          bomDetail.cell(cell).invalidate('dom');
       } );
     } ).draw();
 } );

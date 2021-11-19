@@ -8,9 +8,9 @@ if($_SESSION['login'] != true){
 
 $no_spk = $_GET['id'];
 
-$query = mysqli_query($conn, "SELECT * FROM (((bahan INNER JOIN bom ON bom.bom_id = bahan.bahan_bom_id) INNER JOIN material ON bahan.bahan_material_id = material.material_id) INNER JOIN divisi ON bahan.bahan_divisi_id = divisi.divisi_id) WHERE bom.bom_id = $id");
-$query_item_code = mysqli_query($conn, "SELECT item_id FROM bom INNER JOIN item ON bom.bom_item_code = item.item_id WHERE bom_id = $id");
-$item_code = mysqli_fetch_assoc($query_item_code);
+$query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_no_spk = '$no_spk'");
+// $query_item_code = mysqli_query($conn, "SELECT so_item_id FROM so WHERE so_no_spk = '$no_spk'");
+// $item_code = mysqli_fetch_assoc($query_item_code);
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -25,7 +25,7 @@ $item_code = mysqli_fetch_assoc($query_item_code);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Material Item Code <?= $item_code['item_id'] ?></h1>
+            <h1 class="m-0">Detail No SPK <?= $no_spk ?></h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -51,25 +51,26 @@ $item_code = mysqli_fetch_assoc($query_item_code);
                           <th>No</th>
                           <th>Material Code</th>
                           <th>Material</th>
+                          <th>Lot Number</th>
                           <th>Quantity</th>
+                          <th>Qty Order</th>
                           <th>UoM</th>
                           <th>Divisi</th>
-                          <th>Action</th>
+                          <th>Total Kebutuhan</th>
                       </tr>
                   </thead>
                   <tbody>
-                    <?php while($bom = mysqli_fetch_assoc($query)) : ?>
+                    <?php while($so = mysqli_fetch_assoc($query)) : ?>
                       <tr>
                           <td></td>
-                          <td><?= $bom['material_id']; ?></td>
-                          <td><?= $bom['material_nama']; ?></td>
-                          <td><?= $bom['bahan_quantity']; ?></td>
-                          <td><?= $bom['material_uom']; ?></td>
-                          <td><?= $bom['divisi_nama']; ?></td>
-                          <td>
-                            <a href="bom-detail-edit.php?id=<?= $bom['bahan_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="bom-detail-delete.php?id=<?= $bom['bahan_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
-                          </td>
+                          <td><?= $so['material_id']; ?></td>
+                          <td><?= $so['material_nama']; ?></td>
+                          <td><?= $so['so_lot_number']; ?></td>
+                          <td><?= $so['so_material_qty']; ?></td>
+                          <td><?= $so['so_qty_order']; ?></td>
+                          <td><?= $so['material_uom']; ?></td>
+                          <td><?= $so['divisi_nama']; ?></td>
+                          <td><?= $so['so_total_kebutuhan']; ?></td>
                       </tr> 
                     <?php endwhile; ?>                     
                   </tbody>
