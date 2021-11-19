@@ -15,6 +15,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $uom = $_POST['uom'];
   $kubikasi = round(floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000, 4);
 
+  $queryitem = mysqli_query($conn, "SELECT * FROM item WHERE item_id = '$itemcode'");
+  if(mysqli_num_rows($queryitem) > 0){
+    echo "<script>alert('Item code sudah duplikat');location.href = 'item.php'</script>";
+    exit();
+  }
+
   mysqli_query($conn, "INSERT INTO item VALUES ('$itemcode', '$nama', $panjang, $lebar, $tebal, $kubikasi, '$uom')");
 
   if(mysqli_affected_rows($conn) > 0){
@@ -38,7 +44,7 @@ $query = mysqli_query($conn, "SELECT * FROM item");
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-8">
             <h1 class="m-0">Master Barang</h1>
           </div>
         </div><!-- /.row -->
@@ -49,7 +55,7 @@ $query = mysqli_query($conn, "SELECT * FROM item");
     <div class="content">
       <div class="container-fluid">
         <div class="row mb-3">
-          <div class="col-md-6">
+          <div class="col-md-9">
             <form action="" method="post">
               <div class="card">
                 <div class="card-body">
@@ -60,7 +66,7 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                         <input name="item-code" type="text" class="form-control" id="item-code" placeholder="1LOCCTIBS05620" required>
                       </div>
                       <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Item</label>
+                        <label for="nama" class="form-label">Item Name</label>
                         <input name="nama" type="text" class="form-control" id="nama" placeholder="CTI BASE" required>
                       </div>
                       <div class="mb-3">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2021 at 05:28 AM
+-- Generation Time: Nov 18, 2021 at 04:20 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -73,7 +73,8 @@ INSERT INTO `bom` (`bom_id`, `bom_item_code`) VALUES
 (1, ''),
 (2, '01'),
 (3, '01'),
-(4, '');
+(4, ''),
+(5, '1LOCFTCTIS3SM1');
 
 -- --------------------------------------------------------
 
@@ -111,6 +112,14 @@ CREATE TABLE `item` (
   `item_uom` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `item`
+--
+
+INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_tebal`, `item_kubikasi`, `item_uom`) VALUES
+('1LOCCTIBS05620', 'CTI BASE WGN10005620', 4876, 139, 13, 8.8109, 'KG'),
+('1LOCFTCTIS3SM1', 'LEM N BON', 2086, 139, 14, 4.0594, 'GR');
+
 -- --------------------------------------------------------
 
 --
@@ -129,6 +138,7 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `material_harga`) VALUES
+('3SAN0060WH0001', 'AMPAS FLAP WHEEL 360', 'PCS', 200000),
 ('3SAN0120CL0010', 'AMPLAS BELT EKAMANT UK 150. X 750 P.120', 'PCS', 53000),
 ('3SAN0150PP0003', 'AMPLAS BELT 220MM X 1300MM P.150', 'PCS', 222000),
 ('3SAN0180PP0004', 'AMPLAS BELT 220MM X 1300MM P.180', 'PCS', 220000);
@@ -221,7 +231,7 @@ ALTER TABLE `bahan`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `divisi`

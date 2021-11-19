@@ -7,6 +7,27 @@ if($_SESSION['login'] != true){
 }
 
 $query = mysqli_query($conn, "SELECT * FROM material");
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $materialcode = htmlspecialchars($_POST['material-code']);
+  $nama = htmlspecialchars($_POST['nama']);
+  $uom = $_POST['uom'];
+  $harga = htmlspecialchars($_POST['harga']);
+
+  $querymaterial = mysqli_query($conn, "SELECT * FROM material WHERE material_id = '$materialcode'");
+  if(mysqli_num_rows($querymaterial) > 0){
+    echo "<script>alert('Material code duplikat');location.href = 'material.php'</script>";
+    exit();
+  }
+
+  mysqli_query($conn, "INSERT INTO material VALUES ('$materialcode', '$nama', '$uom', $harga)");
+
+  if(mysqli_affected_rows($conn) > 0){
+    echo "<script>location.href = 'material.php'</script>";
+  } else {
+    echo mysqli_error($conn);
+    exit();
+  }
+}
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -20,7 +41,7 @@ $query = mysqli_query($conn, "SELECT * FROM material");
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-8">
             <h1 class="m-0">Master Bahan</h1>
           </div>
         </div><!-- /.row -->
@@ -31,7 +52,7 @@ $query = mysqli_query($conn, "SELECT * FROM material");
     <div class="content">
       <div class="container-fluid">
         <div class="row mb-3">
-          <div class="col-md-6">
+          <div class="col-md-9">
             <form action="" method="post">
               <div class="card">
                 <div class="card-body">
@@ -42,7 +63,7 @@ $query = mysqli_query($conn, "SELECT * FROM material");
                         <input name="material-code" type="text" class="form-control" id="material-code" placeholder="3LVL014M5SE002">
                       </div>
                       <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Material</label>
+                        <label for="nama" class="form-label">Material Name</label>
                         <input name="nama" type="text" class="form-control" id="nama" placeholder="LVL SENGON 14.5MM (UK. 1250MM X 1250MM)">
                       </div>    
                     </div>
@@ -117,20 +138,3 @@ $query = mysqli_query($conn, "SELECT * FROM material");
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $materialcode = htmlspecialchars($_POST['material-code']);
-  $nama = htmlspecialchars($_POST['nama']);
-  $uom = $_POST['uom'];
-  $harga = htmlspecialchars($_POST['harga']);
-
-  mysqli_query($conn, "INSERT INTO material VALUES ('$materialcode', '$nama', '$uom', $harga)");
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>location.href = 'material.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-?>
