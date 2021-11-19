@@ -5,7 +5,7 @@ if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
-header('Location: material.php');
+header('Location: item.php');
 ?>
 <?php require_once "template/header.php"; ?>
 

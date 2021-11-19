@@ -12,18 +12,18 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-          <a href="material.php" class="nav-link">
-            <i class="nav-icon far fas fa-list-ul"></i>
-            <p>
-              Master Material
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
           <a href="item.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
               Master Barang / Item Code
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="material.php" class="nav-link">
+            <i class="nav-icon far fas fa-list-ul"></i>
+            <p>
+              Master Material
             </p>
           </a>
         </li>
@@ -35,22 +35,14 @@
             </p>
           </a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <a href="so.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
               Sales Order
             </p>
           </a>
-        </li> -->
-        <!-- <li class="nav-item">
-          <a href="production-order.php" class="nav-link">
-            <i class="nav-icon far fas fa-list-ul"></i>
-            <p>
-              BOM
-            </p>
-          </a>
-        </li> -->
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

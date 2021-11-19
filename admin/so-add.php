@@ -7,7 +7,35 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$queryitem = mysqli_query($conn, "SELECT * FROM item");
+$queryitem = mysqli_query($conn, "SELECT * FROM bom INNER JOIN item ON bom.bom_item_code = item.item_id");
+// $querybahan = mysqli_query($conn, "SELECT * FROM bahan INNER JOIN bom ON bom.bom_id = bahan.bahan_bom_id");
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  $no_spk = htmlspecialchars($_POST['no_spk']);
+  $bom_id = htmlspecialchars($_POST['item']);
+  $lotnumber = htmlspecialchars($_POST['lot-number']);
+  $qty = htmlspecialchars($_POST['qty']);
+  // $tanggal = $_POST['tanggal'];
+
+  $querybom = mysqli_query($conn, "SELECT bahan.bahan_quantity, bom.bom_item_code FROM (((bom INNER JOIN item ON bom.bom_item_code = item.item_id) INNER JOIN bahan ON bom.bom_id = bahan.bahan_bom_id) INNER JOIN material ON material.material_id = bahan.bahan_material_id) WHERE bom.bom_id = $bom_id");
+
+
+  if(mysqli_num_rows($querybom) < 1){
+    echo "<script>alert('Tambahkan data pada menu BoM');location.href='so.php'</script>";
+    exit();
+  }
+  
+  while($bom = mysqli_fetch_assoc($querybom)){
+    $total_kebutuhan = $bom['bahan_quantity'] * $qty;
+    mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', $bom_id, '$lotnumber', $qty, $total_kebutuhan)"); 
+  }
+ 
+  if(mysqli_affected_rows($conn) > 0){
+    echo "<script>alert('Data has been saved!');location.href='so.php'</script>";
+  } else {
+    echo mysqli_error($conn);
+  }
+}
 ?>
 
 <?php require_once "template/header.php"; ?>
@@ -40,8 +68,8 @@ $queryitem = mysqli_query($conn, "SELECT * FROM item");
                   <div class="row">
                     <div class="col-md">
                       <div class="mb-3">
-                        <label for="projects" class="form-label">Project</label>
-                        <input name="projects" type="text" class="form-control" id="projects" placeholder="CTI/43275" required>
+                        <label for="no_spk" class="form-label">No SPK</label>
+                        <input name="no_spk" type="text" class="form-control" id="no_spk" placeholder="CTI/43275" required>
                       </div>
                       <div class="mb-3">
                         <label for="item" class="form-label">Item</label>
@@ -51,10 +79,6 @@ $queryitem = mysqli_query($conn, "SELECT * FROM item");
                           <?php endwhile; ?>
                         </select>
                       </div>
-                      <div class="mb-3">
-                        <label for="lot-number" class="form-label">Lot Number</label>
-                        <input name="lot-number" type="text" class="form-control" id="lot-number" placeholder="SFT21110028" required>
-                      </div>
                     </div>
                     <div class="col-md">
                       <div class="mb-3">
@@ -62,9 +86,13 @@ $queryitem = mysqli_query($conn, "SELECT * FROM item");
                         <input name="qty" type="text" class="form-control" id="qty" placeholder="4800" required>
                       </div>
                       <div class="mb-3">
+                        <label for="lot-number" class="form-label">Lot Number</label>
+                        <input name="lot-number" type="text" class="form-control" id="lot-number" placeholder="SFT21110028" required>
+                      </div>
+                      <!-- <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal</label>
                         <input name="tanggal" type="date" class="form-control" id="tanggal" required>
-                      </div>
+                      </div> -->
                     </div>                  
                   </div>
                   <div class="row">
@@ -86,23 +114,3 @@ $queryitem = mysqli_query($conn, "SELECT * FROM item");
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $projects = htmlspecialchars($_POST['projects']);
-  $item = htmlspecialchars($_POST['item']);
-  $lotnumber = htmlspecialchars($_POST['lot-number']);
-  $qty = htmlspecialchars($_POST['qty']);
-  $tanggal = $_POST['tanggal'];
-
-  mysqli_query($conn, "INSERT INTO so VALUES ('', '$item', '$projects', '$lotnumber', $qty, '$tanggal')");
- 
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been saved!');location.href='so.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-
-?>

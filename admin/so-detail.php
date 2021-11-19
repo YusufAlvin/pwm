@@ -6,9 +6,11 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-exit();
+$no_spk = $_GET['id'];
 
-$query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_nama, so.so_lot_number, so.so_qty_order, item.item_id, item.item_id FROM ((so INNER JOIN bom ON so.so_bom_id = bom.bom_id) INNER JOIN item ON item.item_id = bom.bom_item_code)");
+$query = mysqli_query($conn, "SELECT * FROM (((bahan INNER JOIN bom ON bom.bom_id = bahan.bahan_bom_id) INNER JOIN material ON bahan.bahan_material_id = material.material_id) INNER JOIN divisi ON bahan.bahan_divisi_id = divisi.divisi_id) WHERE bom.bom_id = $id");
+$query_item_code = mysqli_query($conn, "SELECT item_id FROM bom INNER JOIN item ON bom.bom_item_code = item.item_id WHERE bom_id = $id");
+$item_code = mysqli_fetch_assoc($query_item_code);
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -23,7 +25,7 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_nama, so.s
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Sales Order</h1>
+            <h1 class="m-0">Material Item Code <?= $item_code['item_id'] ?></h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -34,40 +36,39 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_nama, so.s
       <div class="container-fluid">
         <div class="row mb-3">
           <div class="col-md-5">
-            <a href="so-add.php">
+            <!-- <a href="bom-add.php">
               <button class="btn btn-primary">Add Data</button>
-            </a>
+            </a> -->
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="card table-responsive">
               <div class="card-body">
-                <table id="production-order" class="table table-striped display" style="width:100%">
+                <table id="spk" class="table table-striped display" style="width:100%">
                   <thead>
                       <tr>
                           <th>No</th>
-                          <th>Item Code</th>
-                          <th>No SPK</th>
-                          <th>Item</th>
-                          <th>Qty Order</th>
-                          <th>Lot Number</th>
+                          <th>Material Code</th>
+                          <th>Material</th>
+                          <th>Quantity</th>
+                          <th>UoM</th>
+                          <th>Divisi</th>
                           <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
-                    <?php while($so = mysqli_fetch_assoc($query)) : ?>
+                    <?php while($bom = mysqli_fetch_assoc($query)) : ?>
                       <tr>
                           <td></td>
-                          <td><?= $so['item_id']; ?></td>
-                          <td><?= $so['so_no_spk']; ?></td>
-                          <td><?= $so['item_nama']; ?></td>
-                          <td><?= $so['so_qty_order']; ?></td>
-                          <td><?= $so['so_lot_number']; ?></td>
+                          <td><?= $bom['material_id']; ?></td>
+                          <td><?= $bom['material_nama']; ?></td>
+                          <td><?= $bom['bahan_quantity']; ?></td>
+                          <td><?= $bom['material_uom']; ?></td>
+                          <td><?= $bom['divisi_nama']; ?></td>
                           <td>
-                            <!-- <a href="so-edit.php?id=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a> -->
-                            <a href="so-detail.php?id=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
-                            <a href="so-delete.php?id=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <a href="bom-detail-edit.php?id=<?= $bom['bahan_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="bom-detail-delete.php?id=<?= $bom['bahan_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

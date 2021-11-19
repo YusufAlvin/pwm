@@ -8,8 +8,8 @@ if($_SESSION['login'] != true){
 
 $id = $_GET['id'];
 
-$query = mysqli_query($conn, "SELECT * FROM (((bahan INNER JOIN bom ON bom.bom_id = bahan.bahan_bom_id) INNER JOIN material ON bahan.bahan_material_id = material.material_id) INNER JOIN divisi ON bahan.bahan_divisi_id = divisi.divisi_id) WHERE bom.bom_id = $id");
-$query_item_code = mysqli_query($conn, "SELECT item_id FROM bom INNER JOIN item ON bom.bom_item_code = item.item_id WHERE bom_id = $id");
+$query = mysqli_query($conn, "SELECT * FROM bom INNER JOIN item ON item.item_id = bom.bom_item_id INNER JOIN material ON material.material_id = bom.bom_material_id INNER JOIN divisi ON divisi.divisi_id = bom.bom_divisi_id WHERE bom.bom_item_id = '$id'");
+$query_item_code = mysqli_query($conn, "SELECT bom_item_id FROM bom WHERE bom_item_id = '$id'");
 $item_code = mysqli_fetch_assoc($query_item_code);
 ?>
 <?php require_once "template/header.php"; ?>
@@ -25,7 +25,7 @@ $item_code = mysqli_fetch_assoc($query_item_code);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Material Item Code <?= $item_code['item_id'] ?></h1>
+            <h1 class="m-0">Material Item Code <?= $item_code['bom_item_id'] ?></h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -54,7 +54,6 @@ $item_code = mysqli_fetch_assoc($query_item_code);
                           <th>Quantity</th>
                           <th>UoM</th>
                           <th>Divisi</th>
-                          <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -63,13 +62,9 @@ $item_code = mysqli_fetch_assoc($query_item_code);
                           <td></td>
                           <td><?= $bom['material_id']; ?></td>
                           <td><?= $bom['material_nama']; ?></td>
-                          <td><?= $bom['bahan_quantity']; ?></td>
+                          <td><?= $bom['bom_quantity']; ?></td>
                           <td><?= $bom['material_uom']; ?></td>
                           <td><?= $bom['divisi_nama']; ?></td>
-                          <td>
-                            <a href="bom-detail-edit.php?id=<?= $bom['bahan_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="bom-detail-delete.php?id=<?= $bom['bahan_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
-                          </td>
                       </tr> 
                     <?php endwhile; ?>                     
                   </tbody>

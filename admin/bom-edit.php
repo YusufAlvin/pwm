@@ -8,11 +8,15 @@ if($_SESSION['login'] != true){
 }
 
 $id = $_GET['id'];
+$querybom = mysqli_query($conn, "SELECT * FROM bom WHERE bom.bom_item_id = '$id'");
+$querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
+$querymaterial = mysqli_query($conn, "SELECT * FROM material");
+$queryitem = mysqli_query($conn, "SELECT * FROM item");
 
-$query1 = mysqli_query($conn, "SELECT * FROM divisi");
-$query2 = mysqli_query($conn, "SELECT * FROM material");
+$bom = mysqli_fetch_assoc($querybom);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+  $item = $item_id;
   $bom_id = $id;
   $material = $_POST['material'];
   $divisi = $_POST['divisi'];
@@ -39,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   for($k = 0; $k < count($material); $k++){
     // $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($new_quantity[$k]);
-    mysqli_query($conn, "INSERT INTO bahan VALUES ('', $bom_id, '$material[$k]', $new_divisi[$k], $new_quantity[$k])");
+    mysqli_query($conn, "INSERT INTO bahan VALUES ('', '$item', '$material[$k]', $new_divisi[$k], $new_quantity[$k])");
   }
 
   if(mysqli_affected_rows($conn) > 0){
@@ -65,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Add Material</h1>
+            <h1 class="m-0">Edit BoM</h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -79,19 +83,35 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="card">
               <div class="card-body">
                 <form action="" method="post">
-                  <?php while($material = mysqli_fetch_assoc($query2)) : ?>
+                  <select name="item" class="form-select form-control mb-3" aria-label="Default select example">
+                    <option value="" selected>Item</option>
+                    <?php while($item = mysqli_fetch_assoc($queryitem)) : ?>
+                      <?php if($bom['bom_item_id'] == $item['item_id']) : ?>
+                        <option value="<?= $item['item_id'] ?>" selected><?= $item['item_nama'] ?></option>
+                      <?php else : ?>
+                        <option value="<?= $item['item_id'] ?>"><?= $item['item_nama'] ?></option>
+                      <?php endif; ?>
+                    <?php endwhile; ?>
+                  </select>
+                  <?php while($material = mysqli_fetch_assoc($querymaterial)) : ?>
                   <div class="row mb-3">
                     <div class="col-md">
                       <div class="form-check">
-                        <input name="material[]" class="form-check-input" type="checkbox" value="<?= $material['material_id'] ?>" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                          <?= $material['material_nama'] ?>
-                        </label>
+                        <?php if($bom['bom_material_id'] == $material['material_id']) : ?>
+                          <input name="material[]" class="form-check-input" type="checkbox" value="<?= $material['material_id'] ?>" id="flexCheckDefault" checked>
+                          <label class="form-check-label" for="flexCheckDefault">
+                            <?= $material['material_nama'] ?>
+                        <?php else : ?>
+                          <input name="material[]" class="form-check-input" type="checkbox" value="<?= $material['material_id'] ?>" id="flexCheckDefault">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            <?= $material['material_nama'] ?>
+                          </label>
+                        <?php endif; ?>
                       </div>
                     </div>
                     <div class="col-md">
                       <div class="mb-3">
-                        <input name="quantity[]" type="text" class="form-control" id="quantity" placeholder="Quantity">
+                        <input name="quantity[]" type="text" class="form-control" id="quantity" value="<?= $bom['bom_quantity'] ?>">
                       </div>
                     </div>
                     <div class="col-md">
