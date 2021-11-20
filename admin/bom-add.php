@@ -1,5 +1,6 @@
 <?php 
 session_start();
+error_reporting(0);
 require_once "../koneksi.php";
 
 if($_SESSION['login'] != true){
@@ -19,6 +20,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $new_quantity = [];
   $new_divisi = [];
 
+  if(count($material) == 0 || $item == ""){
+    echo "<script>alert('Isi kolom item, material, quantity, divisi');location.href='bom-add.php'</script>";
+    exit();
+  }
+
   for($i = 0; $i < count($quantity); $i++){
     if($quantity[$i] == ""){
       continue;
@@ -33,11 +39,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     array_push($new_divisi, htmlspecialchars($divisi[$j]));
   }
 
-  // $query3 = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
-  // $quantity_order = mysqli_fetch_assoc($query3);
+  if(count($new_divisi) != count($material) || count($new_quantity) != count($material)){
+    echo "<script>alert('Isi kolom material, quantity, divisi');location.href='bom-add.php'</script>";
+    exit();
+  }
 
   for($k = 0; $k < count($material); $k++){
-    // $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($new_quantity[$k]);
     mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], $new_quantity[$k])");
   }
 
@@ -73,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-10">
             <div class="card">
               <div class="card-body">
                 <form action="" method="post">
@@ -83,6 +90,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       <option value="<?= $item['item_id'] ?>"><?= $item['item_nama'] ?></option>
                     <?php endwhile; ?>
                   </select>
+                  <hr>
                   <?php while($material = mysqli_fetch_assoc($querymaterial)) : ?>
                   <div class="row mb-3">
                     <div class="col-md">
@@ -117,7 +125,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                   <?php endwhile; ?>
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary" type="submit" name="add">Add</button>
+                      <button class="btn btn-primary" type="submit" name="add">Add Data</button>
                     </div>
                   </div>
                 </form>

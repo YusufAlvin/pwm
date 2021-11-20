@@ -39,7 +39,7 @@
           <a href="so.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>
-              Sales Order
+              Sales Order / SPK
             </p>
           </a>
         </li>
