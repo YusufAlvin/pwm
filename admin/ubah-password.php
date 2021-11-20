@@ -8,9 +8,9 @@ if($_SESSION['login'] != true){
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $passwordlama = $_POST["password-lama"];
-  $passwordbaru = $_POST["password-baru"];
-  $konfirmasi = $_POST["konfirmasi-password"];
+  $passwordlama = trim($_POST["password-lama"]);
+  $passwordbaru = trim($_POST["password-baru"]);
+  $konfirmasi = trim($_POST["konfirmasi-password"]);
   $username = $_SESSION['username'];
 
   $querypassword = mysqli_query($conn, "SELECT * FROM admin WHERE username = '$username'");
