@@ -13,6 +13,11 @@
         <p>Log Out</p>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="ubah-password.php" role="button">
+        <p>Ubah Password</p>
+      </a>
+    </li>
   </ul>
 
 </nav>
