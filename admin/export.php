@@ -26,7 +26,7 @@ class PDF extends PDF_MySQL_Table
 		$this->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
 		$this->Ln();
 		$this->SetFont('Arial','',16);
-		$this->Cell(0,6,'Bill of Material',0,1,'C');
+		$this->Cell(0,6,'Bon Material',0,1,'C');
 		$this->Ln();
 		// Ensure table header is printed
 		parent::Header();
@@ -68,29 +68,31 @@ $pdf->SetFont('Arial','',12);
 $pdf->Cell(37,10,'Item Code');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['item_id']);
-$pdf->Ln();
+$pdf->Ln(4.5);
 $pdf->Cell(37,10,'Item Name');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['item_nama']);
-$pdf->Ln();
+$pdf->Ln(4.5);
 $pdf->Cell(37,10,'LotNbr / SO');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['so_lot_number'] . ' / ' . $so['so_no_spk']);
-$pdf->Ln();
+$pdf->Ln(4.5);
 $pdf->Cell(37,10,'Qty Order');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['so_qty_order'] . ' PCS');
-$pdf->Ln();
+$pdf->Ln(4.5);
 $pdf->Cell(37,10,'Divisi');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['divisi_nama']);
 $pdf->Ln(15);
 // Second table: specify 3 columns
-$pdf->AddCol('material_id',65,'Item Code','C');
-$pdf->AddCol('material_nama',100,'Item','C');
+$pdf->AddCol('material_id',50,'Code','L');
+$pdf->AddCol('material_nama',100,'Item','L');
 $pdf->AddCol('so_material_qty',30,'Quantity','C');
-$pdf->AddCol('material_uom',30,'UoM','C');
-$pdf->AddCol('so_total_kebutuhan',50,'Total Kebutuhan','C');
+$pdf->AddCol('material_uom',20,'UoM','C');
+$pdf->AddCol('so_total_kebutuhan',35,'Total Kebutuhan','C');
+$pdf->AddCol('so_realisasi',20,'Realisasi','C');
+$pdf->AddCol('so_realisasi',20,'Realisasi','C');
 // $prop = array('HeaderColor'=>array(255,150,100),
 // 			'color1'=>array(210,245,255),
 // 			'color2'=>array(255,255,210),

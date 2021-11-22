@@ -45,7 +45,7 @@ $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id =
           <div class="col">
             <div class="card table-responsive">
               <div class="card-body">
-                <table id="spk" class="table table-striped display" style="width:100%">
+                <table id="so" class="table table-striped display" style="width:100%">
                   <thead>
                       <tr>
                           <th>No</th>

@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   
   while($bom = mysqli_fetch_assoc($querybom)){
     $total_kebutuhan = $bom['bom_quantity'] * $qty;
-    mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan)"); 
+    mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '')"); 
   }
  
   if(mysqli_affected_rows($conn) > 0){
