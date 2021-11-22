@@ -142,27 +142,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $itemno = htmlspecialchars($_POST['item-no']);
-  $item = htmlspecialchars($_POST['item']);
-  $baseqty = htmlspecialchars($_POST['base-qty']);
-  $plannedqty = htmlspecialchars($_POST['planned-qty']);
-  $issued = htmlspecialchars($_POST['issued']);
-  $available = htmlspecialchars($_POST['available']);
-  $uom = htmlspecialchars($_POST['uom']);
-  $warehouse = htmlspecialchars($_POST['warehouse']);
-
-  
-  mysqli_query($conn, "INSERT INTO spk VALUES ('', '$itemno', '$item', '$baseqty', '$plannedqty', '$issued', '$available', '$uom', '$warehouse')");
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been saved!');location.href='spk.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-
-?>

@@ -43,6 +43,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="realisasi.php" class="nav-link">
+            <i class="nav-icon far fas fa-list-ul"></i>
+            <p>
+              Realisasi
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

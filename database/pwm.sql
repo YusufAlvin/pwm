@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 05:09 AM
+-- Generation Time: Nov 22, 2021 at 01:06 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -66,7 +66,9 @@ INSERT INTO `bom` (`bom_id`, `bom_item_id`, `bom_material_id`, `bom_divisi_id`, 
 (27, 'barang code 1', 'material code 1', 2, 0.008),
 (28, 'barang code 1', '3SAN0150PP0003', 2, 0.005),
 (29, 'barang code 1', 'material code 1', 2, 0.008),
-(30, 'barang code 1', 'material code 2', 2, 0.009);
+(30, 'barang code 1', 'material code 2', 2, 0.009),
+(31, 'barang code 2', 'material code 1', 1, 0.5),
+(32, 'barang code 2', 'material code 2', 2, 0.6);
 
 -- --------------------------------------------------------
 
@@ -142,6 +144,35 @@ INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `materia
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `realisasi`
+--
+
+CREATE TABLE `realisasi` (
+  `so_id` int(11) NOT NULL,
+  `so_no_spk` varchar(255) NOT NULL,
+  `so_item_id` varchar(255) NOT NULL,
+  `so_material_id` varchar(255) NOT NULL,
+  `so_material_qty` float NOT NULL,
+  `so_divisi_id` int(11) NOT NULL,
+  `so_qty_order` float NOT NULL,
+  `so_lot_number` varchar(255) NOT NULL,
+  `so_total_kebutuhan` float NOT NULL,
+  `so_qty` int(11) NOT NULL,
+  `so_realisasi` float NOT NULL,
+  `so_tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `realisasi`
+--
+
+INSERT INTO `realisasi` (`so_id`, `so_no_spk`, `so_item_id`, `so_material_id`, `so_material_qty`, `so_divisi_id`, `so_qty_order`, `so_lot_number`, `so_total_kebutuhan`, `so_qty`, `so_realisasi`, `so_tanggal`) VALUES
+(1, 'SPK1', '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 0.005, 1, 2000, 'sft1', 10, 10, 9, '2021-11-22'),
+(2, 'SPK1', '1LOCCFTCTIS3SM1', 'material code 1', 0.006, 1, 2000, 'sft1', 12, 10, 10, '2021-11-22');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `so`
 --
 
@@ -163,10 +194,8 @@ CREATE TABLE `so` (
 --
 
 INSERT INTO `so` (`so_id`, `so_no_spk`, `so_item_id`, `so_material_id`, `so_material_qty`, `so_divisi_id`, `so_qty_order`, `so_lot_number`, `so_total_kebutuhan`, `so_realisasi`) VALUES
-(14, 's0112', '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 0.005, 1, 4800, 'SFT2111002', 24, ''),
-(15, 's0112', '1LOCCFTCTIS3SM1', 'material code 1', 0.006, 1, 4800, 'SFT2111002', 28.8, ''),
-(16, '1LOC1111', '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 0.005, 1, 4800, 'SFT21100023', 24, ''),
-(17, '1LOC1111', '1LOCCFTCTIS3SM1', 'material code 1', 0.006, 1, 4800, 'SFT21100023', 28.8, '');
+(1, 'SPK1', '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 0.005, 1, 2000, 'sft1', 10, ''),
+(2, 'SPK1', '1LOCCFTCTIS3SM1', 'material code 1', 0.006, 1, 2000, 'sft1', 12, '');
 
 --
 -- Indexes for dumped tables
@@ -203,6 +232,12 @@ ALTER TABLE `material`
   ADD PRIMARY KEY (`material_id`);
 
 --
+-- Indexes for table `realisasi`
+--
+ALTER TABLE `realisasi`
+  ADD PRIMARY KEY (`so_id`);
+
+--
 -- Indexes for table `so`
 --
 ALTER TABLE `so`
@@ -222,7 +257,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -231,10 +266,16 @@ ALTER TABLE `divisi`
   MODIFY `divisi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `realisasi`
+--
+ALTER TABLE `realisasi`
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

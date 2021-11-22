@@ -9,6 +9,7 @@ if($_SESSION['login'] != true){
 
 $id = $_GET['id'];
 
+mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$id'");
 mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$id'");
 
 if(mysqli_affected_rows($conn) > 0){
