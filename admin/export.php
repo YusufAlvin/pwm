@@ -12,7 +12,7 @@ $soprojects = $_GET['projects'];
 $divisi = $_GET['divisi'];
 
 if($divisi == "" || $soprojects == ""){
-	echo "<script>alert('Harap pilih Projects dan Divisi');location.href='export-filter.php'</script>";
+	header('Location: export-filter.php?pesan=fieldkosong');
 	exit();
 }
 
@@ -59,12 +59,15 @@ $pdf = new PDF('L','mm','A4');
 // $pdf->AddPage();
 // First table: output all columns
 // $pdf->Table($link,'SELECT * FROM ((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id)');
+
 $queryso = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
+
 $so = mysqli_fetch_assoc($queryso);
 if(mysqli_num_rows($queryso) < 1) {
-	echo "<script>alert('Tidak ada data!');location.href='export-filter.php'</script>";
+	header('Location: export-realisasi-filter.php?pesan=datakosong');
 	exit();
 }
+
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->Cell(37,10,'Item Code');

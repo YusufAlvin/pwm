@@ -23,6 +23,24 @@ $querynospk = mysqli_query($conn, "SELECT DISTINCT so_no_spk FROM realisasi");
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Export Filter</h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+              <?php if($_GET['pesan'] == 'fieldkosong') : ?>
+                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                  <strong>Kolom No SPK, Item Code, Tanggal harus diisi</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>   
+              <?php endif; ?>
+              <?php if($_GET['pesan'] == 'datakosong') : ?>
+                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                  <strong>Tidak ada data</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>   
+              <?php endif; ?>   
+            <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -52,14 +70,9 @@ $querynospk = mysqli_query($conn, "SELECT DISTINCT so_no_spk FROM realisasi");
                       </a>
                     <?php endwhile; ?>
                   </select>
-                  <select name="tanggal" class="form-select form-control mb-3" aria-label="Default select example">
-                    <option value="" selected>Tanggal</option>
-                    <?php while ($tanggal = mysqli_fetch_assoc($querytanggal)) : ?>
-                      <a href="export-realisasi.php?tanggal="<?= $tanggal['so_tanggal']; ?>>
-                          <option value="<?= $tanggal['so_tanggal']; ?>"><?= $tanggal['so_tanggal']; ?></option>
-                      </a>
-                    <?php endwhile; ?>
-                  </select>
+                  <div class="mb-3">
+                    <input name="tanggal" type="date" class="form-control" id="tanggal" required>
+                  </div> 
                   <button name='export' type="submit" class="btn btn-primary">Export</button>
                 </form>
               </div>

@@ -22,6 +22,24 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Export Filter</h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+              <?php if($_GET['pesan'] == 'fieldkosong') : ?>
+                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                  <strong>Kolom No SPK, Divisi harus diisi</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>   
+              <?php endif; ?>
+              <?php if($_GET['pesan'] == 'datakosong') : ?>
+                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                  <strong>Tidak ada data</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>   
+              <?php endif; ?>   
+            <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
