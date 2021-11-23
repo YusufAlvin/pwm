@@ -10,6 +10,7 @@ if($_SESSION['login'] != true){
 $id = $_GET['materialid'];
 
 mysqli_query($conn, "DELETE FROM bom WHERE bom_material_id = '$id'");
+mysqli_query($conn, "DELETE FROM realisasi WHERE so_material_id = '$id'");
 mysqli_query($conn, "DELETE FROM so WHERE so_material_id = '$id'");
 mysqli_query($conn, "DELETE FROM material WHERE material_id = '$id'");
 

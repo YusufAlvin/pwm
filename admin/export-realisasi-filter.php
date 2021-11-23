@@ -5,7 +5,6 @@ if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
-$querytanggal = mysqli_query($conn, "SELECT DISTINCT so_tanggal FROM realisasi");
 $queryitemcode = mysqli_query($conn, "SELECT DISTINCT so_item_id FROM realisasi");
 $querynospk = mysqli_query($conn, "SELECT DISTINCT so_no_spk FROM realisasi");
 ?>

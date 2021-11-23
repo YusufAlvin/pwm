@@ -67,8 +67,7 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <th>No</th>
                           <th>Material Code</th>
                           <th>Material</th>
-                          <th>Quantity</th>
-                          <th>Total Kebutuhan</th>
+                          <th>Quantity Bon Bahan</th>
                           <th>Realisasi</th>
                           <th>Tanggal Input</th>
                           <th>Action</th>
@@ -80,7 +79,6 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <td></td>
                           <td><?= $so['material_id']; ?></td>
                           <td><?= $so['material_nama']; ?></td>
-                          <td><?= $so['so_material_qty']; ?></td>
                           <td><?= $so['so_total_kebutuhan']; ?></td>
                           <td><?= $so['so_realisasi']; ?></td>
                           <td><?= $so['so_tanggal']; ?></td>

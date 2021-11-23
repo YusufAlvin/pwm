@@ -60,7 +60,10 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
               <button class="btn btn-primary">Add Data</button>
             </a>
             <a href="export-filter.php">
-              <button class="btn btn-primary">Export</button>
+              <button class="btn btn-primary">Export PDF</button>
+            </a>
+            <a href="export-so-excel.php">
+              <button class="btn btn-primary">Export Excel</button>
             </a>
           </div>
         </div>
@@ -72,8 +75,8 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                   <thead>
                       <tr>
                           <th>No</th>
-                          <th>Item Code</th>
                           <th>No SPK</th>
+                          <th>Item Code</th>
                           <th>Item</th>
                           <th>Qty Order</th>
                           <th>Lot Number</th>
@@ -84,8 +87,8 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                     <?php while($so = mysqli_fetch_assoc($query)) : ?>
                       <tr>
                           <td></td>
-                          <td><?= $so['item_id']; ?></td>
                           <td><?= $so['so_no_spk']; ?></td>
+                          <td><?= $so['item_id']; ?></td>
                           <td><?= $so['item_nama']; ?></td>
                           <td><?= $so['so_qty_order']; ?></td>
                           <td><?= $so['so_lot_number']; ?></td>

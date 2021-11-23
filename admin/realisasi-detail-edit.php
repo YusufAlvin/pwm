@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 }
 
-$queryrealisasi = mysqli_query($conn, "SELECT realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal FROM realisasi WHERE realisasi.so_id = $id");
+$queryrealisasi = mysqli_query($conn, "SELECT realisasi.so_total_kebutuhan, realisasi.so_realisasi, realisasi.so_tanggal FROM realisasi WHERE realisasi.so_id = $id");
 
 $realisasi = mysqli_fetch_assoc($queryrealisasi);
 ?>
@@ -78,8 +78,8 @@ $realisasi = mysqli_fetch_assoc($queryrealisasi);
                   <div class="row">
                     <div class="col-md">
                       <div class="mb-3">
-                        <label for="quantity" class="form-label">Quantity</label>
-                        <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $realisasi['so_material_qty'] ?>" disabled>                                               
+                        <label for="totalkebutuhan" class="form-label">Quantity Bon Bahan</label>
+                        <input name="totalkebutuhan" type="text" class="form-control" id="totalkebutuhan" value="<?= $realisasi['so_total_kebutuhan'] ?>" disabled>                                               
                       </div>
                       <div class="mb-3">
                         <label for="realisasi" class="form-label">Realisasi</label>

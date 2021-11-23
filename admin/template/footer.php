@@ -169,6 +169,35 @@
       } );
     } ).draw();
 
+    let soExcel = $('#so-excel').DataTable({
+      dom: 'Bfrtip',
+      lengthMenu: [
+        [ 10, 25, 50, -1 ],
+        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+      ],
+      buttons: [
+        'pageLength',
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+              columns: [0,1,2,3,4,5,6,7,8,9,10,11,12]
+          }
+        }
+      ],
+      columnDefs: [ {
+        "searchable": false,
+        "orderable": false,
+        "targets": 0
+      } ],
+      order: [[ 1, 'asc' ]]
+    });
+    soExcel.on( 'order.dt search.dt', function () {
+      soExcel.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+          soExcel.cell(cell).invalidate('dom');
+      } );
+    } ).draw();
+
 } );
 </script>
 </body>
