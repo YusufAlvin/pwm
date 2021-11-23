@@ -30,8 +30,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
   if(mysqli_affected_rows($conn) > 0){
     header('Location: so.php?pesan=sukses');
+    exit();
   } else {
     echo mysqli_error($conn);
+    exit();
   }
 }
 ?>

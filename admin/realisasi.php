@@ -32,7 +32,7 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
       <div class="container-fluid">
         <div class="row mb-3">
           <div class="col-md-5">
-            <a href="export-realisasi.php">
+            <a href="export-realisasi-filter.php">
               <button class="btn btn-primary">Export</button>
             </a>
           </div>
@@ -45,7 +45,9 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                   <thead>
                       <tr>
                           <th>No</th>
+                          <th>Item Code</th>
                           <th>No SPK</th>
+                          <th>Item</th>
                           <th>Qty Order</th>
                           <th>Lot Number</th>
                           <th>Action</th>
@@ -55,9 +57,11 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                     <?php while($so = mysqli_fetch_assoc($query)) : ?>
                       <tr>
                           <td></td>
+                          <td><?= $so['item_id']; ?></td>
                           <td><?= $so['so_no_spk']; ?></td>
                           <td><?= $so['item_nama']; ?></td>
                           <td><?= $so['so_qty_order']; ?></td>
+                          <td><?= $so['so_lot_number']; ?></td>
                           <td>
                             <a href="realisasi-detail.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
                           </td>

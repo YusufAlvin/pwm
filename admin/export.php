@@ -1,6 +1,8 @@
 <?php
 session_start();
-require('mysql_table.php');
+require_once "../koneksi.php";
+require_once "mysql_table.php";
+
 if($_SESSION['login'] != true){
 	header('Location: ../');
 	exit();
@@ -51,13 +53,13 @@ class PDF extends PDF_MySQL_Table
 }
 
 // Connect to database
-$link = mysqli_connect('localhost','root','','pwm');
+// $link = mysqli_connect('localhost','root','','pwm');
 
 $pdf = new PDF('L','mm','A4');
 // $pdf->AddPage();
 // First table: output all columns
 // $pdf->Table($link,'SELECT * FROM ((bom INNER JOIN so ON bom.bom_so_id = so.so_id) INNER JOIN material ON bom.bom_material_id = material.material_id)');
-$queryso = mysqli_query($link, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
+$queryso = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
 $so = mysqli_fetch_assoc($queryso);
 if(mysqli_num_rows($queryso) < 1) {
 	echo "<script>alert('Tidak ada data!');location.href='export-filter.php'</script>";
@@ -97,7 +99,7 @@ $pdf->AddCol('so_realisasi',20,'Realisasi','C');
 // 			'color1'=>array(210,245,255),
 // 			'color2'=>array(255,255,210),
 // 			'padding'=>10);
-$pdf->Table($link,"SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
+$pdf->Table($conn,"SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
 $pdf->Ln(20);
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(0,10,'APPROVAL SHEET',0,0,'C');

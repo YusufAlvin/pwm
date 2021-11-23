@@ -9,7 +9,7 @@ if($_SESSION['login'] != true){
 $no_spk = $_GET['nospk'];
 
 
-$query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id WHERE realisasi.so_no_spk = '$no_spk'");
+$query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id, realisasi.so_qty_order FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id WHERE realisasi.so_no_spk = '$no_spk'");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -67,8 +67,8 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <th>No</th>
                           <th>Material Code</th>
                           <th>Material</th>
-                          <th>Total Kebutuhan</th>
                           <th>Quantity</th>
+                          <th>Total Kebutuhan</th>
                           <th>Realisasi</th>
                           <th>Tanggal Input</th>
                           <th>Action</th>
@@ -80,8 +80,8 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <td></td>
                           <td><?= $so['material_id']; ?></td>
                           <td><?= $so['material_nama']; ?></td>
+                          <td><?= $so['so_material_qty']; ?></td>
                           <td><?= $so['so_total_kebutuhan']; ?></td>
-                          <td><?= $so['so_qty']; ?></td>
                           <td><?= $so['so_realisasi']; ?></td>
                           <td><?= $so['so_tanggal']; ?></td>
                           <td>

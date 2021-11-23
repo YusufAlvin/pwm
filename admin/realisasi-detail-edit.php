@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     header('Location: realisasi-detail.php?' . $_SERVER['QUERY_STRING'] . '&pesan=validasi');
     exit();
   } else {
-    mysqli_query($conn, "UPDATE realisasi SET so_qty = $quantity, so_realisasi = $realisasi, so_tanggal = '$tanggal' WHERE so_id = $soid");  
+    mysqli_query($conn, "UPDATE realisasi SET so_realisasi = $realisasi, so_tanggal = '$tanggal' WHERE so_id = $soid");  
 
     if(mysqli_affected_rows($conn) > 0){
       header('Location: realisasi-detail.php?' . $_SERVER['QUERY_STRING'] . '&pesan=ubah');
@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 }
 
-$queryrealisasi = mysqli_query($conn, "SELECT realisasi.so_qty, realisasi.so_realisasi, realisasi.so_tanggal FROM realisasi WHERE realisasi.so_id = $id");
+$queryrealisasi = mysqli_query($conn, "SELECT realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal FROM realisasi WHERE realisasi.so_id = $id");
 
 $realisasi = mysqli_fetch_assoc($queryrealisasi);
 ?>
@@ -79,7 +79,7 @@ $realisasi = mysqli_fetch_assoc($queryrealisasi);
                     <div class="col-md">
                       <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $realisasi['so_qty'] ?>" required>                                               
+                        <input name="quantity" type="text" class="form-control" id="quantity" value="<?= $realisasi['so_material_qty'] ?>" disabled>                                               
                       </div>
                       <div class="mb-3">
                         <label for="realisasi" class="form-label">Realisasi</label>
