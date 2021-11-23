@@ -6,7 +6,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$item_id = $_GET['id'];
+$item_id = $_GET['itemid'];
 $query = mysqli_query($conn, "SELECT * FROM item WHERE item_id = '$item_id'");
 $item = mysqli_fetch_assoc($query);
 
@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   mysqli_query($conn, "UPDATE item SET item_nama = '$nama', item_panjang = $panjang, item_lebar = $lebar, item_tebal = $tebal, item_kubikasi = $kubikasi, item_uom = '$uom' WHERE item_id = '$itemcode'");
 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited');location.href = 'item.php'</script>";
+    header('Location: item.php?pesan=ubah');
   } else {
     echo mysqli_error($conn);
   }

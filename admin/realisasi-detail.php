@@ -6,7 +6,8 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$no_spk = $_GET['id'];
+$no_spk = $_GET['nospk'];
+
 
 $query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id WHERE realisasi.so_no_spk = '$no_spk'");
 ?>
@@ -24,6 +25,23 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Detail No SPK <?= $no_spk ?></h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+              <?php if($_GET['pesan'] == 'ubah') : ?>
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                  Realisasi berhasil ditambahkan
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <?php elseif($_GET['pesan'] == 'validasi') : ?>
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                  Realisasi melebihi total kebutuhan
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <?php endif; ?>    
+            <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -67,7 +85,7 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <td><?= $so['so_realisasi']; ?></td>
                           <td><?= $so['so_tanggal']; ?></td>
                           <td>
-                            <a href="realisasi-detail-edit.php?id=<?= $so['so_id']; ?>&nospk=<?=$no_spk?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="realisasi-detail-edit.php?nospk=<?=$no_spk?>&id=<?= $so['so_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

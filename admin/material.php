@@ -15,14 +15,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
   $querymaterial = mysqli_query($conn, "SELECT * FROM material WHERE material_id = '$materialcode'");
   if(mysqli_num_rows($querymaterial) > 0){
-    echo "<script>alert('Material code duplikat');location.href = 'material.php'</script>";
+    header('Location: material.php?pesan=duplikat');
     exit();
   }
 
   mysqli_query($conn, "INSERT INTO material VALUES ('$materialcode', '$nama', '$uom', $harga)");
 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>location.href = 'material.php'</script>";
+    header('Location: material.php?pesan=sukses');
   } else {
     echo mysqli_error($conn);
     exit();
@@ -43,6 +43,37 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <div class="row mb-2">
           <div class="col-sm-8">
             <h1 class="m-0">Master Bahan</h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+                <?php if($_GET['pesan'] == 'sukses') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil ditambahkan
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'delete') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil dihapus
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'duplikat') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Item code sudah terdaftar
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'ubah') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil diubah
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php endif; ?>    
+              <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -118,8 +149,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                           <td><?= $material['material_uom']; ?></td>
                           <td><?= $material['material_harga']; ?></td>
                           <td>
-                            <a href="material-edit.php?id=<?= $material['material_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="material-delete.php?id=<?= $material['material_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <a href="material-edit.php?materialid=<?= $material['material_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="material-delete.php?materialid=<?= $material['material_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

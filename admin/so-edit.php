@@ -7,7 +7,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$no_spk = $_GET['id'];
+$no_spk = $_GET['nospk'];
 
 $queryso = mysqli_query($conn, "SELECT * FROM so INNER JOIN bom ON so.so_bom_id = bom.bom_id WHERE so_no_spk = '$no_spk'");
 $queryitem = mysqli_query($conn, "SELECT * FROM item");

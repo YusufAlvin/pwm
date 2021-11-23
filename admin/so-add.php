@@ -8,6 +8,11 @@ if($_SESSION['login'] != true){
 }
 
 $queryitem = mysqli_query($conn, "SELECT DISTINCT item.item_id, item.item_nama FROM bom INNER JOIN item ON item.item_id = bom.bom_item_id");
+$querybom = mysqli_query($conn, "SELECT * FROM bom");
+if(mysqli_num_rows($querybom) < 1){
+  header('Location: so.php?pesan=kosong');
+  exit();
+}
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $no_spk = htmlspecialchars($_POST['no_spk']);
@@ -15,21 +20,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $lotnumber = htmlspecialchars($_POST['lot-number']);
   $qty = htmlspecialchars($_POST['qty']);
 
-  $querybom = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");
-
-  if(mysqli_num_rows($querybom) < 1){
-    echo "<script>alert('Tambahkan data pada menu BoM');location.href='so.php'</script>";
-    exit();
-  }
+  $querybom2 = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");  
   
-  while($bom = mysqli_fetch_assoc($querybom)){
+  while($bom = mysqli_fetch_assoc($querybom2)){
     $total_kebutuhan = $bom['bom_quantity'] * $qty;
     mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '')");
     mysqli_query($conn, "INSERT INTO realisasi VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '', '', '')"); 
   }
  
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been saved!');location.href='so.php'</script>";
+    header('Location: so.php?pesan=sukses');
   } else {
     echo mysqli_error($conn);
   }

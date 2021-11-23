@@ -17,14 +17,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
   $queryitem = mysqli_query($conn, "SELECT * FROM item WHERE item_id = '$itemcode'");
   if(mysqli_num_rows($queryitem) > 0){
-    echo "<script>alert('Item code sudah duplikat');location.href = 'item.php'</script>";
+    header('Location: item.php?pesan=duplikat');
     exit();
   }
 
   mysqli_query($conn, "INSERT INTO item VALUES ('$itemcode', '$nama', $panjang, $lebar, $tebal, $kubikasi, '$uom')");
 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>location.href = 'item.php'</script>";
+    header('Location: item.php?pesan=sukses');
+    exit();
   } else {
     echo mysqli_error($conn);
   }
@@ -46,10 +47,42 @@ $query = mysqli_query($conn, "SELECT * FROM item");
         <div class="row mb-2">
           <div class="col-sm-8">
             <h1 class="m-0">Master Barang</h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+                <?php if($_GET['pesan'] == 'sukses') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil ditambahkan
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'delete') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil dihapus
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'duplikat') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Item code sudah terdaftar
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'ubah') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil diubah
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php endif; ?>    
+              <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+
 
     <!-- Main content -->
     <div class="content">
@@ -135,8 +168,8 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                           <td><?= $item['item_kubikasi']; ?></td>
                           <td><?= $item['item_uom']; ?></td>
                           <td>
-                            <a href="item-edit.php?id=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="item-delete.php?id=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <a href="item-edit.php?itemid=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="item-delete.php?itemid=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

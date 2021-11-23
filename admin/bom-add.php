@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }
 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Material has been added!');location.href='bom.php'</script>";
+    header('Location: bom.php?pesan=sukses');
   } else {
     echo mysqli_error($conn);
     exit();

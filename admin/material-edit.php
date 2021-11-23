@@ -1,13 +1,30 @@
 <?php 
 session_start();
 require_once "../koneksi.php";
+
 if($_SESSION['login'] != true){
   header('Location: ../');
   exit();
 }
-$material_id = $_GET['id'];
+
+$material_id = $_GET['materialid'];
 $query = mysqli_query($conn, "SELECT * FROM material WHERE material_id = '$material_id'");
 $material = mysqli_fetch_assoc($query);
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $materialcode = $material_id;
+  $nama = htmlspecialchars($_POST['nama']);
+  $uom = $_POST['uom'];
+  $harga = htmlspecialchars($_POST['harga']);
+
+  mysqli_query($conn, "UPDATE material SET material_nama = '$nama', material_uom = '$uom', material_harga = $harga WHERE material_id = '$materialcode'");
+
+  if(mysqli_affected_rows($conn) > 0){
+    header('Location: material.php?pesan=ubah');
+  } else {
+    echo mysqli_error($conn);
+  }
+}
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -82,20 +99,3 @@ $material = mysqli_fetch_assoc($query);
 
 
 <?php require_once "template/footer.php"; ?>
-
-<?php 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $materialcode = $material_id;
-  $nama = htmlspecialchars($_POST['nama']);
-  $uom = $_POST['uom'];
-  $harga = htmlspecialchars($_POST['harga']);
-
-  mysqli_query($conn, "UPDATE material SET material_nama = '$nama', material_uom = '$uom', material_harga = $harga WHERE material_id = '$materialcode'");
-
-  if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited');location.href = 'material.php'</script>";
-  } else {
-    echo mysqli_error($conn);
-  }
-}
-?>

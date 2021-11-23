@@ -6,7 +6,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$id = $_GET['id'];
+$id = $_GET['itemid'];
 
 $query = mysqli_query($conn, "SELECT * FROM bom INNER JOIN item ON item.item_id = bom.bom_item_id INNER JOIN material ON material.material_id = bom.bom_material_id INNER JOIN divisi ON divisi.divisi_id = bom.bom_divisi_id WHERE bom.bom_item_id = '$id'");
 $query_item_code = mysqli_query($conn, "SELECT bom_item_id FROM bom WHERE bom_item_id = '$id'");
@@ -25,7 +25,24 @@ $item_code = mysqli_fetch_assoc($query_item_code);
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Material Item Code <?= $item_code['bom_item_id'] ?></h1>
+            <h1 class="m-0">Material Item Code <?= $id ?></h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+              <?php if($_GET['pesan'] == 'ubah') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil diubah
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'delete') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil dihapus
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+              <?php endif; ?>    
+            <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -69,8 +86,8 @@ $item_code = mysqli_fetch_assoc($query_item_code);
                           <td><?= $bom['material_uom']; ?></td>
                           <td><?= $bom['divisi_nama']; ?></td>
                           <td>
-                            <a href="bom-detail-edit.php?id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="bom-detail-delete.php?id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <a href="bom-detail-edit.php?itemid=<?= $id ?>&id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="bom-detail-delete.php?itemid=<?= $id ?>&id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

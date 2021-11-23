@@ -22,6 +22,30 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Sales Order</h1>
+            <?php if(isset($_GET['pesan'])) : ?>
+                <?php if($_GET['pesan'] == 'sukses') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil ditambahkan
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'delete') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil dihapus
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php elseif($_GET['pesan'] == 'kosong') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data BoM Kosong. Tambahkan BoM terlebih dahulu
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php endif; ?>    
+              <?php endif; ?>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -66,9 +90,8 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                           <td><?= $so['so_qty_order']; ?></td>
                           <td><?= $so['so_lot_number']; ?></td>
                           <td>
-                            <!-- <a href="so-edit.php?id=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a> -->
-                            <a href="so-detail.php?id=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
-                            <a href="so-delete.php?id=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <a href="so-detail.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
+                            <a href="so-delete.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

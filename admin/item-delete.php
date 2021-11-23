@@ -7,14 +7,15 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$id = $_GET['id'];
+$id = $_GET['itemid'];
 
 mysqli_query($conn, "DELETE FROM bom WHERE bom_item_id = '$id'");
 mysqli_query($conn, "DELETE FROM so WHERE so_item_id = '$id'");
 mysqli_query($conn, "DELETE FROM item WHERE item_id = '$id'");
 
 if(mysqli_affected_rows($conn) > 0){
-  header('Location: item.php');
+  header('Location: item.php?pesan=delete');
+  exit();
 } else {
   echo mysqli_error($conn);
 }

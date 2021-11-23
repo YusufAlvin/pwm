@@ -26,15 +26,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $divisi = $_POST['divisi'];
   $quantity = htmlspecialchars($_POST['quantity']);
 
-  // $queryso = mysqli_query($conn, "SELECT so_quantity FROM so WHERE so_id = $so_id");
-  // $quantity_order = mysqli_fetch_assoc($queryso);
-
-  // $totalkebutuhan = floatval($quantity_order['so_quantity']) * floatval($quantity);
-
   mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");  
 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited!');location.href='bom.php'</script>";
+    header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
   } else {
     echo mysqli_error($conn);
     exit();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 01:06 PM
+-- Generation Time: Nov 23, 2021 at 01:15 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -55,21 +55,6 @@ CREATE TABLE `bom` (
   `bom_quantity` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `bom`
---
-
-INSERT INTO `bom` (`bom_id`, `bom_item_id`, `bom_material_id`, `bom_divisi_id`, `bom_quantity`) VALUES
-(24, '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 1, 0.005),
-(25, '1LOCCFTCTIS3SM1', 'material code 1', 1, 0.006),
-(26, 'barang code 1', '3SAN0150PP0003', 2, 0.005),
-(27, 'barang code 1', 'material code 1', 2, 0.008),
-(28, 'barang code 1', '3SAN0150PP0003', 2, 0.005),
-(29, 'barang code 1', 'material code 1', 2, 0.008),
-(30, 'barang code 1', 'material code 2', 2, 0.009),
-(31, 'barang code 2', 'material code 1', 1, 0.5),
-(32, 'barang code 2', 'material code 2', 2, 0.6);
-
 -- --------------------------------------------------------
 
 --
@@ -111,11 +96,11 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_nama`, `item_panjang`, `item_lebar`, `item_tebal`, `item_kubikasi`, `item_uom`) VALUES
-('1LOCCFTCTIS3SM1', 'CTI MLMALBS3S', 4876, 139, 13, 8.8109, 'PCS'),
-('barang code 1', 'barang 1', 10, 20, 30, 0.006, 'SHEET'),
+('1LOCCFTCTIS3SM1', 'CTI MLMALBS3S', 4876, 139, 13, 8.8109, 'SHEET'),
+('barang code 1', 'barang 1', 10, 20, 30, 0.006, 'GR'),
 ('barang code 2', 'barang 2', 30, 20, 50, 0.03, 'BTL'),
 ('barang code 3', 'barang 3', 12, 13, 14, 0.0022, 'KG'),
-('barang code 4', 'barang 4', 12, 13, 50, 0.0078, 'GR');
+('barang code 4', 'barang 4', 12, 13, 50, 0.0078, 'KG');
 
 -- --------------------------------------------------------
 
@@ -138,8 +123,8 @@ INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `materia
 ('3SAN0150PP0003', 'AMPLAS BELT 2200MM X 1330MM P.150', 'PCS', 15000),
 ('material code 1', 'material 1', 'SHEET', 20000),
 ('material code 2', 'material 2', 'KG', 25000),
-('material code 3', 'material 3', 'BTL', 50000),
-('material code 4', 'material 4', 'GR', 35000);
+('material code 3', 'material 3', 'M3', 50000),
+('material code 4', 'material 4', 'SHEET', 50000);
 
 -- --------------------------------------------------------
 
@@ -157,18 +142,10 @@ CREATE TABLE `realisasi` (
   `so_qty_order` float NOT NULL,
   `so_lot_number` varchar(255) NOT NULL,
   `so_total_kebutuhan` float NOT NULL,
-  `so_qty` int(11) NOT NULL,
+  `so_qty` float NOT NULL,
   `so_realisasi` float NOT NULL,
   `so_tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `realisasi`
---
-
-INSERT INTO `realisasi` (`so_id`, `so_no_spk`, `so_item_id`, `so_material_id`, `so_material_qty`, `so_divisi_id`, `so_qty_order`, `so_lot_number`, `so_total_kebutuhan`, `so_qty`, `so_realisasi`, `so_tanggal`) VALUES
-(1, 'SPK1', '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 0.005, 1, 2000, 'sft1', 10, 10, 9, '2021-11-22'),
-(2, 'SPK1', '1LOCCFTCTIS3SM1', 'material code 1', 0.006, 1, 2000, 'sft1', 12, 10, 10, '2021-11-22');
 
 -- --------------------------------------------------------
 
@@ -188,14 +165,6 @@ CREATE TABLE `so` (
   `so_total_kebutuhan` float NOT NULL,
   `so_realisasi` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `so`
---
-
-INSERT INTO `so` (`so_id`, `so_no_spk`, `so_item_id`, `so_material_id`, `so_material_qty`, `so_divisi_id`, `so_qty_order`, `so_lot_number`, `so_total_kebutuhan`, `so_realisasi`) VALUES
-(1, 'SPK1', '1LOCCFTCTIS3SM1', '3SAN0150PP0003', 0.005, 1, 2000, 'sft1', 10, ''),
-(2, 'SPK1', '1LOCCFTCTIS3SM1', 'material code 1', 0.006, 1, 2000, 'sft1', 12, '');
 
 --
 -- Indexes for dumped tables
@@ -257,7 +226,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -269,13 +238,13 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `realisasi`
 --
 ALTER TABLE `realisasi`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `so`
 --
 ALTER TABLE `so`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

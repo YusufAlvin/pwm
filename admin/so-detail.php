@@ -6,11 +6,9 @@ if($_SESSION['login'] != true){
   exit();
 }
 
-$no_spk = $_GET['id'];
+$no_spk = $_GET['nospk'];
 
 $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_no_spk = '$no_spk'");
-// $query_item_code = mysqli_query($conn, "SELECT so_item_id FROM so WHERE so_no_spk = '$no_spk'");
-// $item_code = mysqli_fetch_assoc($query_item_code);
 ?>
 <?php require_once "template/header.php"; ?>
 
