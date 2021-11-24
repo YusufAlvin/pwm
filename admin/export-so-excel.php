@@ -41,7 +41,15 @@ $queryitemcode = mysqli_query($conn, "SELECT DISTINCT so_item_id FROM realisasi"
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>   
-              <?php endif; ?>   
+              <?php endif; ?>
+              <?php if($_GET['pesan'] == 'tanggalakhirkosong') : ?>
+                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                  <strong>Isi kolom tanggal awal</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>   
+              <?php endif; ?> 
             <?php endif; ?>
           </div>
         </div><!-- /.row -->
@@ -65,8 +73,13 @@ $queryitemcode = mysqli_query($conn, "SELECT DISTINCT so_item_id FROM realisasi"
                     <?php endwhile; ?>
                   </select>
                   <div class="mb-3">
-                    <input name="tanggal" type="date" class="form-control" id="tanggal">
+                    <label for="tanggalawa">Tanggal Awal</label>
+                    <input name="tanggalawal" type="date" class="form-control" id="tanggalawal">
                   </div> 
+                  <div class="mb-3">
+                    <label for="tanggalawa">Tanggal Akhir</label>
+                    <input name="tanggalakhir" type="date" class="form-control" id="tanggalakhir">
+                  </div>
                   <button name='export' type="submit" class="btn btn-primary">Export</button>
                 </form>
               </div>
