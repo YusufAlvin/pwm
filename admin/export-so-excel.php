@@ -28,7 +28,7 @@ $queryitemcode = mysqli_query($conn, "SELECT DISTINCT so_item_id FROM realisasi"
             <?php if(isset($_GET['pesan'])) : ?>
               <?php if($_GET['pesan'] == 'fieldkosong') : ?>
                 <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-                  <strong>Kolom No SPK, Item Code, Tanggal harus diisi</strong>
+                  <strong>Tidak memasukkan filter</strong>
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
