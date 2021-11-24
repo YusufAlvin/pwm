@@ -108,6 +108,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                           <option value="GR">GR</option>
                           <option value="PCS">PCS</option>
                           <option value="M3">M3</option>
+                          <option value="M3">MTR</option>
+                          <option value="M3">ROL</option>
                         </select>
                       </div>
                       <div class="mb-3">
@@ -147,7 +149,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                           <td><?= $material['material_id']; ?></td>
                           <td><?= $material['material_nama']; ?></td>
                           <td><?= $material['material_uom']; ?></td>
-                          <td><?= $material['material_harga']; ?></td>
+                          <td><?= number_format($material['material_harga'], 0, ".", ".") ?></td>
                           <td>
                             <a href="material-edit.php?materialid=<?= $material['material_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
                             <a href="material-delete.php?materialid=<?= $material['material_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>

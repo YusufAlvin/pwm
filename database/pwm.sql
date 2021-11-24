@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2021 at 02:41 AM
+-- Generation Time: Nov 24, 2021 at 05:52 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -128,9 +128,11 @@ CREATE TABLE `material` (
 --
 
 INSERT INTO `material` (`material_id`, `material_nama`, `material_uom`, `material_harga`) VALUES
+('asd', 'asd', 'SHEET', 4),
 ('materialcode1', 'material 1', 'SHEET', 20000),
 ('materialcode2', 'material 2', 'KG', 15000),
-('materialcode3', 'material 3', 'GR', 45000);
+('materialcode3', 'material 3', 'GR', 45000),
+('tes', 'tes', 'M3', 2000000);
 
 -- --------------------------------------------------------
 
