@@ -44,6 +44,13 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
+                <?php elseif($_GET['pesan'] == 'edit') : ?>
+                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    Data berhasil di edit
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
                 <?php endif; ?>    
               <?php endif; ?>
           </div>
@@ -94,6 +101,7 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                           <td><?= $so['so_lot_number']; ?></td>
                           <td>
                             <a href="so-detail.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
+                            <a href="so-edit.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
                             <a href="so-delete.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 

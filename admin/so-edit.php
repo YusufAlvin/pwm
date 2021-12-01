@@ -9,30 +9,29 @@ if($_SESSION['login'] != true){
 
 $no_spk = $_GET['nospk'];
 
-$queryso = mysqli_query($conn, "SELECT * FROM so INNER JOIN bom ON so.so_bom_id = bom.bom_id WHERE so_no_spk = '$no_spk'");
+$queryso = mysqli_query($conn, "SELECT so_no_spk, so_item_id, so_lot_number, so_qty_order FROM so WHERE so_no_spk = '$no_spk'");
 $queryitem = mysqli_query($conn, "SELECT * FROM item");
 $data = mysqli_fetch_assoc($queryso);
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $no_spk = htmlspecialchars($_POST['no_spk']);
-  $bom_id = htmlspecialchars($_POST['item']);
+  $item = htmlspecialchars($_POST['item']);
   $lotnumber = htmlspecialchars($_POST['lot-number']);
   $qty = htmlspecialchars($_POST['qty']);
 
-  // $querybom = mysqli_query($conn, "");
+  mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$no_spk'");
+  mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$no_spk'");
 
-  while ($bom = mysqli_fetch_assoc($querybom)) {
-    if($no_spk == $bom['so_no_spk']){
-      $total_kebutuhan = $bom['bahan_quantity'] * $qty;
-        mysqli_query($conn, "UPDATE so SET so_bom_id = '$bom_id', so_lot_number = '$lotnumber', so_qty_order = $qty, so_total_kebutuhan = $total_kebutuhan WHERE so_no_spk = '$no_spk'");
-    } else {
-        mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$no_spk'");
-        $total_kebutuhan = $bom['bahan_quantity'] * $qty;
-        mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', $bom_id, '$lotnumber', $qty, $total_kebutuhan)"); 
-    } 
-  } 
-
+  $querybom2 = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");  
+  
+  while($bom = mysqli_fetch_assoc($querybom2)){
+    $total_kebutuhan = $bom['bom_quantity'] * $qty;
+    mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '')");
+    mysqli_query($conn, "INSERT INTO realisasi VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '', '', '')"); 
+  }
+ 
   if(mysqli_affected_rows($conn) > 0){
-    echo "<script>alert('Data has been edited!');location.href='so.php'</script>";
+    header('Location: so.php?pesan=edit');
     exit();
   } else {
     echo mysqli_error($conn);
@@ -72,16 +71,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="col-md">
                       <div class="mb-3">
                         <label for="projects" class="form-label">No SPK</label>
-                        <input name="no_spk" type="text" class="form-control" id="no_spk" value="<?= $data['so_no_spk']; ?>">
+                        <input name="no_spk" type="text" class="form-control" id="no_spk" value="<?= $data['so_no_spk']; ?>" readonly>
                       </div>
                       <div class="mb-3">
                         <label for="item" class="form-label">Item</label>
                         <select name="item" class="form-select form-control">
                           <?php while($item = mysqli_fetch_assoc($queryitem)) : ?>
-                            <?php if($data['bom_item_code'] == $item['item_id']) : ?>
-                              <option value="<?= $data['bom_id'] ?>" selected><?= $item['item_nama'] ?></option>
+                            <?php if($data['so_item_id'] == $item['item_id']) : ?>
+                              <option value="<?= $data['so_item_id'] ?>" selected><?= $item['item_nama'] ?></option>
                             <?php else : ?>
-                              <option value="<?= $data['bom_id'] ?>"><?= $item['item_nama'] ?></option>
+                              <option value="<?= $data['so_item_id'] ?>"><?= $item['item_nama'] ?></option>
                             <?php endif; ?>
                           <?php endwhile; ?>
                         </select>
@@ -96,15 +95,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label for="qty" class="form-label">Quantity</label>
                         <input name="qty" type="text" class="form-control" id="qty" value="<?= $data['so_qty_order']; ?>">
                       </div>
-                      <!-- <div class="mb-3">
-                        <label for="tanggal" class="form-label">Tanggal Produksi</label>
-                        <input name="tanggal" type="date" class="form-control" id="tanggal" value="<?= $data['so_tgl_produksi']; ?>">
-                      </div> -->
                     </div>                  
                   </div>
                   <div class="row">
                     <div class="col-md-4">
-                      <button class="btn btn-primary" type="submit" name="edit">Edit Data</button>                    
+                      <button class="btn btn-primary" type="submit" name="edit">Edit Data</button>
                     </div>
                   </div>
                 </form>
