@@ -24,7 +24,7 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Detail No SPK <?= $no_spk ?></h1>
+            <h1 class="m-0">Detail No PO <?= $no_spk ?></h1>
             <?php if(isset($_GET['pesan'])) : ?>
               <?php if($_GET['pesan'] == 'ubah') : ?>
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">

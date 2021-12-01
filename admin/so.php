@@ -82,7 +82,7 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                   <thead>
                       <tr>
                           <th>No</th>
-                          <th>No SPK</th>
+                          <th>No PO</th>
                           <th>Item Code</th>
                           <th>Item</th>
                           <th>Qty Order</th>

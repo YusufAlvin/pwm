@@ -54,7 +54,7 @@ $querynospk = mysqli_query($conn, "SELECT DISTINCT so_no_spk FROM realisasi");
               <div class="card-body">
                 <form action="export-realisasi.php" method="GET">
                   <select name="nospk" class="form-select form-control mb-3" aria-label="Default select example">
-                    <option value="" selected>No SPK</option>
+                    <option value="" selected>No PO</option>
                     <?php while ($spk = mysqli_fetch_assoc($querynospk)) : ?>
                       <a href="export-realisasi.php?nospk="<?= $spk['so_no_spk']; ?>>
                           <option value="<?= $spk['so_no_spk']; ?>"><?= $spk['so_no_spk']; ?></option>

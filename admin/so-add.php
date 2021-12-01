@@ -68,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                   <div class="row">
                     <div class="col-md">
                       <div class="mb-3">
-                        <label for="no_spk" class="form-label">No SPK</label>
+                        <label for="no_spk" class="form-label">No PO</label>
                         <input name="no_spk" type="text" class="form-control" id="no_spk" placeholder="CTI/43275" required>
                       </div>
                       <div class="mb-3">

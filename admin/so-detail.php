@@ -23,7 +23,7 @@ $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id =
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Detail No SPK <?= $no_spk ?></h1>
+            <h1 class="m-0">Detail No PO <?= $no_spk ?></h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->

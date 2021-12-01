@@ -65,7 +65,7 @@ elseif ($tanggalakhir != "" && $tanggalawal == ""){
 $active_sheet = $spreadsheet->getActiveSheet();
 
   $active_sheet->setCellValue('A1', 'No');
-  $active_sheet->setCellValue('B1', 'No SPK');
+  $active_sheet->setCellValue('B1', 'No PO');
   $active_sheet->setCellValue('C1', 'Item Id');
   $active_sheet->setCellValue('D1', 'Lot Number');
   $active_sheet->setCellValue('E1', 'Quantity Order');
