@@ -14,10 +14,10 @@ $queryitem = mysqli_query($conn, "SELECT * FROM item");
 $data = mysqli_fetch_assoc($queryso);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $no_spk = htmlspecialchars($_POST['no_spk']);
-  $item = htmlspecialchars($_POST['item']);
-  $lotnumber = htmlspecialchars($_POST['lot-number']);
-  $qty = htmlspecialchars($_POST['qty']);
+  $no_spk = trim(htmlspecialchars($_POST['no_spk']));
+  $item = trim(htmlspecialchars($_POST['item']));
+  $lotnumber = trim(htmlspecialchars($_POST['lot-number']));
+  $qty = trim(htmlspecialchars($_POST['qty']));
 
   mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$no_spk'");
   mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$no_spk'");

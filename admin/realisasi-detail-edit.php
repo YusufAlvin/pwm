@@ -18,9 +18,9 @@ if($id == "" || $no_spk = ""){
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $nospk = $no_spk;
   $soid= $id;
-  $quantity = htmlspecialchars($_POST['quantity']);
-  $realisasi = htmlspecialchars($_POST['realisasi']);
-  $tanggal = htmlspecialchars($_POST['tanggal']);
+  $quantity = trim(htmlspecialchars($_POST['quantity']));
+  $realisasi = trim(htmlspecialchars($_POST['realisasi']));
+  $tanggal = trim(htmlspecialchars($_POST['tanggal']));
   
 
   $querytotalkebutuhan = mysqli_query($conn, "SELECT realisasi.so_total_kebutuhan FROM realisasi WHERE realisasi.so_id = $soid");

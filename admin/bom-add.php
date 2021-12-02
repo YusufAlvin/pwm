@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $item = $_POST['item'];
   $material = $_POST['material'];
   $divisi = $_POST['divisi'];
-  $quantity = $_POST['quantity'];
+  $quantity = trim($_POST['quantity']);
   $new_quantity = [];
   $new_divisi = [];
 

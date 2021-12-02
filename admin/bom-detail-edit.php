@@ -22,9 +22,9 @@ $bom = mysqli_fetch_assoc($querybom);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $bom_id = $id;
-  $material = htmlspecialchars($_POST['material']);
+  $material = trim(htmlspecialchars($_POST['material']));
   $divisi = $_POST['divisi'];
-  $quantity = htmlspecialchars($_POST['quantity']);
+  $quantity = trim(htmlspecialchars($_POST['quantity']));
 
   mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");  
 

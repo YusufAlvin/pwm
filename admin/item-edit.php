@@ -12,10 +12,10 @@ $item = mysqli_fetch_assoc($query);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $itemcode = $item_id;
-  $nama = htmlspecialchars($_POST['nama']);
-  $panjang = htmlspecialchars($_POST['panjang']);
-  $lebar = htmlspecialchars($_POST['lebar']);
-  $tebal = htmlspecialchars($_POST['tebal']);
+  $nama = trim(htmlspecialchars($_POST['nama']));
+  $panjang = trim(htmlspecialchars($_POST['panjang']));
+  $lebar = trim(htmlspecialchars($_POST['lebar']));
+  $tebal = trim(htmlspecialchars($_POST['tebal']));
   $uom = $_POST['uom'];
 
   $kubikasi = round(floatval($panjang) * floatval($lebar) * floatval($tebal) / 1000000, 4);

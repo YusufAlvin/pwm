@@ -15,10 +15,10 @@ if(mysqli_num_rows($querybom) < 1){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $no_spk = htmlspecialchars($_POST['no_spk']);
-  $item = htmlspecialchars($_POST['item']);
-  $lotnumber = htmlspecialchars($_POST['lot-number']);
-  $qty = htmlspecialchars($_POST['qty']);
+  $no_spk = trim(htmlspecialchars($_POST['no_spk']));
+  $item = trim(htmlspecialchars($_POST['item']));
+  $lotnumber = trim(htmlspecialchars($_POST['lot-number']));
+  $qty = trim(htmlspecialchars($_POST['qty']));
 
   $querybom2 = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");  
   

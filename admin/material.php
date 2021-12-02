@@ -8,10 +8,10 @@ if($_SESSION['login'] != true){
 
 $query = mysqli_query($conn, "SELECT * FROM material");
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  $materialcode = htmlspecialchars($_POST['material-code']);
-  $nama = htmlspecialchars($_POST['nama']);
+  $materialcode = trim(htmlspecialchars($_POST['material-code']));
+  $nama = trim(htmlspecialchars($_POST['nama']));
   $uom = $_POST['uom'];
-  $harga = htmlspecialchars($_POST['harga']);
+  $harga = trim(htmlspecialchars($_POST['harga']));
 
   $querymaterial = mysqli_query($conn, "SELECT * FROM material WHERE material_id = '$materialcode'");
   if(mysqli_num_rows($querymaterial) > 0){

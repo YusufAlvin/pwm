@@ -69,7 +69,7 @@ if(mysqli_num_rows($queryso) < 1) {
 }
 
 $pdf->AddPage();
-$pdf->SetFont('Arial','',12);
+$pdf->SetFont('Arial','',10);
 $pdf->Cell(37,10,'Item Code');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['item_id']);
@@ -93,8 +93,8 @@ $pdf->Ln(15);
 // Second table: specify 3 columns
 $pdf->AddCol('material_id',50,'Code','L');
 $pdf->AddCol('material_nama',100,'Item','L');
-$pdf->AddCol('so_material_qty',30,'Quantity','C');
-$pdf->AddCol('material_uom',20,'UoM','C');
+$pdf->AddCol('so_material_qty',20,'Quantity','C');
+$pdf->AddCol('material_uom',15,'UoM','C');
 $pdf->AddCol('so_total_kebutuhan',35,'Total Kebutuhan','C');
 $pdf->AddCol('so_realisasi',20,'Realisasi','C');
 $pdf->AddCol('so_realisasi',20,'Realisasi','C');
@@ -104,7 +104,7 @@ $pdf->AddCol('so_realisasi',20,'Realisasi','C');
 // 			'padding'=>10);
 $pdf->Table($conn,"SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
 $pdf->Ln(20);
-$pdf->SetFont('Arial','B',12);
+$pdf->SetFont('Arial','B',10);
 $pdf->Cell(0,10,'APPROVAL SHEET',0,0,'C');
 $pdf->Ln(30);
 $pdf->Cell(55,10,'(......................................)',0,0,'C');

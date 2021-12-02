@@ -13,9 +13,9 @@ $material = mysqli_fetch_assoc($query);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $materialcode = $material_id;
-  $nama = htmlspecialchars($_POST['nama']);
+  $nama = trim(htmlspecialchars($_POST['nama']));
   $uom = $_POST['uom'];
-  $harga = htmlspecialchars($_POST['harga']);
+  $harga = trim(htmlspecialchars($_POST['harga']));
 
   mysqli_query($conn, "UPDATE material SET material_nama = '$nama', material_uom = '$uom', material_harga = $harga WHERE material_id = '$materialcode'");
 

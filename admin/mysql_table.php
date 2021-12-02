@@ -19,7 +19,7 @@ function Header()
 
 function TableHeader()
 {
-	$this->SetFont('Arial','B',12);
+	$this->SetFont('Arial','B',10);
 	$this->SetX($this->TableX);
 	$fill=!empty($this->HeaderColor);
 	if($fill)
@@ -119,7 +119,7 @@ function Table($link, $query, $prop=array())
 	// Print header
 	$this->TableHeader();
 	// Print rows
-	$this->SetFont('Arial','',11);
+	$this->SetFont('Arial','',10);
 	$this->ColorIndex=0;
 	$this->ProcessingTable=true;
 	while($row=mysqli_fetch_array($res))
