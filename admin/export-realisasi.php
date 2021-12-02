@@ -17,25 +17,24 @@ if($nospk == "" || $itemid == "" || $tanggal == ""){
 	exit();
 }
 
-
 $queryso = mysqli_query($conn, "SELECT * FROM realisasi INNER JOIN item ON item.item_id = realisasi.so_item_id INNER JOIN material ON material.material_id = realisasi.so_material_id INNER JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE so_no_spk = '$nospk' AND so_item_id = '$itemid' AND so_tanggal = '$tanggal'");
 
 class PDF extends PDF_MySQL_Table
 {
-	function Header()
-	{
-		// Title
-		$this->SetFont('Arial','B',16);
-		$this->Cell(0,6,'CV SINAR BAJA ELECTRIC CO.LTD',0,1,'C');
-		$this->SetFont('Arial','',12);
-		$this->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
-		$this->Ln();
-		$this->SetFont('Arial','',16);
-		$this->Cell(0,6,'Bon Material',0,1,'C');
-		$this->Ln();
-		// Ensure table header is printed
-		parent::Header();
-	}
+	// function Header()
+	// {
+	// 	// Title
+	// 	$this->SetFont('Arial','B',16);
+	// 	$this->Cell(0,6,'CV SINAR BAJA ELECTRIC CO.LTD',0,1,'C');
+	// 	$this->SetFont('Arial','',12);
+	// 	$this->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
+	// 	$this->Ln();
+	// 	$this->SetFont('Arial','',16);
+	// 	$this->Cell(0,6,'Bon Material',0,1,'C');
+	// 	$this->Ln();
+	// 	// Ensure table header is printed
+	// 	parent::Header();
+	// }
 	// function Footer()
 	// {
 	// 	$this->SetFont('Arial','B',12);
@@ -69,7 +68,15 @@ if(mysqli_num_rows($queryso) < 1) {
 }
 
 $pdf->AddPage();
+$pdf->SetFont('Arial','B',16);
+$pdf->Cell(0,6,'CV SINAR BAJA ELECTRIC CO.LTD',0,1,'C');
 $pdf->SetFont('Arial','',12);
+$pdf->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
+$pdf->Ln();
+$pdf->SetFont('Arial','',16);
+$pdf->Cell(0,6,'Bon Material',0,1,'C');
+$pdf->Ln();
+$pdf->SetFont('Arial','',10);
 $pdf->Cell(37,10,'Item Code');
 $pdf->Cell(10,10,':');
 $pdf->Cell(40,10,$so['item_id']);
@@ -104,7 +111,25 @@ $pdf->AddCol('so_kosong',20,'Realisasi','C');
 // 			'color2'=>array(255,255,210),
 // 			'padding'=>10);
 $pdf->Table($conn,"SELECT * FROM realisasi INNER JOIN item ON item.item_id = realisasi.so_item_id INNER JOIN material ON material.material_id = realisasi.so_material_id INNER JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE so_no_spk = '$nospk' AND so_item_id = '$itemid' AND so_tanggal = '$tanggal'");
-$pdf->Ln(20);
+$pdf->Ln(15);
+if(mysqli_num_rows($queryso) >= 126){//halaman 4
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 108){//halaman 4
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 90){//halaman 3
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 74){//halaman 3
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 56){//halaman 2
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 40){//halaman 2
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 22){//halaman 1
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 10){//halaman 1
+	$addpage = $pdf->AddPage();
+}
+$addpage;
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(0,10,'APPROVAL SHEET',0,0,'C');
 $pdf->Ln(30);

@@ -19,20 +19,20 @@ if($divisi == "" || $soprojects == ""){
 
 class PDF extends PDF_MySQL_Table
 {
-	function Header()
-	{
-		// Title
-		$this->SetFont('Arial','B',16);
-		$this->Cell(0,6,'CV SINAR BAJA ELECTRIC CO.LTD',0,1,'C');
-		$this->SetFont('Arial','',12);
-		$this->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
-		$this->Ln();
-		$this->SetFont('Arial','',16);
-		$this->Cell(0,6,'Bon Material',0,1,'C');
-		$this->Ln();
-		// Ensure table header is printed
-		parent::Header();
-	}
+	// function Header()
+	// {
+	// 	// Title
+	// 	$this->SetFont('Arial','B',16);
+	// 	$this->Cell(0,6,'CV SINAR BAJA ELECTRIC CO.LTD',0,1,'C');
+	// 	$this->SetFont('Arial','',12);
+	// 	$this->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
+	// 	$this->Ln();
+	// 	$this->SetFont('Arial','',16);
+	// 	$this->Cell(0,6,'Bon Material',0,1,'C');
+	// 	$this->Ln();
+	// 	// Ensure table header is printed
+	// 	parent::Header();
+	// }
 	// function Footer()
 	// {
 	// 	$this->SetFont('Arial','B',12);
@@ -63,12 +63,21 @@ $pdf = new PDF('L','mm','A4');
 $queryso = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
 
 $so = mysqli_fetch_assoc($queryso);
+// echo mysqli_num_rows($queryso); exit();
 if(mysqli_num_rows($queryso) < 1) {
-	header('Location: export-realisasi-filter.php?pesan=datakosong');
+	header('Location: export-filter.php?pesan=datakosong');
 	exit();
 }
 
-$pdf->AddPage();
+$pdf->AddPage('A4');
+$pdf->SetFont('Arial','B',16);
+$pdf->Cell(0,6,'CV SINAR BAJA ELECTRIC CO.LTD',0,1,'C');
+$pdf->SetFont('Arial','',12);
+$pdf->Cell(0,6,'Jl. Raya Pilang KM.8, Wonoayu, Sidoarjo 61261, Indonesia',0,1,'C');
+$pdf->Ln();
+$pdf->SetFont('Arial','',16);
+$pdf->Cell(0,6,'Bon Material',0,1,'C');
+$pdf->Ln();
 $pdf->SetFont('Arial','',10);
 $pdf->Cell(37,10,'Item Code');
 $pdf->Cell(10,10,':');
@@ -103,7 +112,25 @@ $pdf->AddCol('so_realisasi',20,'Realisasi','C');
 // 			'color2'=>array(255,255,210),
 // 			'padding'=>10);
 $pdf->Table($conn,"SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
-$pdf->Ln(20);
+$pdf->Ln(15);
+if(mysqli_num_rows($queryso) >= 126){//halaman 4
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 108){//halaman 4
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 90){//halaman 3
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 74){//halaman 3
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 56){//halaman 2
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 40){//halaman 2
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 22){//halaman 1
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 10){//halaman 1
+	$addpage = $pdf->AddPage();
+} 
+$addpage;
 $pdf->SetFont('Arial','B',10);
 $pdf->Cell(0,10,'APPROVAL SHEET',0,0,'C');
 $pdf->Ln(30);

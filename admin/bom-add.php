@@ -1,6 +1,6 @@
 <?php 
 session_start();
-error_reporting(0);
+// error_reporting(0);
 require_once "../koneksi.php";
 
 if($_SESSION['login'] != true){
@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $item = $_POST['item'];
   $material = $_POST['material'];
   $divisi = $_POST['divisi'];
-  $quantity = trim($_POST['quantity']);
+  $quantity = $_POST['quantity'];
   $new_quantity = [];
   $new_divisi = [];
 
@@ -45,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }
 
   for($k = 0; $k < count($material); $k++){
-    mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], $new_quantity[$k])");
+    mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], trim($new_quantity[$k]))");
   }
 
   if(mysqli_affected_rows($conn) > 0){
