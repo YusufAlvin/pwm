@@ -78,9 +78,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <select name="item" class="form-select form-control">
                           <?php while($item = mysqli_fetch_assoc($queryitem)) : ?>
                             <?php if($data['so_item_id'] == $item['item_id']) : ?>
-                              <option value="<?= $data['so_item_id'] ?>" selected><?= $item['item_nama'] ?></option>
+                              <option value="<?= $data['so_item_id'] ?>" selected><?= $item['item_id'] ?></option>
                             <?php else : ?>
-                              <option value="<?= $data['so_item_id'] ?>"><?= $item['item_nama'] ?></option>
+                              <option value="<?= $data['so_item_id'] ?>"><?= $item['item_id'] ?></option>
                             <?php endif; ?>
                           <?php endwhile; ?>
                         </select>

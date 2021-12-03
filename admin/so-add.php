@@ -75,7 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label for="item" class="form-label">Item</label>
                         <select name="item" class="form-select form-control" aria-label="Default select example">
                           <?php while($item = mysqli_fetch_assoc($queryitem)) : ?>
-                            <option value="<?= $item['item_id'] ?>"><?= $item['item_nama'] ?></option>
+                            <option value="<?= $item['item_id'] ?>"><?= $item['item_id'] ?></option>
                           <?php endwhile; ?>
                         </select>
                       </div>
