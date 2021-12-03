@@ -113,6 +113,7 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                           <option value="M3">M3</option>
                           <option value="M3">MTR</option>
                           <option value="M3">ROL</option>
+                          <option value="M2">M2</option>
                         </select>
                       </div>
                     </div>

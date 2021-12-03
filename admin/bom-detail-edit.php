@@ -24,12 +24,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $bom_id = $id;
   $material = trim(htmlspecialchars($_POST['material']));
   $divisi = $_POST['divisi'];
-  $quantity = trim(htmlspecialchars($_POST['quantity']));
+  $quantity = floatval(trim(htmlspecialchars($_POST['quantity'])));
+
+  // var_dump($quantity); exit();
 
   mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");  
 
   if(mysqli_affected_rows($conn) > 0){
     header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
+    exit();
   } else {
     echo mysqli_error($conn);
     exit();
