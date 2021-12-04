@@ -112,28 +112,32 @@ $pdf->AddCol('so_realisasi',20,'Realisasi','C');
 // 			'color2'=>array(255,255,210),
 // 			'padding'=>10);
 $pdf->Table($conn,"SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so_no_spk = '$soprojects' AND so_divisi_id = $divisi");
-$pdf->Ln(15);
-if(mysqli_num_rows($queryso) >= 126){//halaman 4
+$pdf->Ln();
+if(mysqli_num_rows($queryso) >= 158){//halaman 5
 	$addpage = "";
-} elseif(mysqli_num_rows($queryso) >= 108){//halaman 4
+} elseif(mysqli_num_rows($queryso) >= 149){//halaman 5
+	$addpage = $pdf->AddPage();
+} elseif(mysqli_num_rows($queryso) >= 124){//halaman 4
+	$addpage = "";
+} elseif(mysqli_num_rows($queryso) >= 115){//halaman 4
 	$addpage = $pdf->AddPage();
 } elseif(mysqli_num_rows($queryso) >= 90){//halaman 3
 	$addpage = "";
-} elseif(mysqli_num_rows($queryso) >= 74){//halaman 3
+} elseif(mysqli_num_rows($queryso) >= 81){//halaman 3
 	$addpage = $pdf->AddPage();
 } elseif(mysqli_num_rows($queryso) >= 56){//halaman 2
 	$addpage = "";
-} elseif(mysqli_num_rows($queryso) >= 40){//halaman 2
+} elseif(mysqli_num_rows($queryso) >= 47){//halaman 2
 	$addpage = $pdf->AddPage();
 } elseif(mysqli_num_rows($queryso) >= 22){//halaman 1
 	$addpage = "";
-} elseif(mysqli_num_rows($queryso) >= 10){//halaman 1
+} elseif(mysqli_num_rows($queryso) >= 13){//halaman 1
 	$addpage = $pdf->AddPage();
 } 
 $addpage;
 $pdf->SetFont('Arial','B',10);
 $pdf->Cell(0,10,'APPROVAL SHEET',0,0,'C');
-$pdf->Ln(30);
+$pdf->Ln(20);
 $pdf->Cell(55,10,'(......................................)',0,0,'C');
 $pdf->Cell(55,10,'(......................................)',0,0,'C');
 $pdf->Cell(55,10,'(......................................)',0,0,'C');
