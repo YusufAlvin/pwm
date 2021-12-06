@@ -7,8 +7,9 @@ if($_SESSION['login'] != true){
 }
 
 $no_spk = $_GET['nospk'];
+$itemid = $_GET['itemid'];
 
-$query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_no_spk = '$no_spk'");
+$query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_no_spk = '$no_spk' AND so.so_item_id = '$itemid'");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -22,8 +23,8 @@ $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id =
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Detail No PO <?= $no_spk ?></h1>
+          <div class="col-sm-12">
+            <h1 class="m-0">Detail No PO <strong><?= $no_spk ?></strong> Item Code <strong><?= $itemid ?></strong></h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->

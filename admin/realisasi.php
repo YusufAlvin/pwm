@@ -63,7 +63,7 @@ $query = mysqli_query($conn, "SELECT DISTINCT so.so_no_spk, item.item_id, item.i
                           <td><?= $so['so_qty_order']; ?></td>
                           <td><?= $so['so_lot_number']; ?></td>
                           <td>
-                            <a href="realisasi-detail.php?nospk=<?= $so['so_no_spk']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
+                            <a href="realisasi-detail.php?nospk=<?= $so['so_no_spk']; ?>&itemid=<?= $so['item_id']; ?>"><span class="badge rounded-pill bg-success">Detail</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

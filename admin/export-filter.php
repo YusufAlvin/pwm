@@ -6,6 +6,7 @@ if($_SESSION['login'] != true){
   exit();
 }
 $queryso = mysqli_query($conn, "SELECT DISTINCT so_no_spk FROM so");
+$queryitem = mysqli_query($conn, "SELECT DISTINCT so_item_id FROM so");
 $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
 ?>
 <?php require_once "template/header.php"; ?>
@@ -25,7 +26,7 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
             <?php if(isset($_GET['pesan'])) : ?>
               <?php if($_GET['pesan'] == 'fieldkosong') : ?>
                 <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-                  <strong>Kolom No SPK, Divisi harus diisi</strong>
+                  <strong>Kolom No PO, Divisi harus diisi</strong>
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -58,6 +59,14 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
                     <?php while ($so = mysqli_fetch_assoc($queryso)) : ?>
                       <a href="export.php?projects=" <?= $so['so_no_spk']; ?>>
                           <option value="<?= $so['so_no_spk']; ?>"><?= $so['so_no_spk']; ?></option>
+                      </a>
+                    <?php endwhile; ?>
+                  </select>
+                  <select name="itemid" class="form-select form-control mb-3" aria-label="Default select example">
+                    <option value="" selected>Item Code</option>
+                    <?php while ($item = mysqli_fetch_assoc($queryitem)) : ?>
+                      <a href="export.php?itemid=" <?= $item['so_item_id']; ?>>
+                          <option value="<?= $item['so_item_id']; ?>"><?= $item['so_item_id']; ?></option>
                       </a>
                     <?php endwhile; ?>
                   </select>

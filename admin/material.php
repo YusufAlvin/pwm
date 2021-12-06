@@ -111,6 +111,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                           <option value="M3">MTR</option>
                           <option value="M3">ROL</option>
                           <option value="M2">M2</option>
+                          <option value="LTR">LTR</option>
                         </select>
                       </div>
                       <div class="mb-3">

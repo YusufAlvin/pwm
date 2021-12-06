@@ -8,19 +8,25 @@ if($_SESSION['login'] != true){
 }
 
 $no_spk = $_GET['nospk'];
+$itemid = $_GET['itemid'];
 
-$queryso = mysqli_query($conn, "SELECT so_no_spk, so_item_id, so_lot_number, so_qty_order FROM so WHERE so_no_spk = '$no_spk'");
-$queryitem = mysqli_query($conn, "SELECT * FROM item");
+$queryso = mysqli_query($conn, "SELECT so_no_spk, so_item_id, so_lot_number, so_qty_order FROM so WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
+$queryitem = mysqli_query($conn, "SELECT DISTINCT bom_item_id FROM bom");
 $data = mysqli_fetch_assoc($queryso);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $no_spk = trim(htmlspecialchars($_POST['no_spk']));
-  $item = trim(htmlspecialchars($_POST['item']));
   $lotnumber = trim(htmlspecialchars($_POST['lot-number']));
   $qty = trim(htmlspecialchars($_POST['qty']));
 
-  mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$no_spk'");
-  mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$no_spk'");
+  if($_POST['item'] == $itemid){
+    $item = $itemid;
+  } elseif ($_POST['item'] != $itemid) {
+    $item = $_POST['item'];
+  }
+
+  mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
+  mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
 
   $querybom2 = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");  
   
@@ -77,10 +83,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label for="item" class="form-label">Item</label>
                         <select name="item" class="form-select form-control">
                           <?php while($item = mysqli_fetch_assoc($queryitem)) : ?>
-                            <?php if($data['so_item_id'] == $item['item_id']) : ?>
-                              <option value="<?= $data['so_item_id'] ?>" selected><?= $item['item_id'] ?></option>
+                            <?php if($data['so_item_id'] == $item['bom_item_id']) : ?>
+                              <option value="<?= $item['bom_item_id'] ?>" selected><?= $item['bom_item_id'] ?></option>
                             <?php else : ?>
-                              <option value="<?= $data['so_item_id'] ?>"><?= $item['item_id'] ?></option>
+                              <option value="<?= $item['bom_item_id'] ?>"><?= $item['bom_item_id'] ?></option>
                             <?php endif; ?>
                           <?php endwhile; ?>
                         </select>

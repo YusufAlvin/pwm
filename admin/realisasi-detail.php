@@ -7,9 +7,9 @@ if($_SESSION['login'] != true){
 }
 
 $no_spk = $_GET['nospk'];
+$itemid = $_GET['itemid'];
 
-
-$query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id, realisasi.so_qty_order FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id WHERE realisasi.so_no_spk = '$no_spk'");
+$query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id, realisasi.so_qty_order, realisasi.so_item_id FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id WHERE realisasi.so_no_spk = '$no_spk' AND realisasi.so_item_id = '$itemid'");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -23,8 +23,12 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Detail No PO <?= $no_spk ?></h1>
+          <div class="col-sm-12">
+            <h1 class="m-0">Detail No PO <strong><?= $no_spk ?></strong> Item Code <strong><?= $itemid ?></strong></h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
             <?php if(isset($_GET['pesan'])) : ?>
               <?php if($_GET['pesan'] == 'ubah') : ?>
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -43,7 +47,8 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
               <?php endif; ?>    
             <?php endif; ?>
           </div>
-        </div><!-- /.row -->
+        </div>
+        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
 
@@ -83,7 +88,7 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <td><?= $so['so_realisasi']; ?></td>
                           <td><?= $so['so_tanggal']; ?></td>
                           <td>
-                            <a href="realisasi-detail-edit.php?nospk=<?=$no_spk?>&id=<?= $so['so_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="realisasi-detail-edit.php?nospk=<?=$no_spk?>&id=<?= $so['so_id']; ?>&itemid=<?= $itemid ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

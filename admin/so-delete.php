@@ -8,9 +8,10 @@ if($_SESSION['login'] != true){
 }
 
 $id = $_GET['nospk'];
+$itemid = $_GET['itemid'];
 
-mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$id'");
-mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$id'");
+mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$id' AND so_item_id = '$itemid'");
+mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$id' AND so_item_id = '$itemid'");
 
 if(mysqli_affected_rows($conn) > 0){
   header('Location: so.php?pesan=delete');

@@ -9,8 +9,9 @@ if($_SESSION['login'] != true){
 
 $id = $_GET['id'];
 $no_spk = $_GET['nospk'];
+$itemid = $_GET['itemid'];
 
-if($id == "" || $no_spk = ""){
+if($id == "" || $no_spk == "" || $itemid == ""){
   header('Location: realisasi.php');
   exit();
 }
@@ -22,7 +23,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $realisasi = trim(htmlspecialchars($_POST['realisasi']));
   $tanggal = trim(htmlspecialchars($_POST['tanggal']));
   
-
   $querytotalkebutuhan = mysqli_query($conn, "SELECT realisasi.so_total_kebutuhan FROM realisasi WHERE realisasi.so_id = $soid");
   $totalkebutuhan = mysqli_fetch_assoc($querytotalkebutuhan);
 

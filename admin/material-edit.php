@@ -77,6 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                           <option value="MTR" <?php if($material['material_uom'] == 'MTR')  echo 'selected'; ?>>MTR</option>
                           <option value="ROL" <?php if($material['material_uom'] == 'ROL')  echo 'selected'; ?>>ROL</option>
                           <option value="M2" <?php if($material['material_uom'] == 'M2')  echo 'selected'; ?>>M2</option>
+                          <option value="LTR" <?php if($material['material_uom'] == 'LTR')  echo 'selected'; ?>>LTR</option>
                         </select>
                       </div>
                       <div class="mb-3">
