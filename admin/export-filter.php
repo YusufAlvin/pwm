@@ -26,7 +26,7 @@ $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
             <?php if(isset($_GET['pesan'])) : ?>
               <?php if($_GET['pesan'] == 'fieldkosong') : ?>
                 <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-                  <strong>Kolom No PO, Divisi harus diisi</strong>
+                  <strong>Kolom No PO, Item Code, Divisi harus diisi</strong>
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
