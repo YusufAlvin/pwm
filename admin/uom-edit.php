@@ -10,15 +10,20 @@ $uomid = $_GET['uomid'];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$uom = trim(htmlspecialchars($_POST['uom']));
-  
-	mysqli_query($conn, "UPDATE uom SET uom_nama = '$uom' WHERE uom_id = $uomid");
-
-	if(mysqli_affected_rows($conn) > 0){
-		header('Location: uom.php?pesan=ubah');
-		exit();
-	} else {
-		echo mysqli_error($conn);
-	}
+  $queryuom = mysqli_query($conn, "SELECT * FROM uom WHERE uom_nama = '$uom'");
+  if(mysqli_num_rows($queryuom) > 0){
+    header('Location: uom.php?pesan=duplikat');
+    exit();
+  } elseif(mysqli_num_rows($queryuom) < 1){
+    mysqli_query($conn, "UPDATE uom SET uom_nama = '$uom' WHERE uom_id = $uomid");
+    if(mysqli_affected_rows($conn) > 0){
+      header('Location: uom.php?pesan=ubah');
+      exit();
+    } else {
+      echo mysqli_error($conn);
+      exit();
+    }
+  }
 }
 
 $query = mysqli_query($conn, "SELECT * FROM uom WHERE uom_id = $uomid");

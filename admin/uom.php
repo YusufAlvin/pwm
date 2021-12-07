@@ -59,7 +59,7 @@ $query = mysqli_query($conn, "SELECT * FROM uom");
                   </div>
                 <?php elseif($_GET['pesan'] == 'duplikat') : ?>
                   <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-                    UoM sudah pernah ditambahkan
+                    UoM sudah terdaftar
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -110,9 +110,9 @@ $query = mysqli_query($conn, "SELECT * FROM uom");
                 <table id="uom-table" class="table table-striped display" style="width:100%">
                   <thead>
                     <tr>
-						<th>No</th>
-						<th>UoM</th>
-						<th>Action</th>
+          						<th>No</th>
+          						<th>UoM</th>
+          						<th>Action</th>
                   	</tr>
                   </thead>
                   <tbody>
@@ -122,7 +122,7 @@ $query = mysqli_query($conn, "SELECT * FROM uom");
                           <td><?= $uom['uom_nama']; ?></td>
                           <td>
                             <a href="uom-edit.php?uomid=<?= $uom['uom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="uom-delete.php?uomid=<?= $uom['uom_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <!-- <a href="uom-delete.php?uomid=<?= $uom['uom_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a> -->
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     
