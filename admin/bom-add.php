@@ -1,6 +1,6 @@
 <?php 
 session_start();
-// error_reporting(0);
+error_reporting(0);
 require_once "../koneksi.php";
 
 if($_SESSION['login'] != true){
@@ -11,6 +11,10 @@ if($_SESSION['login'] != true){
 $queryitem = mysqli_query($conn, "SELECT * FROM item");
 $querymaterial = mysqli_query($conn, "SELECT * FROM material");
 $querydivisi = mysqli_query($conn, "SELECT * FROM divisi");
+
+while($divisi = mysqli_fetch_assoc($querydivisi)){
+  $newdivisi[] = $divisi;
+}
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $item = $_POST['item'];
@@ -115,9 +119,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       <div class="mb-3">
                         <select name="divisi[]" class="form-select form-control">
                           <option value="" selected>Divisi</option>
-                          <option value="1">WW</option>
-                          <option value="2">GESSO</option>
-                          <option value="3">PACKING</option>
+                          <?php foreach($newdivisi as $d): ?>
+                            <option value="<?= $d['divisi_id'] ?>"><?= $d['divisi_nama'] ?></option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
