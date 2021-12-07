@@ -12,6 +12,22 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
+          <a href="uom.php" class="nav-link">
+            <i class="nav-icon far fas fa-list-ul"></i>
+            <p>
+              UoM
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="divisi.php" class="nav-link">
+            <i class="nav-icon far fas fa-list-ul"></i>
+            <p>
+              Divisi
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="item.php" class="nav-link">
             <i class="nav-icon far fas fa-list-ul"></i>
             <p>

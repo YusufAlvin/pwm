@@ -9,6 +9,7 @@ if($_SESSION['login'] != true){
 
 $material_id = $_GET['materialid'];
 $query = mysqli_query($conn, "SELECT * FROM material WHERE material_id = '$material_id'");
+$queryuom = mysqli_query($conn, "SELECT * FROM uom");
 $material = mysqli_fetch_assoc($query);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -68,16 +69,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                       <div class="mb-3">
                         <label for="uom" class="form-label">UoM</label>
                         <select name="uom" class="form-select form-control">
-                          <option value="SHEET" <?php if($material['material_uom'] == 'SHEET') echo 'selected'; ?>>SHEET</option>
-                          <option value="KG" <?php if($material['material_uom'] == 'KG')  echo 'selected'; ?>>KG</option>
-                          <option value="BTL" <?php if($material['material_uom'] == 'BTL')  echo 'selected'; ?>>BTL</option>
-                          <option value="GR" <?php if($material['material_uom'] == 'GR')  echo 'selected'; ?>>GR</option>
-                          <option value="PCS" <?php if($material['material_uom'] == 'PCS')  echo 'selected'; ?>>PCS</option>
-                          <option value="M3" <?php if($material['material_uom'] == 'M3')  echo 'selected'; ?>>M3</option>
-                          <option value="MTR" <?php if($material['material_uom'] == 'MTR')  echo 'selected'; ?>>MTR</option>
-                          <option value="ROL" <?php if($material['material_uom'] == 'ROL')  echo 'selected'; ?>>ROL</option>
-                          <option value="M2" <?php if($material['material_uom'] == 'M2')  echo 'selected'; ?>>M2</option>
-                          <option value="LTR" <?php if($material['material_uom'] == 'LTR')  echo 'selected'; ?>>LTR</option>
+                          <option value="<?= $material['material_uom'] ?>"><?= $material['material_uom'] ?></option>
+                          <?php while($uom = mysqli_fetch_assoc($queryuom)): ?>
+                            <?php if($uom['uom_nama'] == $material['material_uom']): ?>
+                              <option value="<?= $uom['uom_nama'] ?>" selected><?= $uom['uom_nama'] ?></option>
+                            <?php else: ?>
+                              <option value="<?= $uom['uom_nama'] ?>"><?= $uom['uom_nama'] ?></option>
+                            <?php endif; ?>
+                          <?php endwhile; ?>
                         </select>
                       </div>
                       <div class="mb-3">

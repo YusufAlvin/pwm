@@ -32,6 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 $query = mysqli_query($conn, "SELECT * FROM item");
+$queryuom = mysqli_query($conn, "SELECT * FROM uom");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -105,16 +106,9 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                       <div class="mb-3">
                         <label for="uom" class="form-label">UoM</label>
                         <select name="uom" class="form-select form-control">
-                          <option value="SHEET">SHEET</option>
-                          <option value="KG">KG</option>
-                          <option value="BTL">BTL</option>
-                          <option value="GR">GR</option>
-                          <option value="PCS">PCS</option>
-                          <option value="M3">M3</option>
-                          <option value="M3">MTR</option>
-                          <option value="M3">ROL</option>
-                          <option value="M2">M2</option>
-                          <option value="LTR">LTR</option>
+                          <?php while($uom = mysqli_fetch_assoc($queryuom)): ?>
+                            <option value="<?= $uom['uom_nama'] ?>"><?= $uom['uom_nama'] ?></option>
+                          <?php endwhile; ?>
                         </select>
                       </div>
                     </div>
@@ -172,7 +166,7 @@ $query = mysqli_query($conn, "SELECT * FROM item");
                           <td><?= $item['item_kubikasi']; ?></td>
                           <td><?= $item['item_uom']; ?></td>
                           <td>
-                            <a href="item-edit.php?itemid=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="item-edit.php?itemid=<?= $item['item_id']; ?>&uom=<?= $item['item_uom']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
                             <a href="item-delete.php?itemid=<?= $item['item_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 

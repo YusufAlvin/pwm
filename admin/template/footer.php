@@ -198,6 +198,35 @@
       } );
     } ).draw();
 
+    let uom = $('#uom-table').DataTable({
+      dom: 'Bfrtip',
+      lengthMenu: [
+        [ 10, 25, 50, -1 ],
+        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+      ],
+      buttons: [
+        'pageLength',
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+              columns: [0,1]
+          }
+        }
+      ],
+      columnDefs: [ {
+        "searchable": false,
+        "orderable": false,
+        "targets": 0
+      } ],
+      order: [[ 1, 'asc' ]]
+    });
+    uom.on( 'order.dt search.dt', function () {
+      uom.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+          uom.cell(cell).invalidate('dom');
+      } );
+    } ).draw();
+
 } );
 </script>
 </body>
