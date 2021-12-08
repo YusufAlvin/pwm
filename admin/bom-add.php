@@ -47,10 +47,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     echo "<script>alert('Isi kolom material, quantity, divisi');location.href='bom-add.php'</script>";
     exit();
   }
-  
-  for($k = 0; $k < count($material); $k++){
-    mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], trim($new_quantity[$k]))");
-  }  
+
+  $query1 = mysqli_query($conn, "SELECT DISTINCT so_no_spk, so_qty_order, so_lot_number FROM so WHERE so_item_id = '$item'");
+  $query2 = mysqli_query($conn, "SELECT DISTINCT so_no_spk, so_qty_order, so_lot_number FROM realisasi WHERE so_item_id = '$item'");
+
+  if(mysqli_num_rows($query1) > 0 && mysqli_num_rows($query2) > 0){
+    while($d = mysqli_fetch_assoc($query1)){
+      $datas[] = $d;
+    }
+    for($k = 0; $k < count($material); $k++){
+      foreach($datas as $data){
+        $total_kebutuhan = $new_quantity[$k] * $data['so_qty_order'];
+        mysqli_query($conn, "INSERT INTO realisasi VALUES ('', '$data[so_no_spk]', '$item', '$material[$k]', $new_quantity[$k], $new_divisi[$k], $data[so_qty_order], '$data[so_lot_number]', $total_kebutuhan, '', '', '')");
+        mysqli_query($conn, "INSERT INTO so VALUES ('', '$data[so_no_spk]', '$item', '$material[$k]', $new_quantity[$k], $new_divisi[$k], $data[so_qty_order], '$data[so_lot_number]', $total_kebutuhan, '')");
+      } 
+      mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], trim($new_quantity[$k]))");
+    }
+  } else {
+    for($k = 0; $k < count($material); $k++){
+      mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], trim($new_quantity[$k]))");
+    }
+  }
 
   if(mysqli_affected_rows($conn) > 0){
     header('Location: bom.php?pesan=sukses');
