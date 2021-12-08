@@ -47,10 +47,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     echo "<script>alert('Isi kolom material, quantity, divisi');location.href='bom-add.php'</script>";
     exit();
   }
-
+  
   for($k = 0; $k < count($material); $k++){
     mysqli_query($conn, "INSERT INTO bom VALUES ('', '$item', '$material[$k]', $new_divisi[$k], trim($new_quantity[$k]))");
-  }
+  }  
 
   if(mysqli_affected_rows($conn) > 0){
     header('Location: bom.php?pesan=sukses');

@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     </button>
                   </div>
                 <?php elseif($_GET['pesan'] == 'duplikat') : ?>
-                  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                  <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
                     Item code sudah terdaftar
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>

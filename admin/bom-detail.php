@@ -86,8 +86,8 @@ $item_code = mysqli_fetch_assoc($query_item_code);
                           <td><?= $bom['material_uom']; ?></td>
                           <td><?= $bom['divisi_nama']; ?></td>
                           <td>
-                            <a href="bom-detail-edit.php?itemid=<?= $id ?>&id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
-                            <a href="bom-detail-delete.php?itemid=<?= $id ?>&id=<?= $bom['bom_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                            <a href="bom-detail-edit.php?itemid=<?= $id ?>&id=<?= $bom['bom_id']; ?>&materialcode=<?= $bom['material_id']; ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>
+                            <a href="bom-detail-delete.php?itemid=<?= $id ?>&id=<?= $bom['bom_id']; ?>&materialcode=<?= $bom['material_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
                           </td>
                       </tr> 
                     <?php endwhile; ?>                     

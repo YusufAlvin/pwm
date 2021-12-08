@@ -26,7 +26,22 @@ $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id =
           <div class="col-sm-12">
             <h1 class="m-0">Detail No PO <strong><?= $no_spk ?></strong> Item Code <strong><?= $itemid ?></strong></h1>
           </div>
-        </div><!-- /.row -->
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <?php if(isset($_GET['pesan'])) : ?>
+              <?php if($_GET['pesan'] == 'delete') : ?>
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                  Data berhasil dihapus
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <?php endif; ?>    
+            <?php endif; ?>
+            </div>
+          </div>
+        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
 
@@ -56,6 +71,7 @@ $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id =
                           <th>UoM</th>
                           <th>Divisi</th>
                           <th>Total Kebutuhan</th>
+                          <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -70,6 +86,9 @@ $query = mysqli_query($conn, "SELECT * FROM so INNER JOIN item ON item.item_id =
                           <td><?= $so['material_uom']; ?></td>
                           <td><?= $so['divisi_nama']; ?></td>
                           <td><?= $so['so_total_kebutuhan']; ?></td>
+                          <td>
+                            <a href="so-detail-delete.php?id=<?= $so['so_id']; ?>&nospk=<?= $so['so_no_spk']; ?>&itemid=<?= $so['item_id']; ?>"><span class="badge rounded-pill bg-danger">Delete</span></a>
+                          </td>
                       </tr> 
                     <?php endwhile; ?>                     
                   </tbody>

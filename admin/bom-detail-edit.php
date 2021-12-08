@@ -26,16 +26,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $divisi = $_POST['divisi'];
   $quantity = floatval(trim(htmlspecialchars($_POST['quantity'])));
 
-  // var_dump($quantity); exit();
+  $queryqtyorder = mysqli_query($conn, "SELECT DISTINCT so_qty_order FROM so WHERE so_material_id = '$material'");
+  $queryqtyorder2 = mysqli_query($conn, "SELECT DISTINCT so_qty_order FROM realisasi WHERE so_material_id = '$material'");
 
-  mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");  
+  if(mysqli_num_rows($queryqtyorder) > 0 && mysqli_num_rows($queryqtyorder2) > 0){
+    $qtyorder = mysqli_fetch_assoc($queryqtyorder);
+    $total_kebutuhan = $qtyorder['so_qty_order'] * $quantity;
 
-  if(mysqli_affected_rows($conn) > 0){
-    header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
-    exit();
-  } else {
-    echo mysqli_error($conn);
-    exit();
+    mysqli_query($conn, "UPDATE so SET so_material_id = '$material', so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_material_id = '$material'"); 
+    mysqli_query($conn, "UPDATE realisasi SET so_material_id = '$material', so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_material_id = '$material'"); 
+    mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id"); 
+
+    if(mysqli_affected_rows($conn) > 0){
+      header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
+      exit();
+    } else {
+      echo mysqli_error($conn);
+      exit();
+    }
   }
 }
 
@@ -72,15 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="col-md">
                       <div class="mb-3">
                         <label for="material" class="form-label">Material</label>
-                        <select name="material" class="form-select form-control">
-                          <?php while($material = mysqli_fetch_assoc($querymaterial)) : ?>
-                            <?php if($bom['bom_material_id'] == $material['material_id']) : ?>
-                              <option value="<?= $material['material_id'] ?>" selected><?= $material['material_nama'] ?></option>
-                            <?php else : ?>
-                              <option value="<?= $material['material_id'] ?>"><?= $material['material_nama'] ?></option>
-                            <?php endif; ?>
-                          <?php endwhile; ?>
-                        </select>                        
+                        <input type="text" class="form-control" name="material" value="<?= $bom['bom_material_id'] ?>" readonly>                       
                       </div>
                       <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
