@@ -7,6 +7,7 @@ if($_SESSION['login'] != true){
 }
 
 $query = mysqli_query($conn, "SELECT * FROM material");
+$queryuom = mysqli_query($conn, "SELECT * FROM uom");
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $materialcode = trim(htmlspecialchars($_POST['material-code']));
   $nama = trim(htmlspecialchars($_POST['nama']));
@@ -102,16 +103,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                       <div class="mb-3">
                         <label for="uom" class="form-label">UoM</label>
                         <select name="uom" class="form-select form-control">
-                          <option value="SHEET">SHEET</option>
-                          <option value="KG">KG</option>
-                          <option value="BTL">BTL</option>
-                          <option value="GR">GR</option>
-                          <option value="PCS">PCS</option>
-                          <option value="M3">M3</option>
-                          <option value="M3">MTR</option>
-                          <option value="M3">ROL</option>
-                          <option value="M2">M2</option>
-                          <option value="LTR">LTR</option>
+                          <?php while($uom = mysqli_fetch_assoc($queryuom)): ?>
+                            <option value="<?= $uom['uom_nama'] ?>"><?= $uom['uom_nama'] ?></option>
+                          <?php endwhile; ?>
                         </select>
                       </div>
                       <div class="mb-3">

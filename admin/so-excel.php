@@ -19,6 +19,7 @@ $spreadsheet = new Spreadsheet();
 $active_sheet = $spreadsheet->getActiveSheet();
 $count = 2;
 $no = 1;
+// $jmlqtyorder = 0;
 
 
 if($itemid != "" && $tanggalawal == "" && $tanggalakhir == ""){
@@ -60,6 +61,10 @@ elseif ($itemid == "" && $tanggalawal == "" && $tanggalakhir == ""){
 elseif ($tanggalakhir != "" && $tanggalawal == ""){
   header('Location: export-so-excel.php?pesan=tanggalakhirkosong');
   exit();
+}
+
+while($item = mysqli_fetch_assoc($queryitem)){
+  $jmlqtyorder += $item['so_qty_order'];
 }
 
 $active_sheet = $spreadsheet->getActiveSheet();
