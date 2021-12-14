@@ -26,17 +26,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $divisi = $_POST['divisi'];
   $quantity = floatval(trim(htmlspecialchars($_POST['quantity'])));
 
-  $queryqtyorder = mysqli_query($conn, "SELECT DISTINCT so_qty_order FROM so WHERE so_material_id = '$material'");
-  $queryqtyorder2 = mysqli_query($conn, "SELECT DISTINCT so_qty_order FROM realisasi WHERE so_material_id = '$material'");
+  $queryqtyorder = mysqli_query($conn, "SELECT DISTINCT so_no_spk, so_qty_order FROM so WHERE so_material_id = '$material'");
+  $queryqtyorder2 = mysqli_query($conn, "SELECT DISTINCT so_no_spk, so_qty_order FROM realisasi WHERE so_material_id = '$material'");
 
   if(mysqli_num_rows($queryqtyorder) > 0 && mysqli_num_rows($queryqtyorder2) > 0){
-    $qtyorder = mysqli_fetch_assoc($queryqtyorder);
-    $total_kebutuhan = $qtyorder['so_qty_order'] * $quantity;
-
-    mysqli_query($conn, "UPDATE so SET so_material_id = '$material', so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_material_id = '$material'"); 
-    mysqli_query($conn, "UPDATE realisasi SET so_material_id = '$material', so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_material_id = '$material'"); 
-    mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id"); 
-
+    while($qtyorder = mysqli_fetch_assoc($queryqtyorder)){
+      $total_kebutuhan = $qtyorder['so_qty_order'] * $quantity;
+      mysqli_query($conn, "UPDATE so SET so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_no_spk = '$qtyorder[so_no_spk]' AND so_material_id = '$material'"); 
+      mysqli_query($conn, "UPDATE realisasi SET so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_no_spk = '$qtyorder[so_no_spk]' AND so_material_id = '$material'"); 
+    }
+    mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");
     if(mysqli_affected_rows($conn) > 0){
       header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
       exit();

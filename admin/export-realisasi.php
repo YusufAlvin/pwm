@@ -171,7 +171,7 @@ ob_start();
 				<td>
 					<p>(...........................................)</p>
 					<br>
-					<p class="jabatan"><strong>PPC</strong></p>
+					<p class="jabatan"><strong>PPIC</strong></p>
 				</td>
 			</tr>
 		</table>

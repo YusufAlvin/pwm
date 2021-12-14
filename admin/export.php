@@ -32,6 +32,8 @@ if(mysqli_num_rows($queryso) < 1 && mysqli_num_rows($queryso2) < 1){
 	header('Location: export-filter.php?pesan=datakosong');
 	exit();
 }
+// 'A4-L'
+// [294, 500]
 $mpdf = new \Mpdf\Mpdf(['format' => [294, 500]]);
 $so2 = mysqli_fetch_assoc($queryso2);
 ob_start();
@@ -47,9 +49,12 @@ ob_start();
 			width: 100%;
 		}
 		.material, .material th, .material td {
-		  border: 1px solid black;
+		  border: 2px solid black;
 		  border-collapse: collapse;
 		  padding: 5px;
+		}
+		.material td, .menu, .semicolon{
+			font-weight: bold;
 		}
 		.item{
 			width: 500px;
@@ -158,7 +163,7 @@ ob_start();
 				<td>
 					<p>(...........................................)</p>
 					<br>
-					<p class="jabatan"><strong>PPC</strong></p>
+					<p class="jabatan"><strong>PPIC</strong></p>
 				</td>
 			</tr>
 		</table>
