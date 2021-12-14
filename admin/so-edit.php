@@ -12,12 +12,19 @@ $itemid = $_GET['itemid'];
 
 $queryso = mysqli_query($conn, "SELECT so_no_spk, so_item_id, so_lot_number, so_qty_order FROM so WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
 $queryitem = mysqli_query($conn, "SELECT DISTINCT bom_item_id FROM bom");
+
 $data = mysqli_fetch_assoc($queryso);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $no_spk = trim(htmlspecialchars($_POST['no_spk']));
   $lotnumber = trim(htmlspecialchars($_POST['lot-number']));
   $qty = trim(htmlspecialchars($_POST['qty']));
+
+  $queryrealisasi = mysqli_query($conn, "SELECT so_realisasi, so_tanggal, so_kosong FROM realisasi WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
+
+  while($realisasi = mysqli_fetch_assoc($queryrealisasi)){
+    $data_realisasi[] = $realisasi;
+  }
 
   if($_POST['item'] == $itemid){
     $item = $itemid;
@@ -28,13 +35,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   mysqli_query($conn, "DELETE FROM so WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
   mysqli_query($conn, "DELETE FROM realisasi WHERE so_no_spk = '$no_spk' AND so_item_id = '$itemid'");
 
-  $querybom2 = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");  
-  
-  while($bom = mysqli_fetch_assoc($querybom2)){
+  $querybom = mysqli_query($conn, "SELECT * FROM bom WHERE bom_item_id = '$item'");  
+
+  while($bom = mysqli_fetch_assoc($querybom)){
     $total_kebutuhan = $bom['bom_quantity'] * $qty;
     mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '')");
-    mysqli_query($conn, "INSERT INTO realisasi VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '', '', '')"); 
+    mysqli_query($conn, "INSERT INTO realisasi VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '', '', '')");
   }
+
+  // while($bom = mysqli_fetch_assoc($querybom)){
+  //   $total_kebutuhan = $bom['bom_quantity'] * $qty;
+  //   mysqli_query($conn, "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '')");
+  //   // echo "INSERT INTO so VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, '')" . "<br>";
+  //   foreach ($data_realisasi as $r) {
+  //     mysqli_query($conn, "INSERT INTO realisasi VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, $r[so_realisasi], '$r[so_tanggal]', '$r[so_kosong]')");
+  //     // echo "INSERT INTO realisasi VALUES ('', '$no_spk', '$item', '$bom[bom_material_id]', $bom[bom_quantity], $bom[bom_divisi_id], $qty, '$lotnumber', $total_kebutuhan, $r[so_realisasi], '$r[so_tanggal]', '$r[so_kosong]')" . "<br>";
+  //   }
+  // }
+  // exit();
  
   if(mysqli_affected_rows($conn) > 0){
     header('Location: so.php?pesan=edit');
