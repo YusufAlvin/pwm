@@ -8,6 +8,10 @@ if($_SESSION['login'] != true){
 }
 
 $id = $_GET['id'];
+$materialcode = $_GET['materialcode'];
+$qty = $_GET['qty'];
+$divisiid = $_GET['divisiid'];
+$uom = $_GET['uom'];
 
 if($id == ""){
   header('Location: bom.php');
@@ -26,16 +30,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $divisi = $_POST['divisi'];
   $quantity = floatval(trim(htmlspecialchars($_POST['quantity'])));
 
-  $queryqtyorder = mysqli_query($conn, "SELECT DISTINCT so_no_spk, so_qty_order FROM so WHERE so_material_id = '$material'");
-  $queryqtyorder2 = mysqli_query($conn, "SELECT DISTINCT so_no_spk, so_qty_order FROM realisasi WHERE so_material_id = '$material'");
+  $queryqtyorder = mysqli_query($conn, "SELECT so_id, so_no_spk, so_qty_order FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_material_id = '$materialcode' AND so.so_material_qty = $qty AND material.material_uom = '$uom' AND divisi.divisi_id = $divisiid");
+  $queryqtyorder2 = mysqli_query($conn, "SELECT so_id, so_no_spk, so_qty_order FROM realisasi INNER JOIN item ON item.item_id = realisasi.so_item_id INNER JOIN material ON material.material_id = realisasi.so_material_id INNER JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE realisasi.so_material_id = '$materialcode' AND realisasi.so_material_qty = $qty AND material.material_uom = '$uom' AND divisi.divisi_id = $divisiid");
 
   if(mysqli_num_rows($queryqtyorder) > 0 && mysqli_num_rows($queryqtyorder2) > 0){
     while($qtyorder = mysqli_fetch_assoc($queryqtyorder)){
       $total_kebutuhan = $qtyorder['so_qty_order'] * $quantity;
-      mysqli_query($conn, "UPDATE so SET so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_no_spk = '$qtyorder[so_no_spk]' AND so_material_id = '$material'"); 
-      mysqli_query($conn, "UPDATE realisasi SET so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_no_spk = '$qtyorder[so_no_spk]' AND so_material_id = '$material'"); 
+      mysqli_query($conn, "UPDATE so SET so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan WHERE so_id = $qtyorder[so_id]");
     }
-    mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");
+    while($qtyorder2 = mysqli_fetch_assoc($queryqtyorder2)){
+      $total_kebutuhan2 = $qtyorder2['so_qty_order'] * $quantity;
+      mysqli_query($conn, "UPDATE realisasi SET so_divisi_id = $divisi, so_material_qty = $quantity, so_total_kebutuhan = $total_kebutuhan2 WHERE so_id = $qtyorder2[so_id]");
+    }
+    mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id"); 
+    if(mysqli_affected_rows($conn) > 0){
+      header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
+      exit();
+    } else {
+      echo mysqli_error($conn);
+      exit();
+    }
+  } else {
+    mysqli_query($conn, "UPDATE bom SET bom_material_id = '$material', bom_divisi_id = $divisi, bom_quantity = $quantity WHERE bom_id = $bom_id");    
     if(mysqli_affected_rows($conn) > 0){
       header('Location: bom-detail.php?' . $_SERVER['QUERY_STRING'] .'&pesan=ubah');
       exit();
