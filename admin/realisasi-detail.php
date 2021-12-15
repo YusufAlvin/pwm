@@ -9,7 +9,7 @@ if($_SESSION['login'] != true){
 $no_spk = $_GET['nospk'];
 $itemid = $_GET['itemid'];
 
-$query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id, realisasi.so_qty_order, realisasi.so_item_id, divisi.divisi_nama FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE realisasi.so_no_spk = '$no_spk' AND realisasi.so_item_id = '$itemid'");
+$query = mysqli_query($conn, "SELECT material.material_id, material.material_nama, realisasi.so_total_kebutuhan, realisasi.so_no_spk, realisasi.so_material_qty, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_id, realisasi.so_qty_order, realisasi.so_item_id, realisasi.so_kosong, divisi.divisi_nama FROM realisasi JOIN material ON material.material_id = realisasi.so_material_id JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE realisasi.so_no_spk = '$no_spk' AND realisasi.so_item_id = '$itemid'");
 ?>
 <?php require_once "template/header.php"; ?>
 
@@ -75,6 +75,7 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <th>Divisi</th>
                           <th>Quantity Bon Bahan</th>
                           <th>Realisasi</th>
+                          <th>BA</th>
                           <th>Tanggal Input</th>
                           <th>Action</th>
                       </tr>
@@ -88,6 +89,7 @@ $query = mysqli_query($conn, "SELECT material.material_id, material.material_nam
                           <td><?= $so['divisi_nama']; ?></td>
                           <td><?= $so['so_total_kebutuhan']; ?></td>
                           <td><?= $so['so_realisasi']; ?></td>
+                          <td><?= floatval($so['so_kosong']); ?></td>
                           <td><?= $so['so_tanggal']; ?></td>
                           <td>
                             <a href="realisasi-detail-edit.php?nospk=<?=$no_spk?>&id=<?= $so['so_id']; ?>&itemid=<?= $itemid ?>"><span class="badge rounded-pill bg-primary">Edit</span></a>

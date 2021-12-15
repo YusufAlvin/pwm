@@ -21,6 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $soid= $id;
   $quantity = trim(htmlspecialchars($_POST['quantity']));
   $realisasi = trim(htmlspecialchars($_POST['realisasi']));
+  $ba = trim(htmlspecialchars($_POST['ba']));
   $tanggal = trim(htmlspecialchars($_POST['tanggal']));
   
   $querytotalkebutuhan = mysqli_query($conn, "SELECT realisasi.so_total_kebutuhan FROM realisasi WHERE realisasi.so_id = $soid");
@@ -30,8 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     header('Location: realisasi-detail.php?' . $_SERVER['QUERY_STRING'] . '&pesan=validasi');
     exit();
   } else {
-    mysqli_query($conn, "UPDATE realisasi SET so_realisasi = $realisasi, so_tanggal = '$tanggal' WHERE so_id = $soid");  
-
+    mysqli_query($conn, "UPDATE realisasi SET so_realisasi = $realisasi, so_tanggal = '$tanggal', so_kosong = '$ba' WHERE so_id = $soid");  
     if(mysqli_affected_rows($conn) > 0){
       header('Location: realisasi-detail.php?' . $_SERVER['QUERY_STRING'] . '&pesan=ubah');
       exit();
@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 }
 
-$queryrealisasi = mysqli_query($conn, "SELECT realisasi.so_total_kebutuhan, realisasi.so_realisasi, realisasi.so_tanggal FROM realisasi WHERE realisasi.so_id = $id");
+$queryrealisasi = mysqli_query($conn, "SELECT realisasi.so_total_kebutuhan, realisasi.so_realisasi, realisasi.so_tanggal, realisasi.so_kosong FROM realisasi WHERE realisasi.so_id = $id");
 
 $realisasi = mysqli_fetch_assoc($queryrealisasi);
 ?>
@@ -84,7 +84,11 @@ $realisasi = mysqli_fetch_assoc($queryrealisasi);
                       <div class="mb-3">
                         <label for="realisasi" class="form-label">Realisasi</label>
                         <input name="realisasi" type="text" class="form-control" id="realisasi" value="<?= $realisasi['so_realisasi'] ?>" required>
-                      </div>  
+                      </div>
+                      <div class="mb-3">
+                        <label for="ba" class="form-label">BA</label>
+                        <input name="ba" type="text" class="form-control" id="ba" value="<?= $realisasi['so_kosong'] ?>" required>
+                      </div> 
                       <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal Input</label>
                         <input name="tanggal" type="date" class="form-control" id="tanggal" value="<?= $realisasi['so_tanggal'] ?>" required>
