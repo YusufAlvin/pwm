@@ -9,7 +9,7 @@ if($_SESSION['login'] != true){
 
 $id = $_GET['id'];
 $materialcode = $_GET['materialcode'];
-$qty = $_GET['qty'];
+$qty = floatval($_GET['qty']);
 $divisiid = $_GET['divisiid'];
 $uom = $_GET['uom'];
 
@@ -30,8 +30,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $divisi = $_POST['divisi'];
   $quantity = floatval(trim(htmlspecialchars($_POST['quantity'])));
 
-  $queryqtyorder = mysqli_query($conn, "SELECT so_id, so_no_spk, so_qty_order FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_material_id = '$materialcode' AND so.so_material_qty = $qty AND material.material_uom = '$uom' AND divisi.divisi_id = $divisiid");
-  $queryqtyorder2 = mysqli_query($conn, "SELECT so_id, so_no_spk, so_qty_order FROM realisasi INNER JOIN item ON item.item_id = realisasi.so_item_id INNER JOIN material ON material.material_id = realisasi.so_material_id INNER JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE realisasi.so_material_id = '$materialcode' AND realisasi.so_material_qty = $qty AND material.material_uom = '$uom' AND divisi.divisi_id = $divisiid");
+  $queryqtyorder = mysqli_query($conn, "SELECT so_id, so_no_spk, so_qty_order FROM so INNER JOIN item ON item.item_id = so.so_item_id INNER JOIN material ON material.material_id = so.so_material_id INNER JOIN divisi ON divisi.divisi_id = so.so_divisi_id WHERE so.so_material_id = '$materialcode' AND so.so_material_qty LIKE $qty AND material.material_uom = '$uom' AND divisi.divisi_id = $divisiid");
+  $queryqtyorder2 = mysqli_query($conn, "SELECT so_id, so_no_spk, so_qty_order FROM realisasi INNER JOIN item ON item.item_id = realisasi.so_item_id INNER JOIN material ON material.material_id = realisasi.so_material_id INNER JOIN divisi ON divisi.divisi_id = realisasi.so_divisi_id WHERE realisasi.so_material_id = '$materialcode' AND realisasi.so_material_qty LIKE $qty AND material.material_uom = '$uom' AND divisi.divisi_id = $divisiid");
 
   if(mysqli_num_rows($queryqtyorder) > 0 && mysqli_num_rows($queryqtyorder2) > 0){
     while($qtyorder = mysqli_fetch_assoc($queryqtyorder)){
